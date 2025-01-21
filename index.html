@@ -12,37 +12,34 @@
             background-color: #f4f4f4;
         }
         .container {
-            max-width: 900px;
+            display: flex;
+            max-width: 1000px;
             margin: 40px auto;
             background: white;
-            padding: 30px;
-            border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
-        .header {
-            text-align: center;
+        .left-column {
+            background-color: #3b3b3b;
+            color: white;
+            width: 35%;
+            padding: 30px;
         }
-        .header img {
+        .right-column {
+            width: 65%;
+            padding: 30px;
+        }
+        .left-column img {
             max-width: 150px;
             border-radius: 50%;
+            display: block;
+            margin: 0 auto;
         }
-        .two-column {
-            display: flex;
-            flex-wrap: wrap;
+        .left-column h2, .right-column h2 {
+            border-bottom: 2px solid white;
+            padding-bottom: 5px;
         }
-        .left, .right {
-            flex: 1;
-            padding: 20px;
-        }
-        .right {
-            background-color: #e8e8e8;
-            border-radius: 10px;
-        }
-        h1, h2 {
-            text-align: center;
-        }
-        .section {
-            margin-bottom: 20px;
+        .right-column h2 {
+            border-bottom: 2px solid black;
         }
         ul {
             list-style-type: none;
@@ -55,76 +52,56 @@
         .contact {
             text-align: center;
             padding: 20px;
-            background-color: #ddd;
-            border-radius: 10px;
-            margin-top: 20px;
+            background-color: #3b3b3b;
+            color: white;
+        }
+        .contact input, .contact textarea, .contact button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <div class="left-column">
             <img src="profile_photo.jpg" alt="Profile Photo">
-            <h1>Ethan Lau</h1>
-            <p>Seeking to contribute my financial, analytical, and technical skills to a dynamic, high-growth company.</p>
+            <h2>ABOUT ME</h2>
+            <p>I am a Senior at University of California-San Diego pursuing a B.S. in Management Science and a minor in Data Science.</p>
+            <h2>CONTACT ME</h2>
+            <p>Email: mindscast.ethan+FI@gmail.com</p>
+            <p>Phone: +1 (650) 542 0682</p>
+            <h2>EDUCATION</h2>
+            <p><strong>University of California San Diego</strong><br>Class of 2025<br>B.S. in Management Science, Minor in Data Science</p>
         </div>
-
-        <div class="two-column">
-            <div class="left">
-                <div class="section">
-                    <h2>Education</h2>
-                    <p><strong>University of California San Diego</strong><br>B.S. in Management Science, Minor in Data Science (Class of 2025)</p>
-                </div>
-                <div class="section">
-                    <h2>Experience</h2>
-                    <p><strong>Venture Capital Associate</strong> - Los Altos Capital (2024-Present)</p>
-                    <p><strong>Market Strategy Intern</strong> - Kobil Inc. (2023)</p>
-                    <p><strong>Data Analyst</strong> - UCSD Alumni Dept. (2023-Present)</p>
-                </div>
-                <div class="section">
-                    <h2>Projects</h2>
-                    <ul>
-                        <li><a href="Archive/The%20Effects%20of%20Constituent%20Characteristics%20on%20ESP%20Matching.pdf" target="_blank">ESP Matching Paper</a></li>
-                        <li><a href="Archive/7CSC/7CSC%20Amendment%20Handbook.pdf" target="_blank">7CSC Amendment Handbook</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="right">
-                <div class="section">
-                    <h2>Technical Skills</h2>
-                    <ul>
-                        <li>Python, Java, JavaScript</li>
-                        <li>SQL, R, Excel</li>
-                        <li>Machine Learning</li>
-                        <li>Web Development</li>
-                    </ul>
-                </div>
-                <div class="section">
-                    <h2>Certifications</h2>
-                    <ul>
-                        <li><a href="Archive/Certificates/UDEMY%20Certification.pdf" target="_blank">UDEMY Certification</a></li>
-                        <li><img src="Archive/Certificates/VC%20LAb%20Certificate%20of%20Completion.jpg" alt="VC Lab Certificate" width="100%"></li>
-                    </ul>
-                </div>
-            </div>
+        <div class="right-column">
+            <h2>EXPERIENCE</h2>
+            <p><strong>Venture Capital Associate</strong> - Los Altos Capital (2024-Present)</p>
+            <p><strong>Market Strategy Intern</strong> - Kobil Inc. (2023)</p>
+            <p><strong>Data Analyst</strong> - UCSD Alumni Dept. (2023-Present)</p>
+            <h2>PROJECTS</h2>
+            <ul>
+                <li><a href="Archive/The%20Effects%20of%20Constituent%20Characteristics%20on%20ESP%20Matching.pdf" target="_blank">ESP Matching Paper</a></li>
+                <li><a href="Archive/7CSC/7CSC%20Amendment%20Handbook.pdf" target="_blank">7CSC Amendment Handbook</a></li>
+            </ul>
+            <h2>AWARDS & CERTIFICATIONS</h2>
+            <ul>
+                <li><a href="Archive/Certificates/UDEMY%20Certification.pdf" target="_blank">UDEMY Certification</a></li>
+                <li><img src="Archive/Certificates/VC%20LAb%20Certificate%20of%20Completion.jpg" alt="VC Lab Certificate" width="100%"></li>
+            </ul>
         </div>
-
-        <div class="contact">
-            <h2>Contact Me</h2>
-            <form action="mailto:mindscast.ethan+FI@gmail.com" method="post" enctype="text/plain">
-                <label for="name">Name:</label><br>
-                <input type="text" id="name" name="name" required><br><br>
-                
-                <label for="email">Email:</label><br>
-                <input type="email" id="email" name="email" required><br><br>
-                
-                <label for="message">Message:</label><br>
-                <textarea id="message" name="message" rows="4" required></textarea><br><br>
-                
-                <button type="submit">Send</button>
-            </form>
-        </div>
+    </div>
+    <div class="contact">
+        <h2>Contact Me</h2>
+        <form action="mailto:mindscast.ethan+FI@gmail.com" method="post" enctype="text/plain">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea><br>
+            <button type="submit">Send</button>
+        </form>
     </div>
 </body>
 </html>
