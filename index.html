@@ -1,1 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio & Documents</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        img {
+            max-width: 150px;
+            border-radius: 50%;
+            display: block;
+            margin: auto;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .section {
+            margin-top: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li a {
+            text-decoration: none;
+            color: #0073e6;
+        }
+        .pdf-link {
+            display: block;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="profile_photo.jpg" alt="Profile Photo">
+        <h1>Your Name</h1>
+        <p>Welcome to my portfolio and document repository.</p>
 
+        <div class="section">
+            <h2>Documents</h2>
+            <ul>
+                <li><a class="pdf-link" href="Archive/The%20Effects%20of%20Constituent%20Characteristics%20on%20ESP%20Matching.pdf" target="_blank">The Effects of Constituent Characteristics on ESP Matching</a></li>
+                <li><strong>7CSC Documents:</strong>
+                    <ul>
+                        <li><a class="pdf-link" href="Archive/7CSC/7CSC%20Amendment%20Handbook.pdf" target="_blank">7CSC Amendment Handbook</a></li>
+                        <li><a class="pdf-link" href="Archive/7CSC/Charter%20of%20the%20Elevator%20Special%20Committee%20for%20Advocacy%20&%20Petition.pdf" target="_blank">Charter of the Elevator Special Committee</a></li>
+                    </ul>
+                </li>
+                <li><strong>BOSA Documents:</strong>
+                    <ul>
+                        <li><a class="pdf-link" href="Archive/BOSA/The%20BOSA%20Handbook.pdf" target="_blank">The BOSA Handbook</a></li>
+                    </ul>
+                </li>
+                <li><strong>Certificates:</strong>
+                    <ul>
+                        <li><a href="Archive/Certificates/UDEMY%20Certification.pdf" target="_blank">UDEMY Certification</a></li>
+                        <li><img src="Archive/Certificates/VC%20LAb%20Certificate%20of%20Completion.jpg" alt="VC Lab Certificate" width="300"></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Contact Me</h2>
+            <form action="mailto:your-email@example.com" method="post" enctype="text/plain">
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" name="name" required><br><br>
+                
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" required><br><br>
+                
+                <label for="message">Message:</label><br>
+                <textarea id="message" name="message" rows="4" required></textarea><br><br>
+                
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
