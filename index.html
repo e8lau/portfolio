@@ -41,20 +41,6 @@
         .right-column h2 {
             border-bottom: 2px solid black;
         }
-        .experience-entry {
-            margin-bottom: 20px;
-        }
-        .experience-title {
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid black;
-            padding-bottom: 5px;
-        }
-        .experience-details {
-            font-style: italic;
-            color: #555;
-        }
         ul {
             list-style-type: none;
             padding: 0;
@@ -74,6 +60,24 @@
             margin-top: 10px;
             padding: 10px;
         }
+        .experience {
+            display: flex;
+            border-left: 2px solid black;
+            padding-left: 15px;
+            margin-left: 20px;
+        }
+        .experience-title {
+            width: 40%;
+            font-weight: bold;
+            font-style: italic;
+        }
+        .experience-details {
+            width: 60%;
+        }
+        .experience-details ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
     </style>
 </head>
 <body>
@@ -87,33 +91,58 @@
             <p>Phone: +1 (650) 542 0682</p>
             <h2>EDUCATION</h2>
             <p><strong>University of California San Diego</strong><br>Class of 2025<br>B.S. in Management Science, Minor in Data Science</p>
+            <h2>TECHNICAL SKILLS</h2>
+            <ul>
+                <li>Microsoft Excel & Google Sheets</li>
+                <li>Python, Java, JavaScript</li>
+                <li>SQL, R</li>
+                <li>Machine Learning</li>
+                <li>Web Development</li>
+                <li>Photography & Gimp</li>
+            </ul>
+            <h2>CORE SKILLS</h2>
+            <ul>
+                <li>Project Management</li>
+                <li>Market Research</li>
+                <li>Startup Due Diligence</li>
+                <li>Public Speaking</li>
+                <li>Data Analytics</li>
+            </ul>
         </div>
         <div class="right-column">
             <h2>EXPERIENCE</h2>
-            <div class="experience-entry">
-                <div class="experience-title">Venture Capital Associate <span class="experience-details">Los Altos Capital | 2024-Present</span></div>
-                <ul>
-                    <li>Performed comprehensive due diligence on potential investments.</li>
-                    <li>Conducted financial modeling and market research.</li>
-                    <li>Sourced deal flow and recommended investment opportunities.</li>
-                </ul>
+            <div class="experience">
+                <div class="experience-title">Venture Capital Associate<br><i>Los Altos Capital | 2024-Present</i></div>
+                <div class="experience-details">
+                    <ul>
+                        <li>Perform comprehensive due diligence on investments.</li>
+                        <li>Source deal flow and assess opportunities.</li>
+                        <li>Conduct financial modeling and market research.</li>
+                    </ul>
+                </div>
             </div>
-            <div class="experience-entry">
-                <div class="experience-title">Market Strategy Intern <span class="experience-details">Kobil Inc. | 2023</span></div>
-                <ul>
-                    <li>Conducted market research on competitive landscapes.</li>
-                    <li>Designed mobile app solutions for the education market.</li>
-                </ul>
+            <div class="experience">
+                <div class="experience-title">Market Strategy Intern<br><i>Kobil Inc. | 2023</i></div>
+                <div class="experience-details">
+                    <ul>
+                        <li>Conducted market research on competitive landscapes.</li>
+                        <li>Designed mobile app solutions for the education market.</li>
+                    </ul>
+                </div>
             </div>
             <h2>PROJECTS</h2>
             <ul>
                 <li><a href="Archive/The%20Effects%20of%20Constituent%20Characteristics%20on%20ESP%20Matching.pdf" target="_blank">ESP Matching Paper</a></li>
                 <li><a href="Archive/7CSC/7CSC%20Amendment%20Handbook.pdf" target="_blank">7CSC Amendment Handbook</a></li>
+                <li><a href="Archive/BOSA/The%20BOSA%20Handbook.pdf" target="_blank">The BOSA Handbook</a></li>
             </ul>
             <h2>AWARDS & CERTIFICATIONS</h2>
             <ul>
                 <li><a href="Archive/Certificates/UDEMY%20Certification.pdf" target="_blank">UDEMY Certification</a></li>
+                <li><img src="Archive/Certificates/VC%20LAb%20Certificate%20of%20Completion.jpg" alt="VC Lab Certificate" width="100%"></li>
                 <li>California Mathematics League Certificate of Merit (2020)</li>
+                <li>AP Scholar with Honor (2019)</li>
+                <li>MTAC Branch Honors, State Honors, & Convention Awards (2008-2020)</li>
             </ul>
         </div>
     </div>
