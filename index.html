@@ -3,32 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio & Documents</title>
+    <title>Ethan Lau - Portfolio</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 40px;
+            margin: 0;
+            padding: 0;
             background-color: #f4f4f4;
         }
         .container {
-            max-width: 800px;
-            margin: auto;
+            max-width: 900px;
+            margin: 40px auto;
             background: white;
-            padding: 20px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
-        img {
+        .header {
+            text-align: center;
+        }
+        .header img {
             max-width: 150px;
             border-radius: 50%;
-            display: block;
-            margin: auto;
+        }
+        .two-column {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .left, .right {
+            flex: 1;
+            padding: 20px;
+        }
+        .right {
+            background-color: #e8e8e8;
+            border-radius: 10px;
         }
         h1, h2 {
             text-align: center;
         }
         .section {
-            margin-top: 20px;
+            margin-bottom: 20px;
         }
         ul {
             list-style-type: none;
@@ -38,45 +52,67 @@
             text-decoration: none;
             color: #0073e6;
         }
-        .pdf-link {
-            display: block;
-            margin: 5px 0;
+        .contact {
+            text-align: center;
+            padding: 20px;
+            background-color: #ddd;
+            border-radius: 10px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="profile_photo.jpg" alt="Profile Photo">
-        <h1>Your Name</h1>
-        <p>Welcome to my portfolio and document repository.</p>
-
-        <div class="section">
-            <h2>Documents</h2>
-            <ul>
-                <li><a class="pdf-link" href="Archive/The%20Effects%20of%20Constituent%20Characteristics%20on%20ESP%20Matching.pdf" target="_blank">The Effects of Constituent Characteristics on ESP Matching</a></li>
-                <li><strong>7CSC Documents:</strong>
-                    <ul>
-                        <li><a class="pdf-link" href="Archive/7CSC/7CSC%20Amendment%20Handbook.pdf" target="_blank">7CSC Amendment Handbook</a></li>
-                        <li><a class="pdf-link" href="Archive/7CSC/Charter%20of%20the%20Elevator%20Special%20Committee%20for%20Advocacy%20&%20Petition.pdf" target="_blank">Charter of the Elevator Special Committee</a></li>
-                    </ul>
-                </li>
-                <li><strong>BOSA Documents:</strong>
-                    <ul>
-                        <li><a class="pdf-link" href="Archive/BOSA/The%20BOSA%20Handbook.pdf" target="_blank">The BOSA Handbook</a></li>
-                    </ul>
-                </li>
-                <li><strong>Certificates:</strong>
-                    <ul>
-                        <li><a href="Archive/Certificates/UDEMY%20Certification.pdf" target="_blank">UDEMY Certification</a></li>
-                        <li><img src="Archive/Certificates/VC%20LAb%20Certificate%20of%20Completion.jpg" alt="VC Lab Certificate" width="300"></li>
-                    </ul>
-                </li>
-            </ul>
+        <div class="header">
+            <img src="profile_photo.jpg" alt="Profile Photo">
+            <h1>Ethan Lau</h1>
+            <p>Seeking to contribute my financial, analytical, and technical skills to a dynamic, high-growth company.</p>
         </div>
 
-        <div class="section">
+        <div class="two-column">
+            <div class="left">
+                <div class="section">
+                    <h2>Education</h2>
+                    <p><strong>University of California San Diego</strong><br>B.S. in Management Science, Minor in Data Science (Class of 2025)</p>
+                </div>
+                <div class="section">
+                    <h2>Experience</h2>
+                    <p><strong>Venture Capital Associate</strong> - Los Altos Capital (2024-Present)</p>
+                    <p><strong>Market Strategy Intern</strong> - Kobil Inc. (2023)</p>
+                    <p><strong>Data Analyst</strong> - UCSD Alumni Dept. (2023-Present)</p>
+                </div>
+                <div class="section">
+                    <h2>Projects</h2>
+                    <ul>
+                        <li><a href="Archive/The%20Effects%20of%20Constituent%20Characteristics%20on%20ESP%20Matching.pdf" target="_blank">ESP Matching Paper</a></li>
+                        <li><a href="Archive/7CSC/7CSC%20Amendment%20Handbook.pdf" target="_blank">7CSC Amendment Handbook</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="right">
+                <div class="section">
+                    <h2>Technical Skills</h2>
+                    <ul>
+                        <li>Python, Java, JavaScript</li>
+                        <li>SQL, R, Excel</li>
+                        <li>Machine Learning</li>
+                        <li>Web Development</li>
+                    </ul>
+                </div>
+                <div class="section">
+                    <h2>Certifications</h2>
+                    <ul>
+                        <li><a href="Archive/Certificates/UDEMY%20Certification.pdf" target="_blank">UDEMY Certification</a></li>
+                        <li><img src="Archive/Certificates/VC%20LAb%20Certificate%20of%20Completion.jpg" alt="VC Lab Certificate" width="100%"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact">
             <h2>Contact Me</h2>
-            <form action="mailto:your-email@example.com" method="post" enctype="text/plain">
+            <form action="mailto:mindscast.ethan+FI@gmail.com" method="post" enctype="text/plain">
                 <label for="name">Name:</label><br>
                 <input type="text" id="name" name="name" required><br><br>
                 
