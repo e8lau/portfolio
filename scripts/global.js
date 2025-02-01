@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("darkMode") === "enabled") {
         document.body.classList.add("dark-mode");
     }
-    
+
     darkModeToggle.addEventListener("click", () => {
         document.body.classList.toggle("dark-mode");
         if (document.body.classList.contains("dark-mode")) {
@@ -15,14 +15,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Load Projects Dynamically
-    fetch("data/projects.json")
+    fetch("https://raw.githubusercontent.com/e8lau/portfolio/main/Archive/projects.json")
         .then(response => response.json())
         .then(data => {
             const projectList = document.getElementById("project-list");
+            projectList.innerHTML = ""; // Clear existing content
+
             data.projects.forEach(project => {
                 let projectItem = document.createElement("div");
                 projectItem.classList.add("project-item");
-                projectItem.innerHTML = `<h3>${project.title}</h3><p>${project.description}</p>`;
+                projectItem.innerHTML = `
+                    <h3>${project.title}</h3>
+                    <p>${project.description}</p>
+                    <a href="${project.link}" target="_blank">View Project</a>
+                `;
                 projectList.appendChild(projectItem);
             });
         })
