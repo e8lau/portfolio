@@ -3,35 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethan Lau: Personal Portfolio</title>
+    <title>Portfolio | Your Name</title>
     <link rel="stylesheet" href="styles/style.css">
-    <script src="scripts/global.js" type="module" defer></script>
 </head>
 <body>
     <header>
         <nav>
             <ul>
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="about.html" class="nav-link">About</a></li>
-                <li><a href="projects.html" class="nav-link">Projects</a></li>
-                <li><a href="contact.html" class="nav-link">Contact</a></li>
-                <li><button id="theme-toggle">Toggle Theme</button></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><button id="darkModeToggle">🌙</button></li>
             </ul>
         </nav>
     </header>
-    <main>
-        <section id="intro">
-            <img src="profile_photo.jpg" alt="Profile Photo">
-            <h1>Ethan Lau</h1>
-            <p>Venture Capital Associate | Data Analyst | Web Developer</p>
-        </section>
-        <section id="latest-projects">
-            <h2>Latest Projects</h2>
-            <div id="projects-container"></div>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Ethan Lau. All rights reserved.</p>
-    </footer>
+    
+    <section id="about">
+        <img src="profile_photo.jpg" alt="Profile Photo">
+        <h1>Your Name</h1>
+        <p>Welcome to my portfolio! I am a [your field] professional with expertise in [skills].</p>
+    </section>
+    
+    <section id="projects">
+        <h2>Projects</h2>
+        <div id="project-list"></div>
+    </section>
+    
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Email: your.email@example.com</p>
+    </section>
+    
+    <script src="scripts/global.js" type="module"></script>
 </body>
 </html>
