@@ -1,0 +1,34 @@
+{
+    "projects": [
+        {
+            "title": "Data Analysis Paper",
+            "description": "A research paper analyzing the effects of constituent characteristics on ESP matching, conducted for the UCSD Alumni Department.",
+            "link": "Archive/data-analysis-paper"
+        },
+        {
+            "title": "7CSC Amendment Handbook",
+            "description": "A structured guide detailing legislative amendments and procedural rules for UCSD's Seventh College Student Council.",
+            "link": "Archive/7CSC-amendment-handbook"
+        },
+        {
+            "title": "Venture Capital Due Diligence Models",
+            "description": "Comprehensive financial and market analysis models used in venture capital investment assessments.",
+            "link": "Archive/vc-due-diligence"
+        },
+        {
+            "title": "Market Research & Strategy Report",
+            "description": "An in-depth analysis of competitive landscapes for Kobil Inc., informing their mobile app strategy.",
+            "link": "Archive/market-research"
+        },
+        {
+            "title": "Startup Consulting Case Studies",
+            "description": "Case studies and recommendations developed during my internship at Lumnus Consulting, optimizing organizational efficiency.",
+            "link": "Archive/consulting-case-studies"
+        },
+        {
+            "title": "Coveritas Website & Branding",
+            "description": "Website and branding design for Coveritas Inc., including outreach strategies for educational institutions.",
+            "link": "Archive/coveritas-branding"
+        }
+    ]
+}
