@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Load Projects Dynamically
-    fetch("https://raw.githubusercontent.com/e8lau/portfolio/main/Archive/projects.json")
+    fetch("Archive/projects.json")
         .then(response => response.json())
         .then(data => {
             const projectList = document.getElementById("project-list");
