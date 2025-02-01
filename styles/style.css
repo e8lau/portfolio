@@ -107,3 +107,24 @@ footer {
 .dark-mode button:hover {
     background: #666;
 }
+
+/* Project Item Styles */
+.project-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.project-item:hover {
+    transform: translateY(-5px);
+}
+
+.dark-mode .project-item {
+    background-color: #2a2a2a;
+    border-color: #444;
+    color: #ddd;
+}
