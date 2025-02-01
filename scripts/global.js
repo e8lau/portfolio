@@ -16,11 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function applyTheme(theme) {
-        if (theme === "dark") {
-            document.body.classList.add("dark-mode");
-        } else {
-            document.body.classList.remove("dark-mode");
-        }
+        document.body.classList.toggle("dark-mode", theme === "dark");
     }
 
     const storedTheme = localStorage.getItem("theme") || "light";
@@ -30,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const newTheme = document.body.classList.contains("dark-mode") ? "light" : "dark";
         applyTheme(newTheme);
         localStorage.setItem("theme", newTheme);
-        console.log("Theme switched to:", newTheme);
     });
 
     // Load Projects Dynamically
