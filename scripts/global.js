@@ -9,19 +9,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Theme Toggle Functionality
     const themeToggle = document.getElementById("theme-toggle");
-    if (localStorage.getItem("theme") === "dark") {
-        document.body.classList.add("dark-mode");
+    
+    if (!themeToggle) {
+        console.error("Theme toggle button not found!");
+        return;
     }
 
-    themeToggle?.addEventListener("click", () => {
-        document.body.classList.toggle("dark-mode");
-        localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+    function applyTheme(theme) {
+        if (theme === "dark") {
+            document.body.classList.add("dark-mode");
+        } else {
+            document.body.classList.remove("dark-mode");
+        }
+    }
+
+    const storedTheme = localStorage.getItem("theme") || "light";
+    applyTheme(storedTheme);
+    
+    themeToggle.addEventListener("click", () => {
+        const newTheme = document.body.classList.contains("dark-mode") ? "light" : "dark";
+        applyTheme(newTheme);
+        localStorage.setItem("theme", newTheme);
+        console.log("Theme switched to:", newTheme);
     });
-
-    // Ensure dark mode is applied on page load
-    if (localStorage.getItem("theme") === "dark") {
-        document.body.classList.add("dark-mode");
-    }
 
     // Load Projects Dynamically
     fetch("projects.json")
