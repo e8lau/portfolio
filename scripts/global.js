@@ -13,10 +13,15 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.add("dark-mode");
     }
 
-    themeToggle.addEventListener("click", () => {
+    themeToggle?.addEventListener("click", () => {
         document.body.classList.toggle("dark-mode");
         localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
     });
+
+    // Ensure dark mode is applied on page load
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+    }
 
     // Load Projects Dynamically
     fetch("projects.json")
