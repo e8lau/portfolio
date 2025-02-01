@@ -5,6 +5,7 @@ body {
     padding: 0;
     background-color: #f4f4f4;
     color: #333;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 header {
@@ -82,4 +83,27 @@ footer {
     background: #333;
     color: white;
     margin-top: 2rem;
+}
+
+/* Dark Mode */
+.dark-mode {
+    background-color: #1e1e1e;
+    color: #ddd;
+}
+
+.dark-mode header, .dark-mode footer {
+    background: #222;
+}
+
+.dark-mode nav ul li a {
+    color: #ddd;
+}
+
+.dark-mode button {
+    background: #444;
+    color: #ddd;
+}
+
+.dark-mode button:hover {
+    background: #666;
 }
