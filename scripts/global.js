@@ -42,35 +42,49 @@ for (let p of pages) {
       }
 }
 
-//// Add Light and Dark Mode Toggle Button ////
+//// Add Light and Dark Mode Toggle Button (Preserving Original Functionality) ////
 document.body.insertAdjacentHTML(
     'afterbegin',
     `
-      <button id="theme-toggle" class="theme-button">🌞 Light Mode</button>
+      <button id="theme-toggle" class="theme-button">Loading...</button>
     `
 );
 
 let themeButton = document.getElementById('theme-toggle');
+let currentTheme = localStorage.colorScheme || 'light dark'; // Default to Auto mode
 
-// Function to toggle theme
+// Function to apply the selected theme
+function applyTheme(theme) {
+    document.documentElement.style.setProperty('color-scheme', theme);
+    localStorage.colorScheme = theme;
+
+    // Update button text to reflect the current mode
+    if (theme === 'dark') {
+        themeButton.textContent = '🌙 Dark Mode';
+    } else if (theme === 'light') {
+        themeButton.textContent = '🌞 Light Mode';
+    } else {
+        themeButton.textContent = '🌓 Auto Mode';
+    }
+}
+
+// Function to cycle through themes
 function toggleTheme() {
-    let currentTheme = document.documentElement.style.getPropertyValue('color-scheme') || 'light';
-    let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    if (currentTheme === 'light dark') {
+        currentTheme = 'light';  // Auto → Light
+    } else if (currentTheme === 'light') {
+        currentTheme = 'dark';  // Light → Dark
+    } else {
+        currentTheme = 'light dark';  // Dark → Auto
+    }
 
-    document.documentElement.style.setProperty('color-scheme', newTheme);
-    localStorage.colorScheme = newTheme;
-
-    // Update button text & icon
-    themeButton.textContent = newTheme === 'dark' ? '🌙 Dark Mode' : '🌞 Light Mode';
+    applyTheme(currentTheme);
 }
 
-// Set initial theme based on localStorage
-if (localStorage.colorScheme) {
-    document.documentElement.style.setProperty('color-scheme', localStorage.colorScheme);
-    themeButton.textContent = localStorage.colorScheme === 'dark' ? '🌙 Dark Mode' : '🌞 Light Mode';
-}
+// Apply the saved theme on page load
+applyTheme(currentTheme);
 
-// Add event listener to button
+// Attach event listener to toggle button
 themeButton.addEventListener('click', toggleTheme);
 
 //// Contact Form ////
