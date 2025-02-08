@@ -137,47 +137,69 @@ export async function fetchJSON(url) {
 
 /// dynamically generate and display project content throughout site func
 export function renderProjects(projects, containerElement, headingLevel = 'h2') {
-  // Ensure containerElement is a valid DOM element
   if (!containerElement || !(containerElement instanceof HTMLElement)) {
     console.error("Invalid container element provided.");
     return;
   }
-  // Validate headingLevel (ensure it's a valid heading tag)
-  const validHeadings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-  if (!validHeadings.includes(headingLevel)) {
-      console.warn(`Invalid heading level "${headingLevel}". Defaulting to "h2".`);
-      headingLevel = 'h2';
-  }
-  // Clear existing content to avoid duplication
+  // Clear container before rendering
   containerElement.innerHTML = '';
 
-  // Check if there are any projects to render
   if (projects.length === 0) {
     const placeholderMessage = document.createElement('p');
-    placeholderMessage.textContent = 'No projects available at the moment. Please check back later!';
+    placeholderMessage.textContent = 'No projects available at the moment.';
     containerElement.appendChild(placeholderMessage);
     return;
   }
-
-  // Loop through each project and create an article element
   projects.forEach(project => {
-    // Validate project data
-    if (!project || !project.title || !project.description) {
-        console.warn("Skipping invalid project:", project);
-        return;
-    }
-    // Create article element
     const article = document.createElement('article');
+    article.classList.add('project-item');
+    // Create project title
+    const heading = document.createElement(headingLevel);
+    heading.textContent = project.title;
+    article.appendChild(heading);
+    // Create project year
+    const yearElement = document.createElement('p');
+    yearElement.classList.add('project-year');
+    yearElement.textContent = `Year: ${project.year}`;
+    article.appendChild(yearElement);
+    // Create project description
+    const description = document.createElement('p');
+    description.textContent = project.description;
+    article.appendChild(description);
+    // Detect file type
+    const fileExtension = project.file.split('.').pop().toLowerCase();
+    const figure = document.createElement('figure');
 
-    // Add project details to article 
-    article.innerHTML = `
-      <${headingLevel}>${project.title}</${headingLevel}>
-      ${project.image ? `<img src="${project.image}" alt="${project.title}">` : ''}
-      <div>
-      <p>${project.description}</p>
-      <p class="year"><i>c.</i> ${project.year}</p></div>
-    `;
-    // Append the article to container
+    if (['png', 'jpg', 'jpeg', 'gif'].includes(fileExtension)) {
+      // Image Preview
+      const img = document.createElement('img');
+      img.src = project.file;
+      img.alt = project.title;
+      img.classList.add('project-image');
+      figure.appendChild(img);
+    } else if (fileExtension === 'pdf') {
+      // PDF Preview
+      const embed = document.createElement('embed');
+      embed.src = project.file;
+      embed.type = 'application/pdf';
+      embed.width = '100%';
+      embed.height = '400px';
+      figure.appendChild(embed);
+    } else {
+      // Generic File Download Link
+      const fileLink = document.createElement('a');
+      fileLink.href = project.file;
+      fileLink.textContent = 'Download File';
+      fileLink.target = '_blank';
+      figure.appendChild(fileLink);
+    }
+
+    // Add file preview and caption
+    const caption = document.createElement('figcaption');
+    caption.textContent = "Preview of " + project.title;
+    figure.appendChild(caption);
+    
+    article.appendChild(figure);
     containerElement.appendChild(article);
   });
 }
