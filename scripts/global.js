@@ -42,34 +42,36 @@ for (let p of pages) {
       }
 }
 
-//// Add Light and Dark Modes ////
+//// Add Light and Dark Mode Toggle Button ////
 document.body.insertAdjacentHTML(
     'afterbegin',
     `
-      <label class="color-scheme">
-          Theme:
-          <select>
-            <option value="light dark">Automatic</option>
-            <option value="light">light</option>
-            <option value="dark">dark</option>
-          </select>
-      </label>`
-  );
+      <button id="theme-toggle" class="theme-button">🌞 Light Mode</button>
+    `
+);
 
-let select = document.querySelector('.color-scheme select');
+let themeButton = document.getElementById('theme-toggle');
 
-select.addEventListener('input', function (event) {
-    console.log('color scheme changed to', event.target.value);
-    document.documentElement.style.setProperty('color-scheme', event.target.value);
-    localStorage.colorScheme = event.target.value
-  });
+// Function to toggle theme
+function toggleTheme() {
+    let currentTheme = document.documentElement.style.getPropertyValue('color-scheme') || 'light';
+    let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-if (localStorage.colorScheme) {
-    // Apply the stored color scheme
-    const storedScheme = localStorage.colorScheme;
-    document.documentElement.style.setProperty('color-scheme', storedScheme);
-    select.value = storedScheme; // Update the select element to match
+    document.documentElement.style.setProperty('color-scheme', newTheme);
+    localStorage.colorScheme = newTheme;
+
+    // Update button text & icon
+    themeButton.textContent = newTheme === 'dark' ? '🌙 Dark Mode' : '🌞 Light Mode';
 }
+
+// Set initial theme based on localStorage
+if (localStorage.colorScheme) {
+    document.documentElement.style.setProperty('color-scheme', localStorage.colorScheme);
+    themeButton.textContent = localStorage.colorScheme === 'dark' ? '🌙 Dark Mode' : '🌞 Light Mode';
+}
+
+// Add event listener to button
+themeButton.addEventListener('click', toggleTheme);
 
 //// Contact Form ////
 
