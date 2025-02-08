@@ -1,64 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="home">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Ethan Lau</title>
-    <link rel="stylesheet" href="styles/style.css">
-    <link rel="stylesheet" href="styles/global.css">
+    <title>Ethan Lau: Personal site and portfolio</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="projects.html">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><button id="darkModeToggle">🌙</button></li>
-            </ul>
-        </nav>
+    <header class="banner">
+        <h1>Ethan's Site</h1>
+        <button id="dark-mode-toggle" aria-label="Toggle Dark Mode">🌙</button>
     </header>
+
+    <img src="images/profile_photo.JPG" alt="Profile photo of Ethan smiling" class="profile-photo">
     
-    <section id="about">
-        <img src="profile_photo.jpg" alt="Profile Photo">
-        <h1>Ethan Lau</h1>
-        <p>Seeking to contribute my financial, analytical, and technical skills to a dynamic, high-growth company, where I can drive data-driven decision-making, solve complex challenges, and support organizational growth.</p>
-        <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/ethan-lau-5b75701b9">Ethan Lau</a></p>
+    <section>
+        <h2>About Me</h2>
+        <p>I am a Senior at the University of California, San Diego, pursuing a bachelor's degree in Management Science with a minor in Data Science. With 6 years of experience in project management and data analysis across venture capital, consulting, and systems management, I thrive in dynamic, high-growth environments.</p>
+    </section>
+
+    <section>
         <h2>Education</h2>
-        <p><strong>University of California San Diego (Class of 2025)</strong></p>
+        <p><strong>University of California, San Diego</strong> (Class of 2025)</p>
         <ul>
             <li>B.S. in Management Science</li>
             <li>Minor in Data Science</li>
         </ul>
     </section>
-    
-    <section id="projects">
-        <h2>Projects</h2>
-        <div id="project-list">Loading projects...</div>
-    </section>
-    
-    <section id="contact">
-        <h2>Contact</h2>
-        <form id="contact-form">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" required></textarea>
-            
-            <button type="submit">Send</button>
-        </form>
-    </section>
-    
+
+    <h2>Latest Projects</h2>
+    <div class="projects">
+        <!-- Dynamically added content will appear here -->
+    </div>
+
+    <h2>My GitHub Stats</h2>
+    <div id="profile-stats">
+        <!-- Dynamically added content will appear here -->
+    </div>
+
     <footer>
-        <p>&copy; 2025 Ethan Lau. All Rights Reserved.</p>
+        <p>&copy; 2025 Ethan Lau. All rights reserved.</p>
     </footer>
-    
-    <script src="scripts/global.js" type="module"></script>
-    <script src="scripts/index.js" type="module" defer></script>
-    <script src="scripts/darkmode.js" type="module"></script>
+
+    <!-- JavaScript Files -->
+    <script src="global.js" type="module"></script>
+    <script src="index.js" type="module" defer></script>
 </body>
 </html>
