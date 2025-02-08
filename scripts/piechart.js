@@ -4,8 +4,21 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("projects.json")
         .then(response => response.json())
         .then(data => {
+            console.log("Loaded Projects:", data); // Debugging output
+            
+            if (data.projects && Array.isArray(data.projects)) {
+                data = data.projects; // Ensure we're using the correct array
+            } else {
+                console.error("Error: projects.json does not contain a valid 'projects' array");
+                return;
+            }
+            
             const projectCounts = {};
             data.forEach(project => {
+                if (!project.year) {
+                    console.warn("Warning: Project missing 'year' property", project);
+                    return;
+                }
                 const year = project.year;
                 projectCounts[year] = (projectCounts[year] || 0) + 1;
             });
@@ -14,10 +27,16 @@ document.addEventListener("DOMContentLoaded", function () {
             renderPieChart(projectData);
             enableSearchFiltering(data);
             renderProjectList(data);
-        });
+        })
+        .catch(error => console.error("Error loading projects:", error));
 });
 
 function renderPieChart(projectData) {
+    if (typeof d3 === "undefined") {
+        console.error("D3.js is not loaded. Ensure the library is included in the HTML file.");
+        return;
+    }
+
     const width = 400, height = 400, radius = Math.min(width, height) / 2;
 
     const svg = d3.select("#pie-chart")
@@ -60,6 +79,10 @@ function filterProjectsByYear(year) {
 
 function enableSearchFiltering(projects) {
     const searchInput = document.querySelector("#search-bar");
+    if (!searchInput) {
+        console.error("Search bar not found in the document.");
+        return;
+    }
     searchInput.addEventListener("input", function () {
         const searchTerm = searchInput.value.toLowerCase();
         const projectList = document.querySelectorAll(".project");
@@ -76,8 +99,16 @@ function enableSearchFiltering(projects) {
 
 function renderProjectList(projects) {
     const projectContainer = document.getElementById("project-list");
+    if (!projectContainer) {
+        console.error("Project list container not found.");
+        return;
+    }
     projectContainer.innerHTML = "";
     projects.forEach(project => {
+        if (!project.year) {
+            console.warn("Skipping project without a year:", project);
+            return;
+        }
         const projectElement = document.createElement("div");
         projectElement.classList.add("project");
         projectElement.setAttribute("data-year", project.year);
@@ -85,16 +116,3 @@ function renderProjectList(projects) {
         projectContainer.appendChild(projectElement);
     });
 }
-
-
-// DEBUGGIN LINE
-fetch("projects.json")
-    .then(response => response.json())
-    .then(data => {
-        console.log("Loaded Projects:", data); // Debugging output
-        if (data.projects) {
-            data = data.projects; // Ensure we're using the correct array
-        }
-        renderPieChart(data);
-    })
-    .catch(error => console.error("Error loading projects:", error));
