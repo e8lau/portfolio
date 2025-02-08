@@ -141,7 +141,13 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     console.error("Invalid container element provided.");
     return;
   }
-  // Clear container before rendering
+  // Validate heading level
+  const validHeadings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+  if (!validHeadings.includes(headingLevel)) {
+      console.warn(`Invalid heading level "${headingLevel}". Defaulting to "h2".`);
+      headingLevel = 'h2';
+  }
+  // Clear previous content
   containerElement.innerHTML = '';
 
   if (projects.length === 0) {
@@ -151,52 +157,59 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     return;
   }
   projects.forEach(project => {
+    if (!project || !project.title || !project.description || !project.file) {
+        console.warn("Skipping invalid project:", project);
+        return;
+    }
     const article = document.createElement('article');
     article.classList.add('project-item');
-    // Create project title
+    // Create project heading
     const heading = document.createElement(headingLevel);
     heading.textContent = project.title;
     article.appendChild(heading);
-    // Create project year
+    // Add project year
     const yearElement = document.createElement('p');
     yearElement.classList.add('project-year');
     yearElement.textContent = `Year: ${project.year}`;
     article.appendChild(yearElement);
-    // Create project description
+    // Add project description
     const description = document.createElement('p');
     description.textContent = project.description;
     article.appendChild(description);
-    // Detect file type
+    // Detect file type and create appropriate preview
     const fileExtension = project.file.split('.').pop().toLowerCase();
     const figure = document.createElement('figure');
 
     if (['png', 'jpg', 'jpeg', 'gif'].includes(fileExtension)) {
-      // Image Preview
+      // Image preview
       const img = document.createElement('img');
-      img.src = project.file;
-      img.alt = project.title;
+      img.src = encodeURI(project.file);
+      img.alt = `Preview of ${project.title}`;
       img.classList.add('project-image');
       figure.appendChild(img);
     } else if (fileExtension === 'pdf') {
-      // PDF Preview
-      const embed = document.createElement('embed');
-      embed.src = project.file;
-      embed.type = 'application/pdf';
-      embed.width = '100%';
-      embed.height = '400px';
-      figure.appendChild(embed);
+      // PDF Thumbnail Preview (Click to Open Full PDF)
+      const img = document.createElement('img');
+      const previewPath = project.file.replace('.pdf', '.jpg'); // Assumes preview images are generated
+      img.src = encodeURI(previewPath);
+      img.alt = `Preview of ${project.title}`;
+      img.classList.add('pdf-preview');
+      // Clicking opens full PDF
+      img.addEventListener('click', () => {
+          window.open(project.file, '_blank');
+      });
+      figure.appendChild(img);
     } else {
-      // Generic File Download Link
+      // Generic file download link
       const fileLink = document.createElement('a');
-      fileLink.href = project.file;
+      fileLink.href = encodeURI(project.file);
       fileLink.textContent = 'Download File';
       fileLink.target = '_blank';
       figure.appendChild(fileLink);
     }
-
-    // Add file preview and caption
+    // Add preview figure
     const caption = document.createElement('figcaption');
-    caption.textContent = "Preview of " + project.title;
+    caption.textContent = `Preview of ${project.title}`;
     figure.appendChild(caption);
     
     article.appendChild(figure);
