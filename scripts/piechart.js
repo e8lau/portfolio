@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
             
             const projectData = Object.entries(projectCounts).map(([year, count]) => ({ year, count }));
             renderPieChart(projectData);
+            enableSearchFiltering(data);
         });
 });
 
@@ -56,3 +57,18 @@ function filterProjectsByYear(year) {
     });
 }
 
+function enableSearchFiltering(projects) {
+    const searchInput = document.querySelector("#search-bar");
+    searchInput.addEventListener("input", function () {
+        const searchTerm = searchInput.value.toLowerCase();
+        const projectList = document.querySelectorAll(".project");
+        projectList.forEach(project => {
+            const title = project.querySelector(".project-title").textContent.toLowerCase();
+            if (title.includes(searchTerm)) {
+                project.style.display = "block";
+            } else {
+                project.style.display = "none";
+            }
+        });
+    });
+}
