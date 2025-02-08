@@ -7,16 +7,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     darkModeToggle.addEventListener("click", () => {
         document.body.classList.toggle("dark-mode");
-        if (document.body.classList.contains("dark-mode")) {
-            localStorage.setItem("darkMode", "enabled");
-        } else {
-            localStorage.setItem("darkMode", "disabled");
-        }
+        localStorage.setItem("darkMode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
     });
 
     // Load Projects Dynamically
     fetch("Archive/projects.json")
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             const projectList = document.getElementById("project-list");
             projectList.innerHTML = ""; // Clear existing content
@@ -32,5 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 projectList.appendChild(projectItem);
             });
         })
-        .catch(error => console.error("Error loading projects:", error));
+        .catch(error => {
+            console.error("Error loading projects:", error);
+            document.getElementById("project-list").innerHTML = "<p>Failed to load projects. Please try again later.</p>";
+        });
 });
