@@ -137,83 +137,64 @@ export async function fetchJSON(url) {
 
 /// dynamically generate and display project content throughout site func
 export function renderProjects(projects, containerElement, headingLevel = 'h2') {
+  // Ensure containerElement is a valid DOM element
   if (!containerElement || !(containerElement instanceof HTMLElement)) {
     console.error("Invalid container element provided.");
     return;
   }
-  // Validate heading level
+  // Validate headingLevel (ensure it's a valid heading tag)
   const validHeadings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
   if (!validHeadings.includes(headingLevel)) {
       console.warn(`Invalid heading level "${headingLevel}". Defaulting to "h2".`);
       headingLevel = 'h2';
   }
-  // Clear previous content
+  // Clear existing content to avoid duplication
   containerElement.innerHTML = '';
-
+  
+  // Check if there are any projects to render
   if (projects.length === 0) {
-    const placeholderMessage = document.createElement('p');
-    placeholderMessage.textContent = 'No projects available at the moment.';
-    containerElement.appendChild(placeholderMessage);
+    containerElement.innerHTML = `<p>No projects available at the moment.</p>`;
     return;
   }
+
   projects.forEach(project => {
     if (!project || !project.title || !project.description || !project.file) {
         console.warn("Skipping invalid project:", project);
         return;
     }
-    const article = document.createElement('article');
-    article.classList.add('project-item');
-    // Create project heading
-    const heading = document.createElement(headingLevel);
-    heading.textContent = project.title;
-    article.appendChild(heading);
-    // Add project year
-    const yearElement = document.createElement('p');
-    yearElement.classList.add('project-year');
-    yearElement.textContent = `Year: ${project.year}`;
-    article.appendChild(yearElement);
-    // Add project description
-    const description = document.createElement('p');
-    description.textContent = project.description;
-    article.appendChild(description);
-    // Detect file type and create appropriate preview
+
+    // Detect file type
     const fileExtension = project.file.split('.').pop().toLowerCase();
-    const figure = document.createElement('figure');
+    let previewElement = '';
 
     if (['png', 'jpg', 'jpeg', 'gif'].includes(fileExtension)) {
       // Image preview
-      const img = document.createElement('img');
-      img.src = encodeURI(project.file);
-      img.alt = `Preview of ${project.title}`;
-      img.classList.add('project-image');
-      figure.appendChild(img);
+      previewElement = `<img src="${encodeURI(project.file)}" alt="Preview of ${project.title}" class="project-image">`;
     } else if (fileExtension === 'pdf') {
-      // PDF Thumbnail Preview (Click to Open Full PDF)
-      const img = document.createElement('img');
-      const previewPath = project.file.replace('.pdf', '.jpg'); // Assumes preview images are generated
-      img.src = encodeURI(previewPath);
-      img.alt = `Preview of ${project.title}`;
-      img.classList.add('pdf-preview');
-      // Clicking opens full PDF
-      img.addEventListener('click', () => {
-          window.open(project.file, '_blank');
-      });
-      figure.appendChild(img);
+      // PDF preview (clickable thumbnail)
+      const pdfThumbnail = project.file.replace('.pdf', '.jpg'); // Assumes a preview image exists
+      previewElement = `
+        <img src="${encodeURI(pdfThumbnail)}" alt="Preview of ${project.title}" class="pdf-preview" onclick="window.open('${encodeURI(project.file)}', '_blank')">
+      `;
     } else {
       // Generic file download link
-      const fileLink = document.createElement('a');
-      fileLink.href = encodeURI(project.file);
-      fileLink.textContent = 'Download File';
-      fileLink.target = '_blank';
-      figure.appendChild(fileLink);
+      previewElement = `<a href="${encodeURI(project.file)}" target="_blank">Download File</a>`;
     }
-    // Add preview figure
-    const caption = document.createElement('figcaption');
-    caption.textContent = `Preview of ${project.title}`;
-    figure.appendChild(caption);
-    
-    article.appendChild(figure);
-    containerElement.appendChild(article);
+
+    // Insert HTML directly
+    containerElement.innerHTML += `
+      <article class="project-item">
+        <${headingLevel}>${project.title}</${headingLevel}>
+        <div>
+          <p>${project.description}</p>
+          <p class="year"><i>c.</i> ${project.year}</p>
+        </div>
+        <figure>
+          ${previewElement}
+          <figcaption>Preview of ${project.title}</figcaption>
+        </figure>
+      </article>
+    `;
   });
 }
 
