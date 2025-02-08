@@ -91,6 +91,10 @@ function renderProjectList(projects) {
 fetch("projects.json")
     .then(response => response.json())
     .then(data => {
-        console.log("Loaded Projects:", data); // Debugging line
+        console.log("Loaded Projects:", data); // Debugging output
+        if (data.projects) {
+            data = data.projects; // Ensure we're using the correct array
+        }
+        renderPieChart(data);
     })
     .catch(error => console.error("Error loading projects:", error));
