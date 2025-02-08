@@ -9,11 +9,11 @@ function $$(selector, context = document) {
 // create pages
 let pages = [
     { url: '', title: 'Home'},
-    { url: 'pages/projects.html', title: 'Projects'},
-    //{ url: 'pages/resume.html', title: 'Resume'},
-    { url: 'pages/contact.html', title: 'Contact'},
+    { url: 'pages/projects/', title: 'Projects'},
+    { url: 'pages/resume/', title: 'Resume'},
+    { url: 'pages/contact/', title: 'Contact'},
     { url: 'https://github.com/e8lau', title: 'Github'},
-]
+];
 
 // add nav element to the body of page
 let nav = document.createElement('nav');
@@ -22,25 +22,24 @@ document.body.prepend(nav);
 // create constant variable that checks for home class in page
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
 
-// Create links and add attributes as needed
+// create links and add attributes as needed
 for (let p of pages) {
     let url = p.url;
     let title = p.title;
-    // Adjust URLs based on the new pages/ folder structure
-    url = !ARE_WE_HOME && !url.startsWith('http') ? './' + url : url;
-    // Create link and add it to nav
+    url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
+    // create link and add it to nav
     let a = document.createElement('a');
     a.href = url;
     a.textContent = title;
     nav.append(a);
-    // Add 'current' class to highlight active page
+    // add current class to current page
     if (a.host === location.host && a.pathname === location.pathname) {
         a.classList.add('current');
-    }
-    // Open external links in a new tab
+      }
+    // have link open new path if external link
     if (a.host !== location.host) {
         a.target = "_blank";
-    }
+      }
 }
 
 //// Add Light and Dark Mode Toggle Button (Preserving Original Functionality) ////
