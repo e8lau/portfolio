@@ -20,8 +20,12 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(data => {
             const featuredProjectsContainer = document.getElementById("featured-projects");
-            featuredProjectsContainer.innerHTML = ""; // Clear existing content
+            if (!featuredProjectsContainer) {
+                console.error("Error: Featured projects container not found.");
+                return;
+            }
 
+            featuredProjectsContainer.innerHTML = ""; // Clear existing content
             data.projects.slice(0, 3).forEach(project => {
                 let projectItem = document.createElement("div");
                 projectItem.classList.add("project-item");
@@ -35,11 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch(error => {
             console.error("Error loading projects:", error);
-            document.getElementById("featured-projects").innerHTML = `<p>Failed to load projects: ${error.message}</p>`;
         });
 
     // Load All Projects in projects.html
-    if (document.getElementById("project-list")) {
+    const projectListContainer = document.getElementById("project-list");
+    if (projectListContainer) {
         fetch("projects.json")
             .then(response => {
                 if (!response.ok) {
@@ -48,23 +52,52 @@ document.addEventListener("DOMContentLoaded", () => {
                 return response.json();
             })
             .then(data => {
-                const projectList = document.getElementById("project-list");
-                projectList.innerHTML = ""; // Clear existing content
+                projectListContainer.innerHTML = ""; // Clear existing content
 
                 data.projects.forEach(project => {
                     let projectItem = document.createElement("div");
-                    projectItem.classList.add("project-item");
+                    projectItem.classList.add("project");
+                    projectItem.setAttribute("data-year", project.year); // Ensure data-year attribute is set
+
                     projectItem.innerHTML = `
-                        <h3>${project.title}</h3>
+                        <h3 class="project-title">${project.title}</h3>
                         <p>${project.description}</p>
                         <a href="${project.link}" target="_blank">View Project</a>
                     `;
-                    projectList.appendChild(projectItem);
+
+                    projectListContainer.appendChild(projectItem);
                 });
+
+                // Enable Search Filtering After Projects Load
+                enableSearchFiltering();
             })
             .catch(error => {
                 console.error("Error loading projects:", error);
-                document.getElementById("project-list").innerHTML = `<p>Failed to load projects: ${error.message}</p>`;
             });
+    } else {
+        console.error("Error: Project list container not found.");
     }
 });
+
+// Function to Enable Search Filtering
+function enableSearchFiltering() {
+    const searchInput = document.querySelector("#search-bar");
+    if (!searchInput) {
+        console.error("Error: Search bar not found.");
+        return;
+    }
+
+    searchInput.addEventListener("input", function () {
+        const searchTerm = searchInput.value.toLowerCase();
+        const projectList = document.querySelectorAll(".project");
+        
+        projectList.forEach(project => {
+            const title = project.querySelector(".project-title").textContent.toLowerCase();
+            if (title.includes(searchTerm)) {
+                project.style.display = "block";
+            } else {
+                project.style.display = "none";
+            }
+        });
+    });
+}
