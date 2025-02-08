@@ -22,24 +22,25 @@ document.body.prepend(nav);
 // create constant variable that checks for home class in page
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
 
-// create links and add attributes as needed
+// Create links and add attributes as needed
 for (let p of pages) {
     let url = p.url;
     let title = p.title;
-    url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
-    // create link and add it to nav
+    // Adjust URLs based on the new pages/ folder structure
+    url = !ARE_WE_HOME && !url.startsWith('http') ? './' + url : url;
+    // Create link and add it to nav
     let a = document.createElement('a');
     a.href = url;
     a.textContent = title;
     nav.append(a);
-    // add current class to current page
+    // Add 'current' class to highlight active page
     if (a.host === location.host && a.pathname === location.pathname) {
         a.classList.add('current');
-      }
-    // have link open new path if external link
+    }
+    // Open external links in a new tab
     if (a.host !== location.host) {
         a.target = "_blank";
-      }
+    }
 }
 
 //// Add Light and Dark Mode Toggle Button (Preserving Original Functionality) ////
