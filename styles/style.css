@@ -239,3 +239,22 @@ path {
     margin-bottom: 30px;
     box-sizing: border-box;  /* Ensure padding is included in width calculation */
 }
+
+
+.theme-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--color-accent);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+.theme-button:hover {
+    background: color-mix(in oklch, var(--color-accent), black 20%);
+}
