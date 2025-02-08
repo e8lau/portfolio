@@ -1,34 +1,46 @@
 {
     "projects": [
         {
-            "title": "Data Analysis Paper",
+            "title": "The Effects of Constituent Characteristics on ESP Matching",
             "description": "A research paper analyzing the effects of constituent characteristics on ESP matching, conducted for the UCSD Alumni Department.",
-            "link": "Archive/data-analysis-paper"
+            "link": "Archive/The Effects of Constituent Characteristics on ESP Matching.pdf",
+            "year": "2023"
         },
         {
             "title": "7CSC Amendment Handbook",
             "description": "A structured guide detailing legislative amendments and procedural rules for UCSD's Seventh College Student Council.",
-            "link": "Archive/7CSC-amendment-handbook"
+            "link": "Archive/7CSC/7CSC Amendment Handbook.pdf",
+            "year": "2022"
         },
         {
-            "title": "Venture Capital Due Diligence Models",
-            "description": "Comprehensive financial and market analysis models used in venture capital investment assessments.",
-            "link": "Archive/vc-due-diligence"
+            "title": "Charter of the Elevator Special Committee",
+            "description": "The foundational charter for the Elevator Special Committee for Advocacy & Petition, outlining its purpose and scope.",
+            "link": "Archive/7CSC/Charter of the Elevator Special Committee for Advocacy & Petition.pdf",
+            "year": "2022"
         },
         {
-            "title": "Market Research & Strategy Report",
-            "description": "An in-depth analysis of competitive landscapes for Kobil Inc., informing their mobile app strategy.",
-            "link": "Archive/market-research"
+            "title": "BOSA Website Adapted Reorganization Proposal",
+            "description": "A proposal detailing the restructuring of the student government website to improve accessibility and efficiency.",
+            "link": "Archive/BOSA/200625 Website Adapted Reorganization Proposal.pdf",
+            "year": "2020"
         },
         {
-            "title": "Startup Consulting Case Studies",
-            "description": "Case studies and recommendations developed during my internship at Lumnus Consulting, optimizing organizational efficiency.",
-            "link": "Archive/consulting-case-studies"
+            "title": "Leadership Connections Committee Expansion & Guidelines",
+            "description": "An expansion proposal for the Leadership Connections Committee to enhance student engagement.",
+            "link": "Archive/BOSA/200915 Leadership Connections Committee Expansion & Guidelines Proposal.pdf",
+            "year": "2020"
         },
         {
-            "title": "Coveritas Website & Branding",
-            "description": "Website and branding design for Coveritas Inc., including outreach strategies for educational institutions.",
-            "link": "Archive/coveritas-branding"
+            "title": "2020 Freshman Transition Program Restructuring Act",
+            "description": "A restructuring plan to improve the effectiveness of the Freshman Transition Program.",
+            "link": "Archive/Freshman Transition/2020 Freshman Transition Program Restructuring Act.pdf",
+            "year": "2020"
+        },
+        {
+            "title": "MTAC Award List",
+            "description": "An official record of awards and recognitions received by Ethan Lau from MTAC.",
+            "link": "Archive/MTAC/Ethan Lau - Official MTAC Award List.pdf",
+            "year": "2019"
         }
     ]
 }
