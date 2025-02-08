@@ -1,4 +1,4 @@
-import { fetchJSON, renderProjects } from '../global.js';
+import { fetchJSON, renderProjects } from '../scripts/global.js';
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 /// Global Variables
@@ -8,7 +8,7 @@ let globalNewData = [];
 // Fetch project data
 async function loadProjects() {
     try {
-        const projects = await fetchJSON('../lib/projects.json');
+        const projects = await fetchJSON('../Archive/projects.json');
         const projectsContainer = document.querySelector('.projects');
         const projectCountElement = document.querySelector('.projects-title');
 
@@ -112,7 +112,7 @@ function renderPieChart(projectsGiven) {
     }
 }
 
-let projects = await fetchJSON('../lib/projects.json'); // fetch your project data
+let projects = await fetchJSON('../Archive/projects.json'); // fetch your project data
 renderPieChart(projects)
 loadProjects();
 
