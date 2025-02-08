@@ -85,3 +85,12 @@ function renderProjectList(projects) {
         projectContainer.appendChild(projectElement);
     });
 }
+
+
+// DEBUGGIN LINE
+fetch("projects.json")
+    .then(response => response.json())
+    .then(data => {
+        console.log("Loaded Projects:", data); // Debugging line
+    })
+    .catch(error => console.error("Error loading projects:", error));
