@@ -171,11 +171,12 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
       // Image preview
       previewElement = `<img src="${encodeURI(project.file)}" alt="Preview of ${project.title}" class="project-image">`;
     } else if (fileExtension === 'pdf') {
-      // PDF preview (clickable thumbnail)
-      const pdfThumbnail = project.file.replace('.pdf', '.jpg'); // Assumes a preview image exists
-      previewElement = `
-        <img src="${encodeURI(pdfThumbnail)}" alt="Preview of ${project.title}" class="pdf-preview" onclick="window.open('${encodeURI(project.file)}', '_blank')">
-      `;
+      // Create a PDF canvas element
+      const canvasId = `pdf-preview-${Math.random().toString(36).substr(2, 9)}`;
+      previewElement = `<canvas id="${canvasId}" class="pdf-preview"></canvas>`;
+
+      // Render PDF Preview
+      setTimeout(() => renderPDFPreview(project.file, canvasId), 100);
     } else {
       // Generic file download link
       previewElement = `<a href="${encodeURI(project.file)}" target="_blank">Download File</a>`;
@@ -195,6 +196,34 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
         </figure>
       </article>
     `;
+  });
+}
+
+// CANVAS RENDERING for PDF
+function renderPDFPreview(pdfUrl, canvasId) {
+  const loadingTask = pdfjsLib.getDocument(pdfUrl);
+  
+  loadingTask.promise.then(pdf => {
+    return pdf.getPage(1); // Load the first page
+  }).then(page => {
+    const scale = 1.5; // Adjust for better resolution
+    const viewport = page.getViewport({ scale });
+
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+
+    const context = canvas.getContext('2d');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+
+    const renderContext = {
+      canvasContext: context,
+      viewport: viewport
+    };
+    
+    page.render(renderContext);
+  }).catch(error => {
+    console.error("Error rendering PDF preview:", error);
   });
 }
 
