@@ -1,1 +1,21 @@
+#pie-chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
 
+svg {
+    max-width: 100%;
+    height: auto;
+}
+
+path {
+    stroke: #fff;
+    stroke-width: 2px;
+}
+
+text {
+    font-size: 14px;
+    font-weight: bold;
+}
