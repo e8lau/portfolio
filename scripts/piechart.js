@@ -1,37 +1,28 @@
+// Ensure renderPieChart is defined before calling it
 document.addEventListener("DOMContentLoaded", function () {
     fetch("projects.json")
         .then(response => response.json())
         .then(data => {
-            const projects = data.projects; // Ensure we access the correct array
+            const projects = data.projects;
             const projectCounts = {};
             
             projects.forEach(project => {
                 const year = project.year;
                 projectCounts[year] = (projectCounts[year] || 0) + 1;
             });
-            
+
             const projectData = Object.entries(projectCounts).map(([year, count]) => ({ year, count }));
-            
+
+            // Check if renderPieChart exists before calling it
             if (typeof renderPieChart === "function") {
                 renderPieChart(projectData);
             } else {
-                console.error("renderPieChart function is not defined");
-            }
-            
-            if (typeof enableSearchFiltering === "function") {
-                enableSearchFiltering(projects);
-            } else {
-                console.error("enableSearchFiltering function is not defined");
-            }
-            
-            if (typeof renderProjectList === "function") {
-                renderProjectList(projects);
-            } else {
-                console.error("renderProjectList function is not defined");
+                console.error("renderPieChart function is not defined. Ensure piechart.js is correctly loaded.");
             }
         }).catch(error => console.error("Error loading projects.json:", error));
 });
 
+// Define renderPieChart() before it's called
 function renderPieChart(projectData) {
     const width = 400, height = 400, radius = Math.min(width, height) / 2;
 
@@ -65,17 +56,4 @@ function renderPieChart(projectData) {
             .style("background-color", color(entry.year))
             .text(entry.year);
     });
-}
-
-function filterProjectsByYear(year) {
-    fetch("projects.json")
-        .then(response => response.json())
-        .then(data => {
-            const projects = data.projects.filter(p => p.year === year);
-            const projectList = d3.select("#project-list");
-            projectList.html("");
-            projects.forEach(p => {
-                projectList.append("li").text(`${p.title} (${p.year})`);
-            });
-        });
 }
