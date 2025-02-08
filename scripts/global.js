@@ -6,8 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
             console.log("Loaded Projects:", data); // Debugging output
             
-            if (data.projects) {
+            if (data.projects && Array.isArray(data.projects)) {
                 data = data.projects; // Ensure we're using the correct array
+            } else {
+                throw new Error("projects.json does not contain an array under 'projects'");
             }
             
             const projectCounts = {};
