@@ -180,8 +180,7 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
       } catch (error) {
         console.error("Error generating PDF thumbnail:", error);
       }
-    } else
-    if (project.file) {
+    } else if (project.file) {
       thumbnail = project.file; // Use provided image if available
     }
 
