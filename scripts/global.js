@@ -195,10 +195,9 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
       <p>${project.description}</p>
       <p class="year"><i>c.</i> ${project.year}</p></div>
     `;
-    // Append to container
-    containerElement.appendChild(article);
-  });
-
+    
+    return article;
+  }));
   // Append all elements after processing
   projectElements.forEach(element => {
     if (element) containerElement.appendChild(element);
