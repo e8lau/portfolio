@@ -136,7 +136,7 @@ export async function fetchJSON(url) {
 }
 
 /// dynamically generate and display project content throughout site func
-export function renderProjects(projects, containerElement, headingLevel = 'h2') {
+async function renderProjects(projects, containerElement, headingLevel = 'h2') {
   // Ensure containerElement is a valid DOM element
   if (!containerElement || !(containerElement instanceof HTMLElement)) {
     console.error("Invalid container element provided.");
@@ -160,26 +160,74 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
   }
 
   // Loop through each project and create an article element
-  projects.forEach(project => {
-    // Validate project data
-    if (!project || !project.title || !project.description) {
-        console.warn("Skipping invalid project:", project);
-        return;
-    }
-    // Create article element
-    const article = document.createElement('article');
+  for (const project of projects) {
+        const projectArticle = document.createElement('article');
 
-    // Add project details to article 
-    article.innerHTML = `
-      <${headingLevel}>${project.title}</${headingLevel}>
-      ${project.file ? `<img src="${project.file}" alt="${project.title}">` : ''}
-      <div>
-      <p>${project.description}</p>
-      <p class="year"><i>c.</i> ${project.year}</p></div>
-    `;
-    // Append the article to container
-    containerElement.appendChild(article);
-  });
+        // Title
+        const title = document.createElement(headingLevel);
+        title.textContent = project.title;
+
+        // Description
+        const description = document.createElement('p');
+        description.textContent = project.description;
+
+        // Year
+        const year = document.createElement('p');
+        year.textContent = project.year;
+        year.classList.add('year');
+
+        // Thumbnail Handling
+        const filePath = project.file;
+        const thumbnail = document.createElement('img');
+        thumbnail.classList.add('thumbnail');
+
+        if (filePath.endsWith('.pdf')) {
+            // Generate PDF thumbnail dynamically
+            await generatePdfThumbnail(filePath, thumbnail);
+        } else if (filePath.match(/\.(jpg|jpeg|png|gif)$/i)) {
+            // Use the image directly as a thumbnail
+            thumbnail.src = filePath;
+        } else {
+            // Default thumbnail for unsupported file types
+            thumbnail.src = 'default-thumbnail.png';
+        }
+
+        // Ensure image fits styling properly
+        thumbnail.style.width = "100%";
+        thumbnail.style.objectFit = "cover";
+        thumbnail.style.borderRadius = "8px"; // Match style elements
+
+        // Append elements in the expected order
+        projectArticle.appendChild(thumbnail);
+        projectArticle.appendChild(title);
+        projectArticle.appendChild(description);
+        projectArticle.appendChild(year);
+
+        containerElement.appendChild(projectArticle);
+    }
+}
+
+// Function to generate a PDF thumbnail
+async function generatePdfThumbnail(pdfPath, imgElement) {
+    try {
+        const pdfjsLib = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.mjs');
+        const pdf = await pdfjsLib.getDocument(pdfPath).promise;
+        const page = await pdf.getPage(1);
+
+        const scale = 1.5;
+        const viewport = page.getViewport({ scale });
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        await page.render({ canvasContext: context, viewport }).promise;
+
+        imgElement.src = canvas.toDataURL();
+    } catch (error) {
+        console.error('Error generating PDF thumbnail:', error);
+        imgElement.src = 'default-thumbnail.png'; // Fallback
+    }
 }
 
 //// Loading data from Github API ////
