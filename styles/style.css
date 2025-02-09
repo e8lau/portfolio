@@ -134,9 +134,10 @@ article.resume h2 {
   border-bottom-color: var(--border-color);
 }
 
+/* https://ibelick.com/blog/creating-metallic-effect-with-css */
 /* Default (Light Mode) */
 .profile-photo {
-  width: 100%; 
+  width: 100%;
   max-width: 400px;
   min-width: 300px;
   height: auto;
@@ -145,33 +146,32 @@ article.resume h2 {
   object-fit: cover;
   object-position: top;
   display: block;
-  padding: 12px; /* Increased padding to ensure border effect */
-  background: linear-gradient(135deg, #ddd, #bbb, #888); /* Refined metallic gradient */
+  padding: 10px; /* Space for the rings */
+  background: none; /* Background will be handled by pseudo-elements */
+  position: relative;
   box-shadow:
-      inset 0 0 5px rgba(0, 0, 0, 0.3), /* Inner shading for metal texture */
-      0 0 0 5px black, /* Inner black ring */
-      0 0 0 12px transparent, /* Space for outer silver ring */
-      5px -5px 20px rgba(255, 255, 255, 0.8), /* Shine effect at the top right */
-      -5px 5px 10px rgba(0, 0, 0, 0.5), /* Bottom left shadow */
-      10px 10px 20px rgba(0, 0, 0, 0.6); /* Full outer shadow bottom-right */
+    0 0 0 5px black, /* Inner black ring */
+    0 0 0 10px silver, /* Placeholder for silver ring */
+    5px -5px 15px rgba(255, 255, 255, 0.6), /* Shine highlight */
+    -5px 5px 10px rgba(0, 0, 0, 0.5); /* Bottom right shadow */
+  transition: all 0.3s ease-in-out;
+  margin: 10px auto;
 }
 
-/* Outer ring effect */
-.profile-photo::after {
+/* Metallic Silver Effect on the Outer Ring */
+.profile-photo::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: -10px;
+  left: -10px;
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
   border-radius: 50%;
-  padding: 12px; /* Ensure space for the outer glow effect */
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(180, 180, 180, 0.9), rgba(100, 100, 100, 0.9)); /* Silver gradient with shine */
+  z-index: -1;
+  background: linear-gradient(135deg, #222, #555, #ccc, #eee, #ccc, #555, #222);
   box-shadow: 
-      5px -5px 15px rgba(255, 255, 255, 0.6), /* Enhanced shine on top right */
-      -5px 5px 10px rgba(0, 0, 0, 0.4), /* Subtle shadow */
-      10px 10px 20px rgba(0, 0, 0, 0.6); /* Stronger depth shadow */
-  z-index: -1; /* Keeps it behind the image */
+    inset 2px 2px 5px rgba(255, 255, 255, 0.5), /* Soft highlight */
+    inset -2px -2px 5px rgba(0, 0, 0, 0.3); /* Soft depth shadow */
 }
 
 #profile-stats dl {
