@@ -136,7 +136,7 @@ export async function fetchJSON(url) {
 }
 
 /// dynamically generate and display project content throughout site func
-async function renderProjects(projects, containerElement, headingLevel = 'h2') {
+export function renderProjects(projects, containerElement, headingLevel = 'h2') {
   // Ensure containerElement is a valid DOM element
   if (!containerElement || !(containerElement instanceof HTMLElement)) {
     console.error("Invalid container element provided.");
@@ -180,10 +180,13 @@ async function renderProjects(projects, containerElement, headingLevel = 'h2') {
         const filePath = project.file;
         const thumbnail = document.createElement('img');
         thumbnail.classList.add('thumbnail');
+        thumbnail.style.width = "100%";
+        thumbnail.style.objectFit = "cover";
+        thumbnail.style.borderRadius = "8px";
 
         if (filePath.endsWith('.pdf')) {
-            // Generate PDF thumbnail dynamically
-            await generatePdfThumbnail(filePath, thumbnail);
+            // Load PDF thumbnail asynchronously but don't block rendering
+            generatePdfThumbnail(filePath, thumbnail);
         } else if (filePath.match(/\.(jpg|jpeg|png|gif)$/i)) {
             // Use the image directly as a thumbnail
             thumbnail.src = filePath;
@@ -191,11 +194,6 @@ async function renderProjects(projects, containerElement, headingLevel = 'h2') {
             // Default thumbnail for unsupported file types
             thumbnail.src = 'default-thumbnail.png';
         }
-
-        // Ensure image fits styling properly
-        thumbnail.style.width = "100%";
-        thumbnail.style.objectFit = "cover";
-        thumbnail.style.borderRadius = "8px"; // Match style elements
 
         // Append elements in the expected order
         projectArticle.appendChild(thumbnail);
@@ -207,7 +205,7 @@ async function renderProjects(projects, containerElement, headingLevel = 'h2') {
     }
 }
 
-// Function to generate a PDF thumbnail
+// Function to generate a PDF thumbnail asynchronously
 async function generatePdfThumbnail(pdfPath, imgElement) {
     try {
         const pdfjsLib = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.mjs');
