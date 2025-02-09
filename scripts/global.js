@@ -160,23 +160,27 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
   }
 
   // Loop through each project and create an article element
-  projects.forEach(project => {
+  /**projects.forEach(project => {
     if (!project || !project.title || !project.description || !project.file) {
         console.warn("Skipping invalid project:", project);
         return;
+    }*//
+  const projectElements = await Promise.all(projects.map(async (project) => {
+    if (!project || !project.title || !project.description || !project.file) {
+      console.warn("Skipping invalid project:", project);
+      return null;
     }
 
     // Determine thumbnail image
     let thumbnail = "../thumbnails/PDF_thumb.png"; // Fallback default
     // 3.9 CHANGE BELOW
-    /**
     if (project.file.endsWith(".pdf")) {
       try {
         thumbnail = await generatePDFThumbnail(project.file);
       } catch (error) {
         console.error("Error generating PDF thumbnail:", error);
       }
-    } else **/
+    } else
     if (project.file) {
       thumbnail = project.file; // Use provided image if available
     }
@@ -192,6 +196,11 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     `;
     // Append to container
     containerElement.appendChild(article);
+  });
+
+  // Append all elements after processing
+  projectElements.forEach(element => {
+    if (element) containerElement.appendChild(element);
   });
 }
 
