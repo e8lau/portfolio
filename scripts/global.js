@@ -8,10 +8,10 @@ function $$(selector, context = document) {
 
 // create pages
 let pages = [
-    { url: '../', title: 'Home'},
-    { url: '../pages/projects.html', title: 'Projects'},
+    { url: '', title: 'Home'},
+    { url: 'pages/projects.html', title: 'Projects'},
     //{ url: 'pages/resume.html', title: 'Resume'},
-    { url: '../pages/contact.html', title: 'Contact'},
+    { url: 'pages/contact.html', title: 'Contact'},
     { url: 'https://github.com/e8lau', title: 'Github'},
 ]
 
@@ -27,7 +27,7 @@ for (let p of pages) {
     let url = p.url;
     let title = p.title;
     // Adjust URLs based on the new pages/ folder structure
-    url = !ARE_WE_HOME && !url.startsWith('http') ? './' + url : url;
+    url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
     // Create link and add it to nav
     let a = document.createElement('a');
     a.href = url;
@@ -176,7 +176,8 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
       } catch (error) {
         console.error("Error generating PDF thumbnail:", error);
       }
-    } else **/if (project.file) {
+    } else **/
+    if (project.file) {
       thumbnail = project.file; // Use provided image if available
     }
 
