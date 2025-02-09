@@ -8,10 +8,10 @@ function $$(selector, context = document) {
 
 // create pages
 let pages = [
-    { url: '', title: 'Home'},
-    { url: 'pages/projects.html', title: 'Projects'},
+    { url: '../', title: 'Home'},
+    { url: '../pages/projects.html', title: 'Projects'},
     //{ url: 'pages/resume.html', title: 'Resume'},
-    { url: 'pages/contact.html', title: 'Contact'},
+    { url: '../pages/contact.html', title: 'Contact'},
     { url: 'https://github.com/e8lau', title: 'Github'},
 ]
 
@@ -167,7 +167,7 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     }
 
     // Determine thumbnail image
-    let thumbnail = "thumbnails/PDF_thumb.png"; // Fallback default
+    let thumbnail = "../thumbnails/PDF_thumb.png"; // Fallback default
     // 3.9 CHANGE BELOW
     /**
     if (project.file.endsWith(".pdf")) {
