@@ -168,6 +168,7 @@ export async function renderProjects(projects, containerElement, headingLevel = 
 
     // Determine thumbnail image
     let thumbnail = "thumbnails/PDF_thumb.png"; // Fallback default
+    let isBase64 = false;
     
     if (project.file.endsWith(".pdf")) {
       // thumbnail = "thumbnails/PDF_thumb.png";
@@ -175,6 +176,7 @@ export async function renderProjects(projects, containerElement, headingLevel = 
         thumbnail = await pdfToBase64(project.file);
         if (!thumbnail) throw new Error("Thumbnail conversion failed");
         console.log("Thumbnail Generated");
+        isBase64 = true;
       } catch(error) {
         console.log("Thumbnail failed")
       }
@@ -183,13 +185,13 @@ export async function renderProjects(projects, containerElement, headingLevel = 
     }
 
     // Prepend ../ if not in home directory
-    if (!ARE_WE_HOME) thumbnail = '../' + thumbnail;
+    if ((!ARE_WE_HOME) && (!isBase64)) thumbnail = '../' + thumbnail;
 
     // Create article element
     const article = document.createElement('article');
     article.innerHTML = `
       <${headingLevel}>${project.title}</${headingLevel}>
-      ${thumbnail ? `<img src="${thumbnail}" alt="${project.title}">` : ''}
+      ${thumbnail ? `<a href="${project.file}" target="_blank"><img src="${thumbnail}" alt="${project.title}"></a>` : ''}
       <div>
         <p>${project.description}</p>
         <p class="year"><i>c.</i> ${project.year}</p>
