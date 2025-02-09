@@ -178,15 +178,11 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     const article = document.createElement('article');
     article.innerHTML = `
       <${headingLevel}>${project.title}</${headingLevel}>
-      <a href="${project.file}" target="_blank">
-        <img src="${thumbnail}" alt="Thumbnail for ${project.title}" class="project-thumbnail">
-      </a>
+      ${thumbnail ? `<img src="${thumbnail}" alt="${project.title}">` : ''}
       <div>
-        <p>${project.description}</p>
-        <p class="year"><i>c.</i> ${project.year}</p>
-      </div>
+      <p>${project.description}</p>
+      <p class="year"><i>c.</i> ${project.year}</p></div>
     `;
-
     // Append to container
     containerElement.appendChild(article);
   });
