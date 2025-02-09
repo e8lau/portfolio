@@ -173,7 +173,7 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     } else if (project.file.match(/\.(png|jpg|jpeg|gif)$/i)) {
         thumbnail = `<img src="${project.file}" alt="${project.title}">`;
     } else {
-        thumbnail = '<img src="../Archive/thumbnails/default-thumbnail.png" alt="Default Thumbnail">';
+        thumbnail = '<img src="../thumbnails/PDF_thumb.png" alt="Default Thumbnail">';
     }
     
     const article = document.createElement('article');
