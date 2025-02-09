@@ -171,7 +171,10 @@ export async function renderProjects(projects, containerElement, headingLevel = 
     let filepath = project.file;
     let thumbnail = "thumbnails/PDF_thumb.png"; // Fallback default
 
-    if (filepath) {
+    // Image Types
+    const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff", ".svg"];
+    // Check Image Types
+    if (imageExtensions.some(ext => filepath.endsWith(ext))) {
       thumbnail = filepath;
     } else if (filepath.endsWith(".pdf")) {
       // thumbnail = "thumbnails/PDF_thumb.png";
