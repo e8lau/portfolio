@@ -18,7 +18,7 @@ body {
     /* Set line height to 1.5 times the font size
          and use the OS’s UI font as the website font
        */
-    font-family: 'Inter', sans-serif;
+    font: 100%/1.5 system-ui;
     max-width: 100ch;
     margin-inline: auto;
     padding: 20px;
@@ -134,10 +134,8 @@ article.resume h2 {
   border-bottom-color: var(--border-color);
 }
 
-/* https://ibelick.com/blog/creating-metallic-effect-with-css */
-/* Default (Light Mode) */
 .profile-photo {
-  width: 100%;
+  width: 100%; 
   max-width: 400px;
   min-width: 300px;
   height: auto;
@@ -146,32 +144,7 @@ article.resume h2 {
   object-fit: cover;
   object-position: top;
   display: block;
-  padding: 10px; /* Space for the rings */
-  background: none; /* Background will be handled by pseudo-elements */
-  position: relative;
-  box-shadow:
-    0 0 0 5px black, /* Inner black ring */
-    0 0 0 10px silver, /* Placeholder for silver ring */
-    5px -5px 15px rgba(255, 255, 255, 0.6), /* Shine highlight */
-    -5px 5px 10px rgba(0, 0, 0, 0.5); /* Bottom right shadow */
-  transition: all 0.3s ease-in-out;
   margin: 10px auto;
-}
-
-/* Metallic Silver Effect on the Outer Ring */
-.profile-photo::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  width: calc(100% + 20px);
-  height: calc(100% + 20px);
-  border-radius: 50%;
-  z-index: -1;
-  background: linear-gradient(135deg, #222, #555, #ccc, #eee, #ccc, #555, #222);
-  box-shadow: 
-    inset 2px 2px 5px rgba(255, 255, 255, 0.5), /* Soft highlight */
-    inset -2px -2px 5px rgba(0, 0, 0, 0.3); /* Soft depth shadow */
 }
 
 #profile-stats dl {
