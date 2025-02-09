@@ -158,13 +158,15 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     containerElement.appendChild(placeholderMessage);
     return;
   }
-
+  
   // Loop through each project and create an article element
-  /**projects.forEach(project => {
+  /*
+  projects.forEach(project => {
     if (!project || !project.title || !project.description || !project.file) {
         console.warn("Skipping invalid project:", project);
         return;
-    }**/
+    }
+  */
   const projectElements = await Promise.all(projects.map(async (project) => {
     if (!project || !project.title || !project.description || !project.file) {
       console.warn("Skipping invalid project:", project);
