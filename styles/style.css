@@ -1,12 +1,6 @@
 :root {
-  --color-primary: oklch(60% 30% 240); /* Deep blue */
-  --color-secondary: oklch(50% 20% 200 / 40%); /* Softer blue */
-  --color-accent: oklch(55% 50% 120); /* Vibrant teal */
-  --border-color: oklch(80% 10% 200 / 40%);
-  --background-light: oklch(98% 5% 200); /* Light gray */
-  --background-dark: oklch(15% 10% 200); /* Dark blue-gray */
-  --text-light: oklch(95% 5% 200);
-  --text-dark: oklch(20% 10% 200);
+  --color-accent: oklch(50% 30% 120 / 40%);
+  --border-color: oklch(50% 10% 200 / 40%)
 }
 
 html {
@@ -21,24 +15,22 @@ label.color-scheme {
 }
 
 body {
+    /* Set line height to 1.5 times the font size
+         and use the OS’s UI font as the website font
+       */
     font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    background-color: var(--background-light);
-    color: var(--text-dark);
-    max-width: 80ch; /* Reduce width for better readability */
-    margin: auto;
-    padding: 30px;
+    max-width: 100ch;
+    margin-inline: auto;
+    padding: 20px;
     accent-color: var(--color-accent);
-}
+  }
 
 nav {
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  padding: 1rem;
-  border-bottom: 2px solid var(--border-color);
-  background: var(--background-dark);
+  margin-bottom: auto;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--border-color);
 }
 
 nav ul {
@@ -50,17 +42,17 @@ nav li {
 }
 
 nav a {
+  flex: 1;
   text-decoration: none;
-  color: var(--text-light);
-  padding: 0.8em 1.5em;
-  border-radius: 6px;
-  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  color: inherit;
+  text-align: center;
+  padding: 0.5em;
 }
 
-nav a:hover, nav a.current {
-  background: var(--color-accent);
-  color: var(--background-light);
-  font-weight: bold;
+nav a.current {
+  border-bottom-width: 0.4em;
+  border-bottom-style: solid;
+  border-bottom-color: var(--border-color);
 }
 
 a:hover {
@@ -91,38 +83,20 @@ label {
 }
 
 button {
-  background: var(--color-accent);
-  color: white;
-  padding: 0.7rem 1.4rem;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
-}
-
-button:hover {
-  background: color-mix(in oklch, var(--color-accent), black 15%);
+  grid-column: 1 / -1;
 }
 
 div.projects {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem 0;
+  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+  gap: 1em;
 }
 
 div.projects article {
-  background: var(--background-dark);
-  color: var(--text-light);
-  border-radius: 10px;
-  padding: 1.2rem;
-  transition: transform 0.3s ease-in-out;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-div.projects article:hover {
-  transform: translateY(-5px);
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 3;
+  gap: 1em;
 }
 
 div.projects article h2 {
@@ -145,28 +119,8 @@ div.projects article img {
   border-radius: 8px; /* Optional: rounded corners */
 }
 
-input, textarea {
-  width: 100%;
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  background: var(--background-light);
-  color: var(--text-dark);
-}
-
 h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-h2 {
-  font-size: 2rem;
-  color: var(--color-secondary);
-  margin-top: 1.5rem;
+  font-size: 400%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -181,15 +135,16 @@ article.resume h2 {
 }
 
 .profile-photo {
-  display: block;
-  width: 100%;
-  max-width: 200px;
+  width: 100%; 
+  max-width: 400px;
+  min-width: 300px;
   height: auto;
   aspect-ratio: 1 / 1;
-  object-fit: cover;
   border-radius: 50%;
-  margin: 20px auto;
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  margin: 10px auto;
 }
 
 #profile-stats dl {
@@ -302,11 +257,16 @@ path {
 
 
 .theme-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
     background: var(--color-accent);
-    color: var(--text-light);
-    padding: 10px 15px;
-    border-radius: 6px;
+    color: white;
+    border: none;
+    padding: 8px 12px;
     font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 5px;
     transition: background 0.3s ease-in-out;
 }
 
