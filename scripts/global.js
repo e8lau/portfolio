@@ -158,30 +158,18 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     containerElement.appendChild(placeholderMessage);
     return;
   }
-  
+
   // Loop through each project and create an article element
-  /*
   projects.forEach(project => {
     if (!project || !project.title || !project.description || !project.file) {
         console.warn("Skipping invalid project:", project);
         return;
     }
-  */
-  const projectElements = await Promise.all(projects.map(async (project) => {
-    if (!project || !project.title || !project.description || !project.file) {
-      console.warn("Skipping invalid project:", project);
-      return null;
-    }
 
     // Determine thumbnail image
     let thumbnail = "../thumbnails/PDF_thumb.png"; // Fallback default
-    // 3.9 CHANGE BELOW
     if (project.file.endsWith(".pdf")) {
-      try {
-        thumbnail = await generatePDFThumbnail(project.file);
-      } catch (error) {
-        console.error("Error generating PDF thumbnail:", error);
-      }
+      thumbnail = "../thumbnails/PDF_thumb.png";
     } else if (project.file) {
       thumbnail = project.file; // Use provided image if available
     }
@@ -196,33 +184,9 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
         <p class="year"><i>c.</i> ${project.year}</p>
       </div>
     `;
-    
-    return article;
-  }));
-  // Append all elements after processing
-  projectElements.forEach(element => {
-    if (element) containerElement.appendChild(element);
+    // Append to container
+    containerElement.appendChild(article);
   });
-}
-
-// Convert PDF to image thumbnail
-async function generatePDFThumbnail(pdfPath) {
-  const pdf = await getDocument(pdfPath).promise;
-  const page = await pdf.getPage(1);
-  const scale = 1.5;
-  const viewport = page.getViewport({ scale });
-
-  // Create a hidden canvas
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
-  canvas.width = viewport.width;
-  canvas.height = viewport.height;
-
-  // Render PDF page onto the canvas
-  await page.render({ canvasContext: context, viewport }).promise;
-
-  // Convert canvas to Base64 image URL
-  return canvas.toDataURL("image/png");
 }
 
 //// Loading data from Github API ////
