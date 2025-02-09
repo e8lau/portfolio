@@ -167,9 +167,9 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     }
 
     // Determine thumbnail image
-    let thumbnail = "../thumbnails/PDF_thumb.png"; // Fallback default
+    let thumbnail = "thumbnails/PDF_thumb.png"; // Fallback default
     if (project.file.endsWith(".pdf")) {
-      // thumbnail = "../thumbnails/PDF_thumb.png";
+      // thumbnail = "thumbnails/PDF_thumb.png";
       try {
         thumbnail = pdfToBase64(pdfPath);
         console.log("Thumbnail Generated")
@@ -179,6 +179,9 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     } else if (project.file) {
       thumbnail = project.file; // Use provided image if available
     }
+
+    // Prepend ../ if not in home directory
+    if (!ARE_WE_HOME) thumbnail = '../' + thumbnail;
 
     // Create article element
     const article = document.createElement('article');
