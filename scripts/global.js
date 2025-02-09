@@ -136,7 +136,7 @@ export async function fetchJSON(url) {
 }
 
 /// dynamically generate and display project content throughout site func
-export function renderProjects(projects, containerElement, headingLevel = 'h2') {
+export async function renderProjects(projects, containerElement, headingLevel = 'h2') {
   // Ensure containerElement is a valid DOM element
   if (!containerElement || !(containerElement instanceof HTMLElement)) {
     console.error("Invalid container element provided.");
@@ -160,7 +160,7 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
   }
 
   // Loop through each project and create an article element
-  projects.forEach(project => {
+  for (const project of projects) {
     if (!project || !project.title || !project.description || !project.file) {
         console.warn("Skipping invalid project:", project);
         return;
@@ -168,11 +168,13 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
 
     // Determine thumbnail image
     let thumbnail = "thumbnails/PDF_thumb.png"; // Fallback default
+    
     if (project.file.endsWith(".pdf")) {
       // thumbnail = "thumbnails/PDF_thumb.png";
       try {
-        thumbnail = pdfToBase64(project.file);
-        console.log("Thumbnail Generated")
+        thumbnail = await pdfToBase64(project.file);
+        if (!thumbnail) throw new Error("Thumbnail conversion failed");
+        console.log("Thumbnail Generated");
       } catch(error) {
         console.log("Thumbnail failed")
       }
@@ -195,7 +197,7 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     `;
     // Append to container
     containerElement.appendChild(article);
-  });
+  }
 }
 
 /// Pdf to Base64 Test Fn
