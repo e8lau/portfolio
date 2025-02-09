@@ -160,58 +160,36 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
   }
 
   // Loop through each project and create an article element
-  projects.forEach(async project => {
+  projects.forEach(project => {
     if (!project || !project.title || !project.description || !project.file) {
         console.warn("Skipping invalid project:", project);
         return;
     }
-    
-    let thumbnail = '';
-    if (project.file.endsWith('.pdf')) {
-        const pdfThumbnail = await generatePDFThumbnail(project.file);
-        thumbnail = `<img src="${pdfThumbnail}" alt="PDF Thumbnail">`;
-    } else if (project.file.match(/\.(png|jpg|jpeg|gif)$/i)) {
-        thumbnail = `<img src="${project.file}" alt="${project.title}">`;
-    } else {
-        thumbnail = '<img src="../thumbnails/PDF_thumb.png" alt="Default Thumbnail">';
+
+    // Determine thumbnail image
+    let thumbnail = "../thumbnails/default.png"; // Fallback default
+    if (project.file.endsWith(".pdf")) {
+      thumbnail = "../thumbnails/PDF_thumb.png";
+    } else if (project.image) {
+      thumbnail = project.image; // Use provided image if available
     }
-    
+
+    // Create article element
     const article = document.createElement('article');
     article.innerHTML = `
       <${headingLevel}>${project.title}</${headingLevel}>
-      ${thumbnail}
+      <a href="${project.file}" target="_blank">
+        <img src="${thumbnail}" alt="Thumbnail for ${project.title}" class="project-thumbnail">
+      </a>
       <div>
-      <p>${project.description}</p>
-      <p class="year"><i>c.</i> ${project.year}</p>
-      <a href="${project.file}" target="_blank">View Project</a>
+        <p>${project.description}</p>
+        <p class="year"><i>c.</i> ${project.year}</p>
       </div>
     `;
-    
+
+    // Append to container
     containerElement.appendChild(article);
   });
-}
-
-async function generatePDFThumbnail(pdfPath) {
-    const pdfjsLib = window['pdfjs-dist/build/pdf'];
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js';
-    
-    const loadingTask = pdfjsLib.getDocument(pdfPath);
-    const pdf = await loadingTask.promise;
-    const page = await pdf.getPage(1);
-    const scale = 1;
-    const viewport = page.getViewport({ scale });
-    
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    
-    const renderContext = {
-        canvasContext: context,
-        viewport: viewport
-    };
-    await page.render(renderContext).promise;
-    return canvas.toDataURL("image/png");
 }
 
 //// Loading data from Github API ////
