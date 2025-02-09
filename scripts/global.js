@@ -168,6 +168,7 @@ export async function renderProjects(projects, containerElement, headingLevel = 
 
     // Prepend ../ if not in home directory
     let filepath = (!ARE_WE_HOME ? '../' : '') + project.file;
+    let thumbnail = "thumbnails/PDF_thumb.png"; // Fallback default
 
     if (filepath) {
       thumbnail = filepath;
@@ -182,7 +183,7 @@ export async function renderProjects(projects, containerElement, headingLevel = 
       }
     }
     // Prepend ../ if not in home directory
-    let thumbnail = (!ARE_WE_HOME ? '../' : '') + thumbnail;
+    thumbnail = (!ARE_WE_HOME ? '../' : '') + thumbnail;
 
     // Create article element
     const article = document.createElement('article');
