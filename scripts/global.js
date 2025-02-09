@@ -163,7 +163,6 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
         return;
     }
 
-    // Detect file type
     const fileExtension = project.file.split('.').pop().toLowerCase();
     let previewElement = '';
 
@@ -171,14 +170,13 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
       // Image preview
       previewElement = `<img src="${encodeURI(project.file)}" alt="Preview of ${project.title}" class="project-image">`;
     } else if (fileExtension === 'pdf') {
-      // Create a PDF canvas element
-      const canvasId = `pdf-preview-${Math.random().toString(36).substr(2, 9)}`;
-      previewElement = `<canvas id="${canvasId}" class="pdf-preview"></canvas>`;
+      // Placeholder image while PDF renders
+      const imgId = `pdf-preview-${Math.random().toString(36).substr(2, 9)}`;
+      previewElement = `<img id="${imgId}" class="pdf-preview" alt="Preview of ${project.title}" onclick="window.open('${encodeURI(project.file)}', '_blank')">`;
 
-      // Render PDF Preview
-      setTimeout(() => renderPDFPreview(project.file, canvasId), 100);
+      // Render PDF preview as an image
+      setTimeout(() => renderPDFPreviewAsImage(project.file, imgId), 100);
     } else {
-      // Generic file download link
       previewElement = `<a href="${encodeURI(project.file)}" target="_blank">Download File</a>`;
     }
 
@@ -200,19 +198,19 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
 }
 
 // CANVAS RENDERING for PDF
-function renderPDFPreview(pdfUrl, canvasId) {
+function renderPDFPreviewAsImage(pdfUrl, imgId) {
   const loadingTask = pdfjsLib.getDocument(pdfUrl);
-  
+
   loadingTask.promise.then(pdf => {
-    return pdf.getPage(1); // Load the first page
+    return pdf.getPage(1);
   }).then(page => {
-    const scale = 1.5; // Adjust for better resolution
+    const scale = 1.5; 
     const viewport = page.getViewport({ scale });
 
-    const canvas = document.getElementById(canvasId);
-    if (!canvas) return;
-
+    // Create a temporary canvas
+    const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
+    
     canvas.width = viewport.width;
     canvas.height = viewport.height;
 
@@ -220,8 +218,17 @@ function renderPDFPreview(pdfUrl, canvasId) {
       canvasContext: context,
       viewport: viewport
     };
-    
-    page.render(renderContext);
+
+    return page.render(renderContext).promise.then(() => {
+      // Convert canvas to data URL
+      const dataUrl = canvas.toDataURL("image/png");
+
+      // Set the image src to the generated preview
+      const imgElement = document.getElementById(imgId);
+      if (imgElement) {
+        imgElement.src = dataUrl;
+      }
+    });
   }).catch(error => {
     console.error("Error rendering PDF preview:", error);
   });
