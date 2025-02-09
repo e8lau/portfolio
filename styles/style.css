@@ -145,22 +145,53 @@ article.resume h2 {
   object-fit: cover;
   object-position: top;
   display: block;
-  padding: 8px; /* Creates space for the rings */
-  background: linear-gradient(135deg, #444, #888, #ddd); /* Metallic gradient */
+  padding: 10px; /* Space for the rings */
+  background: linear-gradient(135deg, #222, #555, #ccc); /* Metallic gradient */
   box-shadow:
-      0 0 0 5px #222, /* Inner dark ring */
-      0 0 0 10px #ccc, /* Outer silver ring */
-      0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+      inset 0 0 5px rgba(0, 0, 0, 0.3), /* Inner shading for metal texture */
+      0 0 0 5px black, /* Inner black ring */
+      0 0 0 10px silver, /* Outer silver ring */
+      5px -5px 15px rgba(255, 255, 255, 0.6), /* Lens flare (top right) */
+      -5px 5px 10px rgba(0, 0, 0, 0.5); /* Bottom left shadow */
   transition: all 0.3s ease-in-out;
   margin: 10px auto;
 }
-/* Dark Mode (Neon Glow) */
+/* Dark Mode - Neon Glow with Silver Outline */
 @media (prefers-color-scheme: dark) {
     .profile-photo {
+        background: none; /* No metallic effect */
+        position: relative;
         box-shadow:
-            0 0 0 5px #111, /* Inner dark ring */
-            0 0 0 10px rgba(0, 255, 170, 0.6), /* Neon glow */
-            0px 0px 15px rgba(0, 255, 170, 0.6); /* Outer glow */
+            0 0 0 8px black, /* Thick black border */
+            0 0 0 10px silver, /* Thin silver outline */
+            0 0 15px rgba(0, 255, 170, 0.8), /* Neon glow */
+            0 0 35px rgba(0, 255, 170, 0.6); /* Bloom effect */
+    }
+
+    /* Horizontal and Vertical Lines */
+    .profile-photo::before,
+    .profile-photo::after {
+        content: "";
+        position: absolute;
+        background: rgba(255, 255, 255, 0.5); /* Silver-white color */
+    }
+
+    /* Vertical Line */
+    .profile-photo::before {
+        width: 2px;
+        height: 100%;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+    }
+
+    /* Horizontal Line */
+    .profile-photo::after {
+        width: 100%;
+        height: 2px;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
     }
 }
 
