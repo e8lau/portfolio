@@ -168,11 +168,10 @@ export async function renderProjects(projects, containerElement, headingLevel = 
 
     // Prepend ../ if not in home directory
     let filepath = (!ARE_WE_HOME ? '../' : '') + project.file;
-    let thumbnail = (!ARE_WE_HOME ? '../' : '') + "thumbnails/PDF_thumb.png"; // Fallback default
 
     if (filepath) {
       thumbnail = filepath;
-    } else if (project.file.endsWith(".pdf")) {
+    } else if (filepath.endsWith(".pdf")) {
       // thumbnail = "thumbnails/PDF_thumb.png";
       try {
         thumbnail = await pdfToBase64(filepath);
@@ -182,12 +181,14 @@ export async function renderProjects(projects, containerElement, headingLevel = 
         console.log("Thumbnail failed")
       }
     }
+    // Prepend ../ if not in home directory
+    let thumbnail = (!ARE_WE_HOME ? '../' : '') + thumbnail;
 
     // Create article element
     const article = document.createElement('article');
     article.innerHTML = `
       <${headingLevel}>${project.title}</${headingLevel}>
-      ${thumbnail ? `<a href="${project.file}" target="_blank"><img src="${thumbnail}" alt="${project.title}"></a>` : ''}
+      ${thumbnail ? `<a href="${filepath}" target="_blank"><img src="${thumbnail}" alt="${project.title}"></a>` : ''}
       <div>
         <p>${project.description}</p>
         <p class="year"><i>c.</i> ${project.year}</p>
