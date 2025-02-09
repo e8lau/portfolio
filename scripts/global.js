@@ -167,8 +167,7 @@ export async function renderProjects(projects, containerElement, headingLevel = 
     }
 
     // Prepend ../ if not in home directory
-    // let filepath = (!ARE_WE_HOME ? '../' : '') + project.file;
-    let filepath = project.file;
+    let filepath = (!ARE_WE_HOME ? '../' : '') + project.file;
     let thumbnail = "thumbnails/PDF_thumb.png"; // Fallback default
 
     // Image Types
