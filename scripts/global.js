@@ -167,8 +167,8 @@ export async function renderProjects(projects, containerElement, headingLevel = 
     }
 
     // Prepend ../ if not in home directory
-    let filepath = (if (!ARE_WE_HOME) '../') + project.file;
-    let thumbnail = (if (!ARE_WE_HOME) '../') + "thumbnails/PDF_thumb.png"; // Fallback default
+    let filepath = (!ARE_WE_HOME ? '../' : '') + project.file;
+    let thumbnail = (!ARE_WE_HOME ? '../' : '') + "thumbnails/PDF_thumb.png"; // Fallback default
 
     if (filepath) {
       thumbnail = filepath;
