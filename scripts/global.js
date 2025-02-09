@@ -160,72 +160,58 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
   }
 
   // Loop through each project and create an article element
-  for (const project of projects) {
-        const projectArticle = document.createElement('article');
-
-        // Title
-        const title = document.createElement(headingLevel);
-        title.textContent = project.title;
-
-        // Description
-        const description = document.createElement('p');
-        description.textContent = project.description;
-
-        // Year
-        const year = document.createElement('p');
-        year.textContent = project.year;
-        year.classList.add('year');
-
-        // Thumbnail Handling
-        const filePath = project.file;
-        const thumbnail = document.createElement('img');
-        thumbnail.classList.add('thumbnail');
-        thumbnail.style.width = "100%";
-        thumbnail.style.objectFit = "cover";
-        thumbnail.style.borderRadius = "8px";
-
-        if (filePath.endsWith('.pdf')) {
-            // Load PDF thumbnail asynchronously but don't block rendering
-            generatePdfThumbnail(filePath, thumbnail);
-        } else if (filePath.match(/\.(jpg|jpeg|png|gif)$/i)) {
-            // Use the image directly as a thumbnail
-            thumbnail.src = filePath;
-        } else {
-            // Default thumbnail for unsupported file types
-            thumbnail.src = 'default-thumbnail.png';
-        }
-
-        // Append elements in the expected order
-        projectArticle.appendChild(thumbnail);
-        projectArticle.appendChild(title);
-        projectArticle.appendChild(description);
-        projectArticle.appendChild(year);
-
-        containerElement.appendChild(projectArticle);
+  projects.forEach(async project => {
+    if (!project || !project.title || !project.description || !project.file) {
+        console.warn("Skipping invalid project:", project);
+        return;
     }
+    
+    let thumbnail = '';
+    if (project.file.endsWith('.pdf')) {
+        const pdfThumbnail = await generatePDFThumbnail(project.file);
+        thumbnail = `<img src="${pdfThumbnail}" alt="PDF Thumbnail">`;
+    } else if (project.file.match(/\.(png|jpg|jpeg|gif)$/i)) {
+        thumbnail = `<img src="${project.file}" alt="${project.title}">`;
+    } else {
+        thumbnail = '<img src="../Archive/thumbnails/default-thumbnail.png" alt="Default Thumbnail">';
+    }
+    
+    const article = document.createElement('article');
+    article.innerHTML = `
+      <${headingLevel}>${project.title}</${headingLevel}>
+      ${thumbnail}
+      <div>
+      <p>${project.description}</p>
+      <p class="year"><i>c.</i> ${project.year}</p>
+      <a href="${project.file}" target="_blank">View Project</a>
+      </div>
+    `;
+    
+    containerElement.appendChild(article);
+  });
 }
 
-// Function to generate a PDF thumbnail asynchronously
-async function generatePdfThumbnail(pdfPath, imgElement) {
-    try {
-        const pdfjsLib = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.mjs');
-        const pdf = await pdfjsLib.getDocument(pdfPath).promise;
-        const page = await pdf.getPage(1);
-
-        const scale = 1.5;
-        const viewport = page.getViewport({ scale });
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-
-        await page.render({ canvasContext: context, viewport }).promise;
-
-        imgElement.src = canvas.toDataURL();
-    } catch (error) {
-        console.error('Error generating PDF thumbnail:', error);
-        imgElement.src = 'default-thumbnail.png'; // Fallback
-    }
+async function generatePDFThumbnail(pdfPath) {
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js';
+    
+    const loadingTask = pdfjsLib.getDocument(pdfPath);
+    const pdf = await loadingTask.promise;
+    const page = await pdf.getPage(1);
+    const scale = 1;
+    const viewport = page.getViewport({ scale });
+    
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    
+    const renderContext = {
+        canvasContext: context,
+        viewport: viewport
+    };
+    await page.render(renderContext).promise;
+    return canvas.toDataURL("image/png");
 }
 
 //// Loading data from Github API ////
