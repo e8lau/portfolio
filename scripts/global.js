@@ -150,87 +150,35 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
   }
   // Clear existing content to avoid duplication
   containerElement.innerHTML = '';
-  
+
   // Check if there are any projects to render
   if (projects.length === 0) {
-    containerElement.innerHTML = `<p>No projects available at the moment.</p>`;
+    const placeholderMessage = document.createElement('p');
+    placeholderMessage.textContent = 'No projects available at the moment. Please check back later!';
+    containerElement.appendChild(placeholderMessage);
     return;
   }
 
+  // Loop through each project and create an article element
   projects.forEach(project => {
-    if (!project || !project.title || !project.description || !project.file) {
+    // Validate project data
+    if (!project || !project.title || !project.description) {
         console.warn("Skipping invalid project:", project);
         return;
     }
+    // Create article element
+    const article = document.createElement('article');
 
-    const fileExtension = project.file.split('.').pop().toLowerCase();
-    let previewElement = '';
-
-    if (['png', 'jpg', 'jpeg', 'gif'].includes(fileExtension)) {
-      // Image preview
-      previewElement = `<img src="${encodeURI(project.file)}" alt="Preview of ${project.title}" class="project-image">`;
-    } else if (fileExtension === 'pdf') {
-      // Placeholder image while PDF renders
-      const imgId = `pdf-preview-${Math.random().toString(36).substr(2, 9)}`;
-      previewElement = `<img id="${imgId}" class="pdf-preview" alt="Preview of ${project.title}" onclick="window.open('${encodeURI(project.file)}', '_blank')">`;
-
-      // Render PDF preview as an image
-      setTimeout(() => renderPDFPreviewAsImage(project.file, imgId), 100);
-    } else {
-      previewElement = `<a href="${encodeURI(project.file)}" target="_blank">Download File</a>`;
-    }
-
-    // Insert HTML directly
-    containerElement.innerHTML += `
-      <article class="project-item">
-        <${headingLevel}>${project.title}</${headingLevel}>
-        <div>
-          <p>${project.description}</p>
-          <p class="year"><i>c.</i> ${project.year}</p>
-        </div>
-        <figure>
-          ${previewElement}
-          <figcaption>Preview of ${project.title}</figcaption>
-        </figure>
-      </article>
+    // Add project details to article 
+    article.innerHTML = `
+      <${headingLevel}>${project.title}</${headingLevel}>
+      ${project.file ? `<img src="${project.file}" alt="${project.title}">` : ''}
+      <div>
+      <p>${project.description}</p>
+      <p class="year"><i>c.</i> ${project.year}</p></div>
     `;
-  });
-}
-
-// CANVAS RENDERING for PDF
-function renderPDFPreviewAsImage(pdfUrl, imgId) {
-  const loadingTask = pdfjsLib.getDocument(pdfUrl);
-
-  loadingTask.promise.then(pdf => {
-    return pdf.getPage(1);
-  }).then(page => {
-    const scale = 1.5; 
-    const viewport = page.getViewport({ scale });
-
-    // Create a temporary canvas
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-
-    const renderContext = {
-      canvasContext: context,
-      viewport: viewport
-    };
-
-    return page.render(renderContext).promise.then(() => {
-      // Convert canvas to data URL
-      const dataUrl = canvas.toDataURL("image/png");
-
-      // Set the image src to the generated preview
-      const imgElement = document.getElementById(imgId);
-      if (imgElement) {
-        imgElement.src = dataUrl;
-      }
-    });
-  }).catch(error => {
-    console.error("Error rendering PDF preview:", error);
+    // Append the article to container
+    containerElement.appendChild(article);
   });
 }
 
