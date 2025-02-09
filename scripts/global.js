@@ -167,9 +167,15 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     }
 
     // Determine thumbnail image
-    let thumbnail = "./thumbnails/PDF_thumb.png"; // Fallback default
+    let thumbnail = "../thumbnails/PDF_thumb.png"; // Fallback default
     if (project.file.endsWith(".pdf")) {
-      thumbnail = "./thumbnails/PDF_thumb.png";
+      // thumbnail = "../thumbnails/PDF_thumb.png";
+      try {
+        thumbnail = await pdfToBase64(pdfPath);
+        console.log("Thumbnail Generated")
+      } catch(error) {
+        console.log("Thumbnail failed")
+      }
     } else if (project.file) {
       thumbnail = project.file; // Use provided image if available
     }
@@ -187,6 +193,40 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     // Append to container
     containerElement.appendChild(article);
   });
+}
+
+/// Pdf to Base64 Test Fn
+// Load PDF.js worker
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+// Function to convert a local PDF file to a Base64 image (first page)
+async function pdfToBase64(pdfUrl, pageNumber = 1) {
+    try {
+        // Load the PDF document
+        const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+        const page = await pdf.getPage(pageNumber);
+
+        // Define scaling for high resolution
+        const scale = 2;
+        const viewport = page.getViewport({ scale });
+
+        // Create a canvas to render the PDF page
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        // Render the PDF page into the canvas
+        await page.render({ canvasContext: context, viewport }).promise;
+
+        // Convert canvas to Base64 string
+        const base64String = canvas.toDataURL("image/png");
+
+        return base64String;
+    } catch (error) {
+        console.error("Error converting PDF to Base64:", error);
+        return null;
+    }
 }
 
 //// Loading data from Github API ////
