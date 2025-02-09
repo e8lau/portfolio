@@ -109,6 +109,16 @@ div.projects article p.year {
   color: gray;
 }
 
+div.projects article img {
+  width: 100%;
+  height: auto;
+  /* max-height: 200px; /* Adjust as needed */ */
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  display: block;
+  border-radius: 8px; /* Optional: rounded corners */
+}
+
 h1 {
   font-size: 400%;
 }
