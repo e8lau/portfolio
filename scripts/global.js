@@ -178,7 +178,7 @@ export async function renderProjects(projects, containerElement, headingLevel = 
     if (project.file.endsWith(".pdf")) {
       // thumbnail = "thumbnails/PDF_thumb.png";
       try {
-        thumbnail = await pdfToBase64(project.file);
+        thumbnail = await pdfToBase64(thumbnail);
         if (!thumbnail) throw new Error("Thumbnail conversion failed");
         console.log("Thumbnail Generated");
       } catch(error) {
