@@ -168,7 +168,7 @@ export async function renderProjects(projects, containerElement, headingLevel = 
 
     // Prepend ../ if not in home directory
     let filepath = (!ARE_WE_HOME ? '../' : '') + project.file;
-    let thumbnail = "thumbnails/PDF_thumb.png"; // Fallback default
+    let thumbnail = (!ARE_WE_HOME ? '../' : '') + "thumbnails/PDF_thumb.png"; // Fallback default
 
     // Image Types
     const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff", ".svg"];
@@ -185,8 +185,6 @@ export async function renderProjects(projects, containerElement, headingLevel = 
         console.log("Thumbnail failed")
       }
     }
-    // Prepend ../ if not in home directory
-    thumbnail = (!ARE_WE_HOME ? '../' : '') + thumbnail;
 
     // Create article element
     const article = document.createElement('article');
