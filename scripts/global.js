@@ -164,7 +164,7 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     if (!project || !project.title || !project.description || !project.file) {
         console.warn("Skipping invalid project:", project);
         return;
-    }*//
+    }**/
   const projectElements = await Promise.all(projects.map(async (project) => {
     if (!project || !project.title || !project.description || !project.file) {
       console.warn("Skipping invalid project:", project);
