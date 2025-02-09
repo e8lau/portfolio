@@ -185,7 +185,7 @@ export async function renderProjects(projects, containerElement, headingLevel = 
     }
 
     // Prepend ../ if not in home directory
-    if ((!ARE_WE_HOME) && (!isBase64)) thumbnail = '../' + thumbnail;
+    if (!ARE_WE_HOME) thumbnail = '../' + thumbnail;
 
     // Create article element
     const article = document.createElement('article');
