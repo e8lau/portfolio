@@ -9,9 +9,9 @@ function $$(selector, context = document) {
 // create pages
 let pages = [
     { url: '../', title: 'Home'},
-    { url: 'pages/projects.html', title: 'Projects'},
+    { url: '../pages/projects.html', title: 'Projects'},
     //{ url: 'pages/resume.html', title: 'Resume'},
-    { url: 'pages/contact.html', title: 'Contact'},
+    { url: '../pages/contact.html', title: 'Contact'},
     { url: 'https://github.com/e8lau', title: 'Github'},
 ]
 
@@ -168,8 +168,13 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
 
     // Determine thumbnail image
     let thumbnail = "../thumbnails/PDF_thumb.png"; // Fallback default
+    // 3.9 CHANGE BELOW
     if (project.file.endsWith(".pdf")) {
-      thumbnail = "../thumbnails/PDF_thumb.png";
+      try {
+        thumbnail = await generatePDFThumbnail(project.file);
+      } catch (error) {
+        console.error("Error generating PDF thumbnail:", error);
+      }
     } else if (project.file) {
       thumbnail = project.file; // Use provided image if available
     }
@@ -186,6 +191,26 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     // Append to container
     containerElement.appendChild(article);
   });
+}
+
+// Convert PDF to image thumbnail
+async function generatePDFThumbnail(pdfPath) {
+  const pdf = await getDocument(pdfPath).promise;
+  const page = await pdf.getPage(1);
+  const scale = 1.5;
+  const viewport = page.getViewport({ scale });
+
+  // Create a hidden canvas
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  canvas.width = viewport.width;
+  canvas.height = viewport.height;
+
+  // Render PDF page onto the canvas
+  await page.render({ canvasContext: context, viewport }).promise;
+
+  // Convert canvas to Base64 image URL
+  return canvas.toDataURL("image/png");
 }
 
 //// Loading data from Github API ////
