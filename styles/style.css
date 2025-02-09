@@ -134,6 +134,7 @@ article.resume h2 {
   border-bottom-color: var(--border-color);
 }
 
+/* Default (Light Mode) */
 .profile-photo {
   width: 100%; 
   max-width: 400px;
@@ -144,7 +145,15 @@ article.resume h2 {
   object-fit: cover;
   object-position: top;
   display: block;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
   margin: 10px auto;
+}
+/* Dark Mode (Neon Glow) */
+@media (prefers-color-scheme: dark) {
+    .profile-photo {
+        box-shadow: 0px 0px 15px rgba(0, 255, 170, 0.6); /* Neon green glow */
+    }
 }
 
 #profile-stats dl {
