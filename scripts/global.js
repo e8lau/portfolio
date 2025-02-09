@@ -192,8 +192,9 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
       <${headingLevel}>${project.title}</${headingLevel}>
       ${thumbnail ? `<img src="${thumbnail}" alt="${project.title}">` : ''}
       <div>
-      <p>${project.description}</p>
-      <p class="year"><i>c.</i> ${project.year}</p></div>
+        <p>${project.description}</p>
+        <p class="year"><i>c.</i> ${project.year}</p>
+      </div>
     `;
     
     return article;
