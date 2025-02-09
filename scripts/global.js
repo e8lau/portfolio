@@ -168,7 +168,12 @@ export async function renderProjects(projects, containerElement, headingLevel = 
 
     // Determine thumbnail image
     let thumbnail = "thumbnails/PDF_thumb.png"; // Fallback default
-    let isBase64 = false;
+
+    if (project.file) {
+      thumbnail = project.file;
+      // Prepend ../ if not in home directory
+    }
+    if (!ARE_WE_HOME) thumbnail = '../' + thumbnail;
     
     if (project.file.endsWith(".pdf")) {
       // thumbnail = "thumbnails/PDF_thumb.png";
@@ -176,16 +181,10 @@ export async function renderProjects(projects, containerElement, headingLevel = 
         thumbnail = await pdfToBase64(project.file);
         if (!thumbnail) throw new Error("Thumbnail conversion failed");
         console.log("Thumbnail Generated");
-        isBase64 = true;
       } catch(error) {
         console.log("Thumbnail failed")
       }
-    } else if (project.file) {
-      thumbnail = project.file; // Use provided image if available
     }
-
-    // Prepend ../ if not in home directory
-    if (!ARE_WE_HOME) thumbnail = '../' + thumbnail;
 
     // Create article element
     const article = document.createElement('article');
