@@ -136,7 +136,7 @@ article.resume h2 {
 
 /* Default (Light Mode) */
 .profile-photo {
-  width: 100%;
+  width: 100%; 
   max-width: 400px;
   min-width: 300px;
   height: auto;
@@ -145,36 +145,33 @@ article.resume h2 {
   object-fit: cover;
   object-position: top;
   display: block;
-  padding: 12px; /* Space for rings */
-  position: relative;
-  background: black; /* Base color for inner ring */
+  padding: 12px; /* Increased padding to ensure border effect */
+  background: linear-gradient(135deg, #ddd, #bbb, #888); /* Refined metallic gradient */
   box-shadow:
-      0 0 0 8px black, /* Inner black ring */
-      0 0 0 14px silver, /* Outer silver ring */
-      5px -5px 15px rgba(255, 255, 255, 0.6), /* Shine effect (top-right) */
-      -5px 5px 10px rgba(0, 0, 0, 0.5); /* Bottom-left shadow */
-  transition: all 0.3s ease-in-out;
-  margin: 10px auto;
+      inset 0 0 5px rgba(0, 0, 0, 0.3), /* Inner shading for metal texture */
+      0 0 0 5px black, /* Inner black ring */
+      0 0 0 12px transparent, /* Space for outer silver ring */
+      5px -5px 20px rgba(255, 255, 255, 0.8), /* Shine effect at the top right */
+      -5px 5px 10px rgba(0, 0, 0, 0.5), /* Bottom left shadow */
+      10px 10px 20px rgba(0, 0, 0, 0.6); /* Full outer shadow bottom-right */
 }
 
-/* Metallic Shine Effect */
-.profile-photo::before {
+/* Outer ring effect */
+.profile-photo::after {
   content: "";
   position: absolute;
-  top: -2px;
-  left: -2px;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  padding: 12px;
-  background: radial-gradient(circle at 70% 30%, 
-      rgba(255, 255, 255, 0.8) 0%, 
-      rgba(192, 192, 192, 1) 30%, 
-      rgba(128, 128, 128, 1) 60%, 
-      rgba(64, 64, 64, 1) 100%);
-  mask: radial-gradient(circle, rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 1) 90%);
-  mix-blend-mode: overlay;
-  pointer-events: none;
+  padding: 12px; /* Ensure space for the outer glow effect */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(180, 180, 180, 0.9), rgba(100, 100, 100, 0.9)); /* Silver gradient with shine */
+  box-shadow: 
+      5px -5px 15px rgba(255, 255, 255, 0.6), /* Enhanced shine on top right */
+      -5px 5px 10px rgba(0, 0, 0, 0.4), /* Subtle shadow */
+      10px 10px 20px rgba(0, 0, 0, 0.6); /* Stronger depth shadow */
+  z-index: -1; /* Keeps it behind the image */
 }
 
 #profile-stats dl {
