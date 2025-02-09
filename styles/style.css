@@ -113,9 +113,9 @@ div.projects article img {
   width: 100%;
   height: auto;
   /* max-height: 200px; /* Adjust as needed */ */
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   object-position: center;
-  aspect-ratio: 1 / 1;
   display: block;
   border-radius: 8px; /* Optional: rounded corners */
 }
@@ -139,12 +139,13 @@ article.resume h2 {
   width: 100%; 
   max-width: 400px;
   min-width: 300px;
-  border-radius: 50%;
   height: auto;
-  margin: 10px auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
   object-fit: cover;
   object-position: top;
   display: block;
+  margin: 10px auto;
 }
 
 #profile-stats dl {
