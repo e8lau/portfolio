@@ -166,19 +166,16 @@ export async function renderProjects(projects, containerElement, headingLevel = 
         return;
     }
 
-    // Determine thumbnail image
-    let thumbnail = "thumbnails/PDF_thumb.png"; // Fallback default
+    // Prepend ../ if not in home directory
+    let filepath = (if (!ARE_WE_HOME) '../') + project.file;
+    let thumbnail = (if (!ARE_WE_HOME) '../') + "thumbnails/PDF_thumb.png"; // Fallback default
 
-    if (project.file) {
-      thumbnail = project.file;
-      // Prepend ../ if not in home directory
-    }
-    if (!ARE_WE_HOME) thumbnail = '../' + thumbnail;
-    
-    if (project.file.endsWith(".pdf")) {
+    if (filepath) {
+      thumbnail = filepath;
+    } else if (project.file.endsWith(".pdf")) {
       // thumbnail = "thumbnails/PDF_thumb.png";
       try {
-        thumbnail = await pdfToBase64(thumbnail);
+        thumbnail = await pdfToBase64(filepath);
         if (!thumbnail) throw new Error("Thumbnail conversion failed");
         console.log("Thumbnail Generated");
       } catch(error) {
