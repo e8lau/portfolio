@@ -167,9 +167,9 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     }
 
     // Determine thumbnail image
-    let thumbnail = "../thumbnails/PDF_thumb.png"; // Fallback default
+    let thumbnail = "./thumbnails/PDF_thumb.png"; // Fallback default
     if (project.file.endsWith(".pdf")) {
-      thumbnail = "../thumbnails/PDF_thumb.png";
+      thumbnail = "./thumbnails/PDF_thumb.png";
     } else if (project.file) {
       thumbnail = project.file; // Use provided image if available
     }
