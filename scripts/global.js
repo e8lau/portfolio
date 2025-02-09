@@ -8,10 +8,10 @@ function $$(selector, context = document) {
 
 // create pages
 let pages = [
-    { url: '../', title: 'Home'},
-    { url: '../pages/projects.html', title: 'Projects'},
+    { url: '', title: 'Home'},
+    { url: 'pages/projects.html', title: 'Projects'},
     //{ url: 'pages/resume.html', title: 'Resume'},
-    { url: '../pages/contact.html', title: 'Contact'},
+    { url: 'pages/contact.html', title: 'Contact'},
     { url: 'https://github.com/e8lau', title: 'Github'},
 ]
 
