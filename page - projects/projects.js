@@ -8,7 +8,7 @@ let globalNewData = [];
 // Fetch project data
 async function loadProjects() {
     try {
-        const projects = await fetchJSON('../Archive/projects.json');
+        const projects = await fetchJSON('../page - projects/projects.json');
         const projectsContainer = document.querySelector('.projects');
         const projectCountElement = document.querySelector('.projects-title');
 
@@ -112,7 +112,7 @@ function renderPieChart(projectsGiven) {
     }
 }
 
-let projects = await fetchJSON('../Archive/projects.json'); // fetch your project data
+let projects = await fetchJSON('../page - projects/projects.json'); // fetch your project data
 renderPieChart(projects)
 loadProjects();
 
