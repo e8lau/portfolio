@@ -22,6 +22,19 @@ document.body.prepend(nav);
 // create constant variable that checks for home class in page
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
 
+// If home page, add a special class to <nav>
+if (ARE_WE_HOME) {
+  nav.classList.add('home-nav');
+  let homeLayout = document.querySelector('.home-layout');
+
+  if (homeLayout) {
+    homeLayout.appendChild(nav);
+  } else {
+    // If not on the home page, prepend to <body> as usual
+    document.body.prepend(nav);
+  }
+}
+
 // create links and add attributes as needed
 for (let p of pages) {
     let url = p.url;
