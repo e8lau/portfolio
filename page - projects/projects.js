@@ -67,25 +67,44 @@ function renderPieChart(projectsGiven) {
         console.error("SVG container not found!");
     } else {
         newArcs.forEach((arc, idx) => {
-            newSVG.append('path')
-                .attr('d', arc)
-                .attr("fill", colors(idx))
-                .attr('data-index', idx)
-                .on('click', function() {
-                    selectedIndex = selectedIndex === idx ? -1 : idx;
-                    
-                    newSVG.selectAll('path')
-                        .attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '');
-                    
-                    newLegend.selectAll('li')
-                        .attr('class', (_, idx) => idx === selectedIndex ? 'legend-item selected' : 'legend-item');
-                    
-                    globalIndex = selectedIndex;
-
-                    filterAndRenderProjects(projectsGiven, selectedIndex, newData)
-              });
+            // Create and store the path element
+            let path = newSVG.append('path')
+              .attr('d', arc)
+              .attr('fill', colors(idx))
+              .attr('data-index', idx);
+          
+            // Append a title to the path for the tooltip
+            path.append('title')
+                .text('${newData[idx].label}: ${newData[idx].value}');
+          
+            // Attach the click event to the path element
+            path.on('click', function() {
+                selectedIndex = selectedIndex === idx ? -1 : idx;
+                
+                newSVG.selectAll('path')
+                    .attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '');
+                
+                newLegend.selectAll('li')
+                    .attr('class', (_, idx) => idx === selectedIndex ? 'legend-item selected' : 'legend-item');
+                
+                globalIndex = selectedIndex;
+                filterAndRenderProjects(projectsGiven, selectedIndex, newData);
+            });
         });
     }
+
+    // Append text elements to display labels inside each slice
+    newSVG.selectAll('text')
+    .data(newArcData)
+    .enter()
+    .append('text')
+    .attr('transform', d => `translate(${arcGenerator.centroid(d)})`)
+    .attr('text-anchor', 'middle')
+    .attr('dy', '0.35em') // vertical alignment
+    .attr('class', 'pie-chart-label') // Apply CSS class
+    .text(d => `${d.data.label} count: ${d.data.value}`);
+
+
     // Add legend
     if (newLegend.empty()) {
         console.error("Legend container not found!");

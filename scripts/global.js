@@ -22,14 +22,15 @@ document.body.prepend(nav);
 
 // create constant variable that checks for home class in page
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
+const IS_FANCY_LAYOUT = document.querySelector('.fancy-layout') !== null;
 
 // If home page, add a special class to <nav>
-if (ARE_WE_HOME) {
-  nav.classList.add('home-nav');
-  let homeLayout = document.querySelector('.home-layout');
+if (IS_FANCY_LAYOUT) {
+  nav.classList.add('fancy-nav');
+  let fancyLayout = document.querySelector('.fancy-layout');
 
-  if (homeLayout) {
-    homeLayout.appendChild(nav);
+  if (fancyLayout) {
+    fancyLayout.appendChild(nav);
   } else {
     // If not on the home page, prepend to <body> as usual
     document.body.prepend(nav);
