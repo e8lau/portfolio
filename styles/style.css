@@ -1,5 +1,5 @@
 :root {
-  --color-accent: oklch(50% 30% 120 / 40%);
+  --color-accent: rgb(88, 113, 255);
   --border-color: oklch(50% 10% 200 / 40%)
 }
 
@@ -31,6 +31,8 @@ nav {
   justify-content: center;
   gap: 2rem;
   background: var(--color-panel);
+  font-size: 1rem;
+  font-weight: 500;
   padding: 1rem 2rem;
   border-radius: 2rem;
   margin: 2rem auto;
@@ -61,9 +63,9 @@ nav {
 }
 
 .home-nav a {
-  display: block;
   min-width: 10rem; /* Ensures they don’t shrink below a reasonable size */
   max-width: 15rem; /* Prevents them from being too wide */
+  margin: 0.25rem 0; /* small vertical spacing */
   text-align: center;
   padding: 0.6rem 1.2rem;
 }
@@ -77,19 +79,17 @@ nav li {
 }
 
 nav a {
-  display: inline-block;
   color: inherit;
   padding: 0.6rem 1.2rem;
-  margin: 0.25rem 0; /* small vertical spacing */
-  font-size: 1rem;
-  font-weight: 500;
   text-decoration: none;
   border: 2px solid #888;         /* subtle border */
   border-radius: 2rem;           /* large radius => pill shape */
   background: #f5f5f5; 
-  box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
   cursor: pointer;
-  transition: transform 0.2s ease-in-out;
+
+  box-shadow:
+    -2px 2px 6px rgba(0, 0, 0, 0.4),
+    -4px -2px 6px rgba(255, 255, 255, 0.6);
 }
 
 nav a.current {
@@ -99,12 +99,14 @@ nav a.current {
   border-bottom-color: var(--border-color);
 }
 
-nav a:hover {
-  color: #fff;
+a:hover {
   border-bottom-width: 0.4em;
   border-bottom-style: solid;
   border-bottom-color: var(--color-accent);
-  background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
+  box-shadow:
+    -2px 4px 6px rgba(40, 50, 100, 0.8),
+    4px 0px 6px rgba(255, 255, 255, 0.8);
+  transition: all 0.2s ease-in-out;
 }
 
 input, textarea, button, select {
@@ -151,7 +153,7 @@ div.projects article {
 
   /* Subtle “neumorphic” or raised effect */
   box-shadow:
-    -2px 2px 6px rgba(0, 0, 0, 0.2),
+    -2px 2px 6px rgba(0, 0, 0, 0.4),
     -4px -2px 6px rgba(255, 255, 255, 0.6);
 
   /* Switch from grid to flex for simpler vertical stacking */
@@ -168,8 +170,8 @@ div.projects article {
 div.projects article:hover {
   transform: translateY(-4px);
   box-shadow:
-    -4px 4px 12px rgba(17, 19, 37, 0.5),
-    8px -4px 12px rgba(255, 255, 255, 0.8);
+    -2px 4px 6px rgba(40, 50, 100, 0.8),
+    4px 0px 6px rgba(255, 255, 255, 0.8);
 }
 
 /* Headings: slightly bigger, bolder, centered */
@@ -198,6 +200,10 @@ div.projects article img {
   object-position: center;
   border-radius: 0.5rem;  /* a bit of rounding */
   display: block;
+}
+
+div.projects article img:hover {
+  border-color: var(--border-color);
 }
 
 .about-education {
@@ -411,7 +417,6 @@ path {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: var(--color-accent);
     color: inherit;
     border: none;
     padding: 8px 12px;

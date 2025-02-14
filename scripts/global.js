@@ -52,7 +52,7 @@ for (let p of pages) {
     // have link open new path if external link
     if (a.host !== location.host) {
         a.target = "_blank";
-      }
+    }
 }
 
 //// Add Light and Dark Mode Toggle Button (Preserving Original Functionality) ////
@@ -66,11 +66,13 @@ document.body.insertAdjacentHTML(
 let themeButton = document.getElementById('theme-toggle');
 let currentTheme = localStorage.colorScheme || 'light dark'; // Default to Auto mode
 
+function getTimeBasedTheme() {
+  const hour = new Date().getHours();
+  return (hour >= 19 || hour < 7) ? 'dark' : 'light'; // Dark mode from 7 PM to 7 AM
+}
+
 // Function to apply the selected theme
 function applyTheme(theme) {
-    document.documentElement.style.setProperty('color-scheme', theme);
-    localStorage.colorScheme = theme;
-
     // Update button text to reflect the current mode
     if (theme === 'dark') {
         themeButton.textContent = '🌙 Dark Mode';
@@ -79,6 +81,13 @@ function applyTheme(theme) {
     } else {
         themeButton.textContent = '🌓 Auto Mode';
     }
+
+    if (theme === 'light dark') {
+        theme = getTimeBasedTheme(); // Auto mode uses time-based theme
+    }
+
+    document.documentElement.style.setProperty('color-scheme', theme);
+    localStorage.colorScheme = theme;
 }
 
 // Function to cycle through themes
