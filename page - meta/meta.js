@@ -229,10 +229,10 @@ function isCommitSelected(commit) {
     if (!brushSelection) return false; 
     const min = { x: brushSelection[0][0], y: brushSelection[0][1] }; 
     const max = { x: brushSelection[1][0], y: brushSelection[1][1] }; 
-    const x = xScale(commit.date); 
+    const x = xScale(commit.datetime);  // Changed from commit.date to commit.datetime
     const y = yScale(commit.hourFrac); 
     return x >= min.x && x <= max.x && y >= min.y && y <= max.y; 
-} 
+}
   
 function updateSelection() {
     // Update visual state of dots based on selection
@@ -293,5 +293,3 @@ document.addEventListener('DOMContentLoaded', async () =>{
     createScatterplot();
     brushSelector()
 });
-
-

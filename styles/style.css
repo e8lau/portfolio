@@ -59,7 +59,7 @@ html {
   background: var(--bg);
   color: var(--txt);
   accent-color: var(--accent);
-  min-width: 800px;
+  min-width: 400px;
 }
 
 label.color-scheme {
