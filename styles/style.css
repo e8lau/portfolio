@@ -59,6 +59,7 @@ html {
   background: var(--bg);
   color: var(--txt);
   accent-color: var(--accent);
+  min-width: 320px;
 }
 
 label.color-scheme {
@@ -307,8 +308,7 @@ section p {
 .profile-photo {
   display: block;
   width: 100%;
-  max-width: 400px; 
-  min-width: 300px;
+  max-width: 400px;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   object-fit: cover;
@@ -322,7 +322,7 @@ section p {
   border-radius: 50%;
   
   /* The padding will be your "border" thickness */
-  padding: 10px; 
+  padding: 0.6rem; 
 
   /* Radial gradient for the metallic look */
   background: radial-gradient(
@@ -334,7 +334,7 @@ section p {
     #303030 100%
   );
 
-  border: 2px solid black;
+  border: 0.15rem solid black;
 
   box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.5);
   margin: 10px auto;
@@ -357,9 +357,9 @@ section p {
 :root[colorTheme='dark'] .profile-photo-container::before {
   content: '';
   position: absolute;
-  top: -50px;  /* Adjust position */
-  left: -50px; /* Adjust position */
-  width: calc(100% + 100px); /* Slightly bigger than profile photo */
+  top: -3.5rem;  /* Adjust position */
+  left: -3.5rem; /* Adjust position */
+  width: calc(100% + 7rem); /* Slightly bigger than profile photo */
   aspect-ratio: 1/1;
   border-radius: 50%;
   background: black;
