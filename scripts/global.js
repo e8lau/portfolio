@@ -11,7 +11,7 @@ let pages = [
   { url: '', title: 'Home'},
   { url: 'page - projects/', title: 'Projects'},
   { url: 'page - contact/', title: 'Contact'},
-  { url: 'meta/', title: 'Meta'},
+  { url: 'page - meta/', title: 'Meta'},
   { url: 'https://www.linkedin.com/in/ethan-lau-5b75701b9/', title: 'LinkedIn'},
   { url: 'https://github.com/e8lau', title: 'Github'},
 ]
@@ -189,16 +189,21 @@ export async function renderProjects(projects, containerElement, headingLevel = 
     // Prepend ../ if not in home directory
     let filepath = (!ARE_WE_HOME ? '../' : '') + project.file;
     let thumbnail = (!ARE_WE_HOME ? '../' : '') + "thumbnails/PDF_thumb.png"; // Fallback default
+    let thumbpath = filepath;
+
+    if (project.thumbnail) {
+      thumbpath = (!ARE_WE_HOME ? '../' : '') + project.thumbnail;
+    }
 
     // Image Types
     const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff", ".svg"];
     // Check Image Types
-    if (imageExtensions.some(ext => filepath.endsWith(ext))) {
-      thumbnail = filepath;
-    } else if (filepath.endsWith(".pdf")) {
+    if (imageExtensions.some(ext => thumbpath.endsWith(ext))) {
+      thumbnail = thumbpath;
+    } else if (thumbpath.endsWith(".pdf")) {
       // thumbnail = "thumbnails/PDF_thumb.png";
       try {
-        thumbnail = await pdfToBase64(filepath);
+        thumbnail = await pdfToBase64(thumbpath);
         if (!thumbnail) throw new Error("Thumbnail conversion failed");
         console.log("Thumbnail Generated");
       } catch(error) {
