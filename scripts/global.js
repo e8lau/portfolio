@@ -12,6 +12,7 @@ let pages = [
   { url: 'page - projects/', title: 'Projects'},
   { url: 'page - contact/', title: 'Contact'},
   { url: 'meta/', title: 'Meta'},
+  { url: 'https://www.linkedin.com/in/ethan-lau-5b75701b9/', title: 'LinkedIn'},
   { url: 'https://github.com/e8lau', title: 'Github'},
 ]
 
@@ -64,7 +65,7 @@ document.body.insertAdjacentHTML(
 );
 
 let themeButton = document.getElementById('theme-toggle');
-let currentTheme = localStorage.colorScheme || 'light dark'; // Default to Auto mode
+let currentTheme = localStorage.colorScheme || 'auto'; // Default to Auto mode
 
 function getTimeBasedTheme() {
   const hour = new Date().getHours();
@@ -80,24 +81,22 @@ function applyTheme(theme) {
         themeButton.textContent = '🌞 Light Mode';
     } else {
         themeButton.textContent = '🌓 Auto Mode';
+        theme = getTimeBasedTheme();
     }
 
-    if (theme === 'light dark') {
-        theme = getTimeBasedTheme(); // Auto mode uses time-based theme
-    }
-
-    document.documentElement.style.setProperty('color-scheme', theme);
+    console.log(theme)
+    document.documentElement.setAttribute('colorTheme', theme);
     localStorage.colorScheme = theme;
 }
 
 // Function to cycle through themes
 function toggleTheme() {
-    if (currentTheme === 'light dark') {
+    if (currentTheme === 'auto') {
         currentTheme = 'light';  // Auto → Light
     } else if (currentTheme === 'light') {
         currentTheme = 'dark';  // Light → Dark
     } else {
-        currentTheme = 'light dark';  // Dark → Auto
+        currentTheme = 'auto';  // Dark → Auto
     }
 
     applyTheme(currentTheme);

@@ -1,11 +1,64 @@
 :root {
-  --color-accent: rgb(88, 113, 255);
-  --border-color: oklch(50% 10% 200 / 40%)
+  --border-dark: oklch(50% 10% 200 / 40%);
+  
+  /* Light Mode */
+  --bg-light: linear-gradient(to bottom left, #f4f4f4 0%, #cccccc 80%, #616161 100%);
+  --txt-light: #000;
+  --accent-light: rgb(88, 113, 255);
+  --border-dark-light: #888;
+  --border-light-light: rgb(136, 136, 136);
+  --panel-light: #ffffff;
+  --card-light: #ebebeb;
+  --nav-bg-light: #f5f5f5;
+  --shadow-light: -4px 4px 8px rgba(0, 0, 0, 0.3);
+  --shadow-light-hover: -6px 6px 12px rgba(0, 0, 0, 0.5);
+
+  /* Dark Mode */
+  --bg-dark: radial-gradient(circle at 50% 15%, rgb(52, 57, 59), #111);
+  --txt-dark: #ffffff;
+  --accent-dark: rgb(120, 220, 255);
+  --border-dark-dark: rgb(136, 136, 136);
+  --border-light-dark: rgb(136, 136, 136);
+  --panel-dark: linear-gradient(to bottom, rgba(68, 68, 68, 0.95), rgba(34, 34, 34, 0.85));
+  --card-dark: #212121;
+  --nav-bg-dark: #333333;
+  --shadow-dark: -4px 4px 12px rgba(255, 255, 255, 0.1);
+  --shadow-dark-hover: -6px 6px 16px rgba(255, 255, 255, 0.3);
+}
+
+/* Color-scheme documentation: https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme */
+:root[colorTheme='light'] {
+  --bg: var(--bg-light);
+  --txt: var(--txt-light);
+  --accent: var(--accent-light);
+  --border-dark: var(--border-dark-light);
+  --border-light: var(--border-light-light);
+  --color-panel: var(--panel-light);
+  --card-bg: var(--card-light);
+  --nav-bg: var(--nav-bg-light);
+  --shadow: var(--shadow-light);
+  --shadow-hover: var(--shadow-light-hover);
+  color-scheme: light;
+}
+
+:root[colorTheme='dark'] {
+  --bg: var(--bg-dark);
+  --txt: var(--txt-dark);
+  --accent: var(--accent-dark);
+  --border-dark: var(--border-dark-dark);
+  --border-light: var(--border-light-dark);
+  --color-panel: var(--panel-dark);
+  --card-bg: var(--card-dark);
+  --nav-bg: var(--nav-bg-dark);
+  --shadow: var(--shadow-dark);
+  --shadow-hover: var(--shadow-dark-hover);
+  color-scheme: dark;
 }
 
 html {
-  background: linear-gradient(to bottom left, #f4f4f4 0%, #d4d4d4 100%);
-  color: #000
+  background: var(--bg);
+  color: var(--txt);
+  accent-color: var(--accent);
 }
 
 label.color-scheme {
@@ -16,27 +69,22 @@ label.color-scheme {
 }
 
 body {
-    /* Set line height to 1.5 times the font size
-         and use the OS’s UI font as the website font
-       */
     font: 100%/1.5 system-ui;
     max-width: 100ch;
     margin-inline: auto;
     padding: 20px;
-    accent-color: var(--color-accent);
   }
 
 nav {
   display: flex;
   justify-content: center;
   gap: 2rem;
-  background: var(--color-panel);
   font-size: 1rem;
   font-weight: 500;
   padding: 1rem 2rem;
   border-radius: 2rem;
   margin: 2rem auto;
-  width: fit-content; /* or 100% if you prefer full width */
+  width: fit-content;
 }
 
 /* Home Page Layout: Profile + Banner on the Left, Nav on the Right */
@@ -82,31 +130,27 @@ nav a {
   color: inherit;
   padding: 0.6rem 1.2rem;
   text-decoration: none;
-  border: 2px solid #888;         /* subtle border */
+  border: 2px solid var(--border-dark);         /* subtle border */
   border-radius: 2rem;           /* large radius => pill shape */
-  background: #f5f5f5; 
+  background: var(--nav-bg);
   cursor: pointer;
-
-  box-shadow:
-    -2px 2px 6px rgba(0, 0, 0, 0.4),
-    -4px -2px 6px rgba(255, 255, 255, 0.6);
+  box-shadow: var(--shadow);
 }
 
 nav a.current {
-  color: rgb(38, 0, 255);
+  color: var(--accent);
   border-bottom-width: 0.4em;
   border-bottom-style: solid;
-  border-bottom-color: var(--border-color);
+  border-bottom-color: var(--border-dark);
 }
 
 a:hover {
   border-bottom-width: 0.4em;
   border-bottom-style: solid;
-  border-bottom-color: var(--color-accent);
-  box-shadow:
-    -2px 4px 6px rgba(40, 50, 100, 0.8),
-    4px 0px 6px rgba(255, 255, 255, 0.8);
-  transition: all 0.2s ease-in-out;
+  border-bottom-color: var(--accent);
+  box-shadow: var(--shadow-hover);
+  transform: translate(-2px, 2px);
+  transition: all 0.3s ease-in;
 }
 
 input, textarea, button, select {
@@ -146,15 +190,12 @@ div.projects article {
   gap: 1em;
 
   /* Make each item a card with a background */
-  background: rgb(235, 235, 235);
+  background: var(--card-bg);
   border-radius: 1rem;
   overflow: hidden; /* ensures the border-radius applies cleanly to child elements */
   padding: 1rem;
 
-  /* Subtle “neumorphic” or raised effect */
-  box-shadow:
-    -2px 2px 6px rgba(0, 0, 0, 0.4),
-    -4px -2px 6px rgba(255, 255, 255, 0.6);
+  box-shadow: var(--shadow);
 
   /* Switch from grid to flex for simpler vertical stacking */
   display: flex;
@@ -162,16 +203,13 @@ div.projects article {
   align-items: center;
   gap: 0.5rem;
 
-  /* Smooth hover motion */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 2px solid rgb(136, 136, 136);
+  transition: all 0.3s ease-in;
+  border: 2px solid var(--border-dark);
 }
 
 div.projects article:hover {
   transform: translateY(-4px);
-  box-shadow:
-    -2px 4px 6px rgba(40, 50, 100, 0.8),
-    4px 0px 6px rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-hover);
 }
 
 /* Headings: slightly bigger, bolder, centered */
@@ -186,7 +224,7 @@ div.projects article h2 {
 div.projects article p.year {
   font-family: Baskerville, serif;
   font-variant-numeric: oldstyle-nums;
-  color: gray;
+  color: var(--border-light);
   margin-bottom: 0.5rem;
   text-align: center;
 }
@@ -203,7 +241,7 @@ div.projects article img {
 }
 
 div.projects article img:hover {
-  border-color: var(--border-color);
+  border-color: var(--border-dark);
 }
 
 .about-education {
@@ -227,6 +265,7 @@ div.projects article img:hover {
   /* If you want each section to stay around 60ch, you can do:
   max-width: 60ch; 
   */
+  box-shadow: var(--shadow);
 }
 
 h1 {
@@ -265,8 +304,19 @@ section p {
   margin-bottom: 1rem;
 }
 
-.metallic-border-container {
-  /* Make the container a circle */
+.profile-photo {
+  display: block;
+  width: 100%;
+  max-width: 400px; 
+  min-width: 300px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* LIGHT MODE Profile */
+:root[colorTheme='light'] .profile-photo-container {
   display: block;
   width: fit-content;
   border-radius: 50%;
@@ -290,18 +340,86 @@ section p {
   margin: 10px auto;
 }
 
-.profile-photo {
-  /* Ensure the image is circular as well */
-  display: block;
-  width: 100%;
-  max-width: 400px; 
-  min-width: 300px;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: top;
+:root[colorTheme='light'] .profile-photo {
+  border: 4px solid black; /* subtle black inner border */
+  box-shadow: 20px -20px 20px rgba(255, 255, 255, 1)
+}
 
-  border: 5px solid black;
+/* DARK MODE Profile */
+
+:root[colorTheme='dark'] .profile-photo-container {
+  position: relative;
+  display: inline-block;
+
+  margin: 20px auto;
+}
+
+:root[colorTheme='dark'] .profile-photo-container::before {
+  content: '';
+  position: absolute;
+  top: -50px;  /* Adjust position */
+  left: -50px; /* Adjust position */
+  width: calc(100% + 100px); /* Slightly bigger than profile photo */
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  background: black;
+  z-index: -2; /* Behind everything */
+  border: 2px solid rgb(194, 194, 194, 0.8);
+}
+
+:root[colorTheme='dark'] .profile-photo {
+  position: relative;
+}
+
+:root[colorTheme='dark'] .profile-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: calc(100%);
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+}
+
+:root[colorTheme='dark'] .profile-ring::before {
+  content: '';
+  position: absolute;
+  inset: -1.5rem;
+  z-index: -1;
+  background: conic-gradient(
+    from var(--gradient-angle),
+    rgba(255, 255, 255, 0.6),
+    rgba(216, 238, 255, 0.6),
+    rgba(109, 192, 255, 0.6)
+  );
+  filter: blur(1rem);
+  border-radius: inherit;
+  animation: rotation 10s linear infinite;
+}
+
+:root[colorTheme='dark'] .profile-ring::after {
+  content: '';
+  position: absolute;
+  inset: -0.5rem;  /* Adjust thickness */
+  border-radius: inherit;
+  z-index: -2;
+  background: conic-gradient(
+    from var(--gradient-angle),
+    rgba(255, 255, 255, 0.8),
+    rgba(216, 238, 255, 0.8),
+    rgba(203, 232, 255, 0.8)
+  );
+  filter: blur(0.05rem);
+}
+
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes rotation {
+  0%   { --gradient-angle: 0deg; }
+  100% { --gradient-angle: 360deg; }
 }
 
 #profile-stats dl {
@@ -412,20 +530,26 @@ path {
     box-sizing: border-box;  /* Ensure padding is included in width calculation */
 }
 
-
 .theme-button {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    color: inherit;
-    border: none;
-    padding: 8px 12px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background 0.3s ease-in-out;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: inherit;
+  border: 2px solid transparent;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: normal;
+  transition: all 0.3s ease-in-out;
+
+  box-shadow: var(--shadow);
+  background: var(--nav-bg);
 }
 
 .theme-button:hover {
-    background: color-mix(in oklch, var(--color-accent), black 20%);
+  box-shadow: var(--shadow-hover);
+  transform: translate(-2px, 2px); /* Slight depth effect */
+  border: 2px solid var(--accent);
+  font-weight: bold;
 }
