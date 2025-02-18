@@ -84,7 +84,7 @@ function renderFullPieChart() {
         .on('mouseover', function(event) {
           tooltip
             .style('display', 'block')
-            .text(`Year ${pieData[i].label}'s count: ${pieData[i].value}`);
+            .text(`${pieData[i].value} ${pieData[i].value == 1 ? 'project' : 'projects'} in ${pieData[i].label}`);
         })
         .on('mousemove', function(event) {
           tooltip

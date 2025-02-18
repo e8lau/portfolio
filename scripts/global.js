@@ -214,9 +214,12 @@ export async function renderProjects(projects, containerElement, headingLevel = 
 
     // Create article element
     const article = document.createElement('article');
+    article.setAttribute("role", "link"); // Accessibility
+    article.style.cursor = "pointer"; // Make it look clickable
+    article.onclick = () => window.open(filepath, "_blank");
     article.innerHTML = `
       <${headingLevel}>${project.title}</${headingLevel}>
-      ${thumbnail ? `<a href="${filepath}" target="_blank"><img src="${thumbnail}" alt="${project.title}"></a>` : ''}
+      ${thumbnail ? `<img src="${thumbnail}" alt="${project.title}"></a>` : ''}
       <div>
         <p>${project.description}</p>
         <p class="year"><i>c.</i> ${project.year}</p>

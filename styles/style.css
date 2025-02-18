@@ -211,6 +211,7 @@ div.projects article {
 div.projects article:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
+  border-color: var(--accent);
 }
 
 /* Headings: slightly bigger, bolder, centered */
@@ -239,10 +240,6 @@ div.projects article img {
   object-position: center;
   border-radius: 0.5rem;  /* a bit of rounding */
   display: block;
-}
-
-div.projects article img:hover {
-  border-color: var(--border-dark);
 }
 
 .about-education {
