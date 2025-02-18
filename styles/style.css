@@ -478,14 +478,6 @@ span.swatch {
   border-radius: 50%;
 }
 
-.pie-chart-label {
-  font-size: 0.2rem;  /* Adjust size */
-  font-weight: bold;
-  fill: var(--txt-light);  /* Use dynamic text color based on theme */
-  text-anchor: center; /* Center text within slices */
-  pointer-events: none; /* Prevent interaction blocking */
-}
-
 /* Make chart legend look like a legend */
 .legend {
   display: grid;
@@ -702,3 +694,4 @@ circle.selected {
   font-size: 0.9em;
   margin: 0;
 }
+
