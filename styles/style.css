@@ -59,7 +59,8 @@ html {
   background: var(--bg);
   color: var(--txt);
   accent-color: var(--accent);
-  /* min-width: 400px; */
+  width: clamp(500px, 90%);
+  margin: 0 auto;
 }
 
 label.color-scheme {
@@ -76,46 +77,49 @@ body {
     padding: 20px;
   }
 
+.fancy-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  gap: 2rem;                     /* Consistent spacing between columns */
+  margin: 0rem auto;             /* Same margin as your sections */
+  padding: 2rem;                 /* Same padding as your sections */
+  max-width: 120ch;              /* Constrain width similar to other content */
+}
+
+/*
+@media (max-width: 800px) {
+  .fancy-layout {
+    grid-template-columns: 1fr;
+  }
+}
+*/
+
+.fancy-layout .column nav {
+  /* If you need further styling per column, add it here */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.fancy-layout .column nav a {
+  min-width: 10rem;
+  max-width: 15rem;
+  text-align: center;
+}
+
 nav {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
   gap: 2rem;
-  font-size: 1rem;
-  font-weight: 500;
+  margin: 2rem auto;
   padding: 1rem 2rem;
   border-radius: 2rem;
-  margin: 2rem auto;
+  align-items: center;
   width: fit-content;
-}
-
-/* Home Page Layout: Profile + Banner on the Left, Nav on the Right */
-.fancy-layout {
-  display: flex;
-  align-items: flex-start; /* Align the top of both sections */
-  gap: 2rem;  /* Space between the left and right side */
   justify-content: center;
-  margin: 2rem auto; /* Center it */
-}
-
-/* The profile and banner section on the left */
-.fancy-banner {
-  flex: 2; /* Takes up more space */
-}
-
-.fancy-nav {
-  display: flex;
-  flex-direction: column; /* Stack links vertically */
-  gap: 1rem; /* Space between each link */
-  flex: 1; /* Allow nav to take up less space than the banner */
-  align-items: flex-start; /* Align links to the left */
-}
-
-.fancy-nav a {
-  min-width: 10rem; /* Ensures they don’t shrink below a reasonable size */
-  max-width: 15rem; /* Prevents them from being too wide */
-  margin: 0.25rem 0; /* small vertical spacing */
-  text-align: center;
-  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 nav ul {
@@ -315,8 +319,9 @@ h1 {
   font-size: clamp(3rem, 5vw, 5rem);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-block: 1em;
   text-align: center;
+  margin-top: 0 auto;
+  margin-bottom: 3rem;
 }
 p {
   max-width: 60ch;
@@ -349,18 +354,17 @@ section p {
 
 .profile-photo {
   display: block;
-  width: 100%;
-  max-width: 400px;
+  width: clamp(200px, 50vw, 400px);
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   object-fit: cover;
   object-position: top;
+  margin: 0 auto;
 }
 
 /* LIGHT MODE Profile */
 :root[colorTheme='light'] .profile-photo-container {
   display: block;
-  width: fit-content;
   border-radius: 50%;
   
   /* The padding will be your "border" thickness */
@@ -399,9 +403,9 @@ section p {
 :root[colorTheme='dark'] .profile-photo-container::before {
   content: '';
   position: absolute;
-  top: -3.5rem;  /* Adjust position */
-  left: -3.5rem; /* Adjust position */
-  width: calc(100% + 7rem); /* Slightly bigger than profile photo */
+  top: -15%;  /* Adjust position */
+  left: -15%; /* Adjust position */
+  width: calc(130%); /* Slightly bigger than profile photo */
   aspect-ratio: 1/1;
   border-radius: 50%;
   background: black;

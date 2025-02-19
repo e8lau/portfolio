@@ -16,25 +16,18 @@ let pages = [
   { url: 'https://github.com/e8lau', title: 'Github'},
 ]
 
-// add nav element to the body of page
-let nav = document.createElement('nav');
-document.body.prepend(nav);
-
 // create constant variable that checks for home class in page
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
-const IS_FANCY_LAYOUT = document.querySelector('.fancy-layout') !== null;
 
-// If home page, add a special class to <nav> (used to use IS_FANCY_LAYOUT)
-if (ARE_WE_HOME) {
-  nav.classList.add('fancy-nav');
-  let fancyLayout = document.querySelector('.fancy-layout');
-
-  if (fancyLayout) {
-    fancyLayout.appendChild(nav);
-  } else {
-    // If not on the home page, prepend to <body> as usual
-    document.body.prepend(nav);
-  }
+// add nav element to the body of page
+let nav = document.createElement('nav');
+const navPlaceholder = document.getElementById('nav-placeholder');
+if (navPlaceholder) {
+  // Insert the navigation element into the placeholder
+  navPlaceholder.appendChild(nav);
+} else {
+  // Fallback: If no placeholder is found, add it to the top of the body
+  document.body.prepend(nav);
 }
 
 // create links and add attributes as needed
