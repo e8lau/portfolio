@@ -1,9 +1,9 @@
 [
     {
         "title": "The Effects of Constituent Characteristics on ESP Matching",
-        "description": "A research paper analyzing the effects of constituent characteristics on ESP matching, conducted for the UCSD Alumni Department.",
+        "description": "A research paper analyzing the effects of constituent characteristics on ESP matching.",
         "file": "Archive/The Effects of Constituent Characteristics on ESP Matching.pdf",
-        "year": "2023",
+        "year": "2024",
         "category": "Research"
     },
     {
@@ -11,37 +11,83 @@
         "description": "A structured guide detailing legislative amendments and procedural rules for UCSD's Seventh College Student Council.",
         "file": "Archive/7CSC/7CSC Amendment Handbook.pdf",
         "year": "2022",
-        "category": "7CSC"
+        "category": "Student Governance"
     },
     {
-        "title": "Charter of the Elevator Special Committee",
-        "description": "The foundational charter for the Elevator Special Committee for Advocacy & Petition, outlining its purpose and scope.",
+        "title": "Charter of the Elevator Special Committee for Advocacy & Petition",
+        "description": "The official charter outlining the purpose, structure, and responsibilities of the Elevator Special Committee.",
         "file": "Archive/7CSC/Charter of the Elevator Special Committee for Advocacy & Petition.pdf",
         "year": "2022",
-        "category": "7CSC"
+        "category": "Student Governance"
     },
     {
-        "title": "BOSA Website Adapted Reorganization Proposal",
-        "description": "A proposal detailing the restructuring of the student government website to improve accessibility and efficiency.",
+        "title": "Constitution & Bylaw Formatting Inquiry",
+        "description": "A document analyzing the formatting structure of the constitution and bylaws of 7CSC.",
+        "file": "Archive/7CSC/Constitution & Bylaw Formatting Inquiry.pdf",
+        "year": "2022",
+        "category": "Student Governance"
+    },
+    {
+        "title": "Constitutional Amendment Process Inquiry",
+        "description": "An analysis of the amendment process for 7CSC’s governing documents, including procedural clarifications.",
+        "file": "Archive/7CSC/Constitutional Amendment Process Inquiry.pdf",
+        "year": "2022",
+        "category": "Student Governance"
+    },
+    {
+        "title": "Website Adapted Reorganization Proposal",
+        "description": "A proposal for reorganizing the student government website to improve accessibility and functionality.",
         "file": "Archive/BOSA/200625 Website Adapted Reorganization Proposal.pdf",
-        "year": "2020"
+        "year": "2020",
+        "category": "Student Governance"
     },
     {
-        "title": "Leadership Connections Committee Expansion & Guidelines",
-        "description": "An expansion proposal for the Leadership Connections Committee to enhance student engagement.",
+        "title": "Student Government Webpage Project Report",
+        "description": "A report on the development and improvements made to the student government webpage.",
+        "file": "Archive/BOSA/200803 Student Government Webpage Project Report.pdf",
+        "year": "2020",
+        "category": "Student Governance"
+    },
+    {
+        "title": "Leadership Connections Committee Expansion & Guidelines Proposal",
+        "description": "A proposal for expanding the Leadership Connections Committee and setting formal guidelines.",
         "file": "Archive/BOSA/200915 Leadership Connections Committee Expansion & Guidelines Proposal.pdf",
-        "year": "2020"
+        "year": "2020",
+        "category": "Student Governance"
+    },
+    {
+        "title": "The BOSA Handbook",
+        "description": "A handbook detailing procedures, responsibilities, and best practices for BOSA members.",
+        "file": "Archive/BOSA/The BOSA Handbook.pdf",
+        "year": "2021",
+        "category": "Student Governance"
+    },
+    {
+        "title": "UDEMY Certification",
+        "description": "A certificate from Udemy, indicating completion of an online course.",
+        "file": "Archive/Certificates/UDEMY Certification.pdf",
+        "year": "2023",
+        "category": "Certification"
+    },
+    {
+        "title": "VC Lab Certificate of Completion",
+        "description": "A certificate recognizing successful completion of the VC Lab program.",
+        "file": "Archive/Certificates/VC LAb Certificate of Completion.jpg",
+        "year": "2024",
+        "category": "Certification"
     },
     {
         "title": "2020 Freshman Transition Program Restructuring Act",
-        "description": "A restructuring plan to improve the effectiveness of the Freshman Transition Program.",
+        "description": "A document outlining changes and improvements to the Freshman Transition Program.",
         "file": "Archive/Freshman Transition/2020 Freshman Transition Program Restructuring Act.pdf",
-        "year": "2020"
+        "year": "2020",
+        "category": "Education"
     },
     {
-        "title": "MTAC Award List",
-        "description": "An official record of awards and recognitions received by Ethan Lau from MTAC.",
+        "title": "Ethan Lau - Official MTAC Award List",
+        "description": "A record of official awards received from the Music Teachers’ Association of California.",
         "file": "Archive/MTAC/Ethan Lau - Official MTAC Award List.pdf",
-        "year": "2019"
+        "year": "2021",
+        "category": "Awards"
     }
 ]

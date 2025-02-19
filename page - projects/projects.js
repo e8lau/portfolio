@@ -13,9 +13,12 @@ const svg = d3.select('svg');        // SVG container for the pie chart
 const legend = d3.select('.legend');  // Container for the legend
 
 // Create a container for category checkboxes and add it to the DOM
-const categoryFilterContainer = document.createElement('div');
+const categoryFilterContainer = document.querySelector('.category-filter-placeholder') || document.createElement('div');
 categoryFilterContainer.classList.add('category-filter');
-projectsContainer.parentElement.insertBefore(categoryFilterContainer, projectsContainer);
+
+if (!document.querySelector('.category-filter-placeholder')) {
+  projectsContainer.parentElement.insertBefore(categoryFilterContainer, projectsContainer);
+}
 
 // Initialization: fetch projects and render both views
 async function init() {
