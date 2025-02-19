@@ -59,7 +59,7 @@ html {
   background: var(--bg);
   color: var(--txt);
   accent-color: var(--accent);
-  min-width: 400px;
+  /* min-width: 400px; */
 }
 
 label.color-scheme {
@@ -102,7 +102,6 @@ nav {
   flex: 2; /* Takes up more space */
 }
 
-/* Navigation column on the right (only applies to home page) */
 .fancy-nav {
   display: flex;
   flex-direction: column; /* Stack links vertically */
@@ -240,6 +239,52 @@ div.projects article img {
   object-position: center;
   border-radius: 0.5rem;  /* a bit of rounding */
   display: block;
+}
+
+/* Unified Category Filter Container */
+.category-filter {
+  border: 1px solid var(--border-dark);
+  border-radius: 0.5rem;
+  padding: 0.5em;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  max-width: 400px; /* Adjust as needed */
+  margin-left: auto;
+  margin-right: auto;
+  background: var(--card-bg);
+}
+
+/* Each Category Filter Row */
+.category-filter label.category-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Left-side container for checkbox and text */
+.category-filter .category-label {
+  display: flex;
+  align-items: center;
+}
+
+/* Spacing for the checkbox */
+.category-filter .category-label input[type="checkbox"] {
+  margin-right: 0.5em;
+  accent-color: var(--accent);
+}
+
+/* Right-side count styling */
+.category-filter .category-count {
+  font-size: 0.9rem;
+}
+
+/* Change text color when the checkbox is selected using :has */
+.category-item:has(input:checked) .category-name,
+.category-item:has(input:checked) .category-count {
+  color: var(--accent);
 }
 
 .about-education {

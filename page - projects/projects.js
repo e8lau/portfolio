@@ -5,15 +5,22 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 let rawProjects = [];
 let searchQuery = '';
 let selectedYear = null;
+let selectedCategories = [];
 
 const projectsContainer = document.querySelector('.projects');
 const searchInput = document.querySelector('.searchBar');
 const svg = d3.select('svg');        // SVG container for the pie chart
 const legend = d3.select('.legend');  // Container for the legend
 
+// Create a container for category checkboxes and add it to the DOM
+const categoryFilterContainer = document.createElement('div');
+categoryFilterContainer.classList.add('category-filter');
+projectsContainer.parentElement.insertBefore(categoryFilterContainer, projectsContainer);
+
 // Initialization: fetch projects and render both views
 async function init() {
   rawProjects = await fetchJSON('../page - projects/projects.json');
+  buildCategoryFilterUI();
   applyFilters();
   renderFullPieChart();  // Always render full pie chart from rawProjects
 }
@@ -35,6 +42,11 @@ function applyFilters() {
     });
   }
 
+  // Apply category filter if any category is selected
+  if (selectedCategories.length > 0) {
+    filtered = filtered.filter(project => project.category && selectedCategories.includes(project.category));
+  }
+
   // Update project count element (if present)
   const projectCountElement = document.querySelector('.projects-title');
   if (projectCountElement) {
@@ -47,11 +59,13 @@ function applyFilters() {
 
 // Update the search query state and trigger filtering on user input
 searchInput.addEventListener('input', debounce((event) => {
-    searchQuery = event.target.value;
-    applyFilters();
-  }, 300)); // 300ms delay
+  searchQuery = event.target.value;
+  applyFilters();
+}, 300)); // 300ms delay
 
-// Renders the full pie chart based on the raw project data
+
+
+//// PIE CHART RENDER ////
 function renderFullPieChart() {
     // Aggregate counts by year using the raw data
     let rolledData = d3.rollups(rawProjects, v => v.length, d => d.year);
@@ -138,13 +152,79 @@ function renderFullPieChart() {
     });
 }  
 
+// Prevents search bar from double loading
 function debounce(func, delay) {
     let timeoutId;
     return function(...args) {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => func.apply(this, args), delay);
     };
-}  
+}
+
+// Category filter dynamic generation
+function buildCategoryFilterUI() {
+  // Get unique categories (skip projects with no category)
+  const categories = Array.from(
+    new Set(
+      rawProjects
+        .filter(p => p.category && p.category.trim() !== '') // Skip empty or undefined
+        .map(p => p.category)
+    )
+  );
+  
+  // Clear any existing checkboxes
+  categoryFilterContainer.innerHTML = '';
+  
+  // For each unique category, create a label with a checkbox, name, and count
+  categories.forEach(category => {
+    // Create the outer label with a class for styling
+    const label = document.createElement('label');
+    label.classList.add('category-item');
+    
+    // Create a div for the left side: checkbox and category name
+    const labelDiv = document.createElement('div');
+    labelDiv.classList.add('category-label');
+    
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.value = category;
+    
+    // Create span for the category name
+    const categoryNameSpan = document.createElement('span');
+    categoryNameSpan.classList.add('category-name');
+    categoryNameSpan.textContent = category;
+    
+    // Append checkbox and name to the left container
+    labelDiv.appendChild(checkbox);
+    labelDiv.appendChild(categoryNameSpan);
+    
+    // Compute the total count for this category
+    const count = rawProjects.filter(p => p.category === category).length;
+    
+    // Create a span for the count on the right
+    const countSpan = document.createElement('span');
+    countSpan.classList.add('category-count');
+    countSpan.textContent = `(${count})`;
+    
+    // Append the left container and count span to the label
+    label.appendChild(labelDiv);
+    label.appendChild(countSpan);
+    
+    // Listen for changes on the checkbox to update filters
+    checkbox.addEventListener('change', (event) => {
+      if (event.target.checked) {
+        selectedCategories.push(category);
+      } else {
+        selectedCategories = selectedCategories.filter(cat => cat !== category);
+      }
+      applyFilters();  // Re-filter projects on change
+    });
+    
+    // Append the label to the category filter container
+    categoryFilterContainer.appendChild(label);
+  });
+}
+
 
 // Start the application
 init();

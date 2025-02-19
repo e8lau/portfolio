@@ -24,8 +24,8 @@ document.body.prepend(nav);
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
 const IS_FANCY_LAYOUT = document.querySelector('.fancy-layout') !== null;
 
-// If home page, add a special class to <nav>
-if (IS_FANCY_LAYOUT) {
+// If home page, add a special class to <nav> (used to use IS_FANCY_LAYOUT)
+if (ARE_WE_HOME) {
   nav.classList.add('fancy-nav');
   let fancyLayout = document.querySelector('.fancy-layout');
 
