@@ -63,7 +63,7 @@ let currentTheme = localStorage.colorScheme || 'auto'; // Default to Auto mode
 
 function getTimeBasedTheme() {
   const hour = new Date().getHours();
-  return (hour >= 19 || hour < 7) ? 'dark' : 'light'; // Dark mode from 7 PM to 7 AM
+  return (hour >= 17 || hour < 7) ? 'dark' : 'light'; // Dark mode from 7 PM to 7 AM
 }
 
 // Function to apply the selected theme
@@ -150,7 +150,7 @@ export async function fetchJSON(url) {
 }
 
 /// dynamically generate and display project content throughout site func
-export async function renderProjects(projects, containerElement, headingLevel = 'h2') {
+export async function renderProjects(projects, containerElement, headingLevel = 'h2', onParentClick = null) {
   // Ensure containerElement is a valid DOM element
   if (!containerElement || !(containerElement instanceof HTMLElement)) {
     console.error("Invalid container element provided.");
@@ -175,14 +175,14 @@ export async function renderProjects(projects, containerElement, headingLevel = 
 
   // Loop through each project and create an article element
   for (const project of projects) {
-    if (!project || !project.title || !project.description || !project.file) {
+    if (!project || !project.title || !project.description) {
         console.warn("Skipping invalid project:", project);
         return;
     }
 
     // Prepend ../ if not in home directory
     let filepath = (!ARE_WE_HOME ? '../' : '') + project.file;
-    let thumbnail = (!ARE_WE_HOME ? '../' : '') + "thumbnails/PDF_thumb.png"; // Fallback default
+    let thumbnail = (!ARE_WE_HOME ? '../' : '') + "images/thumbnails/default_thumb.png"; // Fallback default
     let thumbpath = filepath;
 
     if (project.thumbnail) {
@@ -209,7 +209,17 @@ export async function renderProjects(projects, containerElement, headingLevel = 
     const article = document.createElement('article');
     article.setAttribute("role", "link"); // Accessibility
     article.style.cursor = "pointer"; // Make it look clickable
-    article.onclick = () => window.open(filepath, "_blank");
+    
+    if (project.isParent && typeof onParentClick === 'function') {
+      article.onclick = (e) => {
+        e.preventDefault();
+        onParentClick(project);
+      };
+    } else {
+      // Default behavior for non-folder items
+      article.onclick = () => window.open(filepath, "_blank");
+    }
+
     article.innerHTML = `
       <${headingLevel}>${project.title}</${headingLevel}>
       ${thumbnail ? `<img src="${thumbnail}" alt="${project.title}"></a>` : ''}

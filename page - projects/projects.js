@@ -6,6 +6,8 @@ let rawProjects = [];
 let searchQuery = '';
 let selectedYear = null;
 let selectedCategories = [];
+let parentStack = [];
+let previousParent = null;
 
 const projectsContainer = document.querySelector('.projects');
 const searchInput = document.querySelector('.searchBar');
@@ -20,21 +22,50 @@ if (!document.querySelector('.category-filter-placeholder')) {
   projectsContainer.parentElement.insertBefore(categoryFilterContainer, projectsContainer);
 }
 
+function getCurrentParent() {
+  return parentStack.length > 0 ? parentStack[parentStack.length - 1] : null;
+}
+
 // Initialization: fetch projects and render both views
 async function init() {
   rawProjects = await fetchJSON('../page - projects/projects.json');
-  buildCategoryFilterUI();
+  console.log(rawProjects);
   applyFilters();
-  renderFullPieChart();  // Always render full pie chart from rawProjects
+  buildCategoryFilterUI(rawProjects);
+  renderFullPieChart(rawProjects);  // Always render full pie chart from rawProjects
 }
+
+const debouncedRender = debounce((filteredProjects) => {
+  renderProjects(filteredProjects, projectsContainer, 'h2', (project) => {
+    parentStack.push(project.title);
+    applyFilters();
+  });
+  renderBackButton();
+}, 200);
 
 // Global filter function: combines search and pie chart filters for projects list
 function applyFilters() {
-  let filtered = rawProjects;
+  let parentFilter = rawProjects;
+
+  // Parent–Child filtering:
+  const currentParent = getCurrentParent();
+  if (currentParent) {
+    // If a parent is selected, show only its child items (where project.parentKey matches)
+    parentFilter = parentFilter.filter(project => project.parentKey === currentParent);
+  } else {
+    // Otherwise, show only projects that are not children (i.e. have no parentKey)
+    parentFilter = parentFilter.filter(project => !project.parentKey);
+  }
+
+  let filtered = parentFilter;
   
   // Apply pie chart filter if a year is selected
   if (selectedYear !== null) {
-    filtered = filtered.filter(project => project.year === selectedYear);
+    filtered = filtered.filter(project => {
+        // Convert project.year into an array if it isn't already
+        let years = Array.isArray(project.year) ? project.year : [project.year];
+        return years.includes(selectedYear);
+    });
   }
   
   // Apply search filter if query is non-empty
@@ -47,7 +78,10 @@ function applyFilters() {
 
   // Apply category filter if any category is selected
   if (selectedCategories.length > 0) {
-    filtered = filtered.filter(project => project.category && selectedCategories.includes(project.category));
+    filtered = filtered.filter(project => {
+      let categories = Array.isArray(project.category) ? project.category : [project.category];
+      return categories.some(cat => selectedCategories.includes(cat));
+    });
   }
 
   // Update project count element (if present)
@@ -57,7 +91,15 @@ function applyFilters() {
   }
   
   // Render filtered projects
-  renderProjects(filtered, projectsContainer, 'h2');
+  debouncedRender(filtered);
+  
+  if (currentParent !== previousParent) {
+    // When switching between all projects and a child view, re-render the charts/filters using the relevant dataset.
+    // You could pass in the filtered dataset (child view) or the parentFilter data (which is the base before other filters)
+    renderFullPieChart(parentFilter);
+    buildCategoryFilterUI(parentFilter);
+    previousParent = currentParent;  // Update our stored parent state
+  }
 }
 
 // Update the search query state and trigger filtering on user input
@@ -66,13 +108,46 @@ searchInput.addEventListener('input', debounce((event) => {
   applyFilters();
 }, 300)); // 300ms delay
 
-
+// Render a back button outside the normal renderProjects function if needed.
+function renderBackButton() {
+  let backButton = document.querySelector('#back-button');
+  const currentParent = getCurrentParent();
+  if (currentParent) {
+    // If a parent is active and there's no back button, create one.
+    if (!backButton) {
+      backButton = document.createElement('button');
+      backButton.id = 'back-button';
+      backButton.textContent = 'Back to Previous Projects';
+      backButton.style.display = 'block';
+      backButton.style.marginBottom = '1em';
+      backButton.addEventListener('click', () => {
+        parentStack.pop();  // Return to the previous state (or null if the stack is now empty)
+        applyFilters();
+      });
+      // Insert the back button before the projects container
+      projectsContainer.parentElement.insertBefore(backButton, projectsContainer);
+    }
+  } else {
+    // No parent filter is active; remove any existing back button.
+    if (backButton) {
+      backButton.remove();
+    }
+  }
+}
 
 //// PIE CHART RENDER ////
-function renderFullPieChart() {
+function renderFullPieChart(data) {
     // Aggregate counts by year using the raw data
-    let rolledData = d3.rollups(rawProjects, v => v.length, d => d.year);
-    let pieData = rolledData.map(([year, count]) => ({ label: year, value: count }));
+    let yearCounts = new Map();
+
+    data.forEach(project => {
+        let years = Array.isArray(project.year) ? project.year : [project.year];
+
+        years.forEach(year => {
+            yearCounts.set(year, (yearCounts.get(year) || 0) + 1);
+        });
+    });
+    let pieData = Array.from(yearCounts, ([label, value]) => ({ label, value }));
     
     // Clear previous chart and legend elements
     svg.selectAll('*').remove();
@@ -166,25 +241,26 @@ function debounce(func, delay) {
 
 // Category filter dynamic generation
 function buildCategoryFilterUI() {
-  // Get unique categories (skip projects with no category)
+  // Gather all categories from all projects
+  let allCategories = rawProjects.flatMap(p => {
+    if (Array.isArray(p.category)) return p.category;
+    if (p.category) return [p.category];
+    return [];
+  });
   const categories = Array.from(
-    new Set(
-      rawProjects
-        .filter(p => p.category && p.category.trim() !== '') // Skip empty or undefined
-        .map(p => p.category)
-    )
+    new Set(allCategories.filter(cat => cat && cat.trim() !== ''))
   );
   
   // Clear any existing checkboxes
   categoryFilterContainer.innerHTML = '';
   
-  // For each unique category, create a label with a checkbox, name, and count
+  // Create the checkbox UI for each unique category
   categories.forEach(category => {
-    // Create the outer label with a class for styling
+    // Create a container label for styling
     const label = document.createElement('label');
     label.classList.add('category-item');
     
-    // Create a div for the left side: checkbox and category name
+    // Left side container: checkbox and category name
     const labelDiv = document.createElement('div');
     labelDiv.classList.add('category-label');
     
@@ -192,7 +268,7 @@ function buildCategoryFilterUI() {
     checkbox.type = 'checkbox';
     checkbox.value = category;
     
-    // Create span for the category name
+    // Span for the category name
     const categoryNameSpan = document.createElement('span');
     categoryNameSpan.classList.add('category-name');
     categoryNameSpan.textContent = category;
@@ -201,15 +277,18 @@ function buildCategoryFilterUI() {
     labelDiv.appendChild(checkbox);
     labelDiv.appendChild(categoryNameSpan);
     
-    // Compute the total count for this category
-    const count = rawProjects.filter(p => p.category === category).length;
+    // Count the number of projects containing this category
+    const count = rawProjects.filter(p => {
+      let cats = Array.isArray(p.category) ? p.category : [p.category];
+      return cats.includes(category);
+    }).length;
     
-    // Create a span for the count on the right
+    // Create a span to display the count on the right
     const countSpan = document.createElement('span');
     countSpan.classList.add('category-count');
     countSpan.textContent = `(${count})`;
     
-    // Append the left container and count span to the label
+    // Append the left container and count to the label
     label.appendChild(labelDiv);
     label.appendChild(countSpan);
     
@@ -220,10 +299,10 @@ function buildCategoryFilterUI() {
       } else {
         selectedCategories = selectedCategories.filter(cat => cat !== category);
       }
-      applyFilters();  // Re-filter projects on change
+      applyFilters();  // Re-filter projects when selection changes
     });
     
-    // Append the label to the category filter container
+    // Append the label to the filter container
     categoryFilterContainer.appendChild(label);
   });
 }
