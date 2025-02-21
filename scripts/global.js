@@ -9,7 +9,7 @@ function $$(selector, context = document) {
 // create pages
 let pages = [
   { url: '', title: 'Home'},
-  { url: 'page - projects/', title: 'Projects'},
+  { url: 'page - projects/', title: 'Projects & Certificates'},
   { url: 'page - contact/', title: 'Contact'},
   { url: 'page - meta/', title: 'Meta'},
   { url: 'https://www.linkedin.com/in/ethan-lau-5b75701b9/', title: 'LinkedIn'},
@@ -220,17 +220,38 @@ export async function renderProjects(projects, containerElement, headingLevel = 
       article.onclick = () => window.open(filepath, "_blank");
     }
 
+    let projectYear = 'Unknown'
+    projectYear = Array.isArray(project.date) ? project.date.map(dateStr => +parseDate(dateStr).year) : +parseDate(project.date).year;
+
     article.innerHTML = `
       <${headingLevel}>${project.title}</${headingLevel}>
       ${thumbnail ? `<img src="${thumbnail}" alt="${project.title}"></a>` : ''}
       <div>
         <p>${project.description}</p>
-        <p class="year"><i>c.</i> ${project.year}</p>
+        <p class="year">
+          <i>c.</i> ${
+            Array.isArray(projectYear)
+              ? (() => {
+                  const minYear = Math.min(...projectYear);
+                  const maxYear = Math.max(...projectYear);
+                  return minYear === maxYear ? minYear : `${minYear} - ${maxYear}`;
+                })() : projectYear
+          }
+        </p>
       </div>
     `;
     // Append to container
     containerElement.appendChild(article);
   }
+}
+
+export function parseDate(dateStr) {
+  if (!dateStr) {throw new Error(`Failed to parse Date: dateStr is empty`);}
+  const parts = dateStr.toString().split('/');
+  const year = +parts[0];
+  const month = parts.length > 1 ? +parts[1] || null : null;
+  const day = parts.length > 2 ? +parts[2] || null : null;
+  return { year, month, day };
 }
 
 /// Pdf to Base64 Test Fn

@@ -1,4 +1,4 @@
-import { fetchJSON, renderProjects } from '../scripts/global.js';
+import { fetchJSON, renderProjects, parseDate } from '../scripts/global.js';
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 // Global state variables
@@ -62,8 +62,8 @@ function applyFilters() {
   // Apply pie chart filter if a year is selected
   if (selectedYear !== null) {
     filtered = filtered.filter(project => {
-        // Convert project.year into an array if it isn't already
-        let years = Array.isArray(project.year) ? project.year : [project.year];
+        // Convert project.date into an array if it isn't already
+        let years = Array.isArray(project.date) ? project.date.map(dateStr => +parseDate(dateStr).year) : [+parseDate(project.date).year];
         return years.includes(selectedYear);
     });
   }
@@ -71,7 +71,7 @@ function applyFilters() {
   // Apply search filter if query is non-empty
   if (searchQuery.trim() !== '') {
     filtered = filtered.filter(project => {
-      let values = [project.title, project.description, project.year].join(' ').toLowerCase();
+      let values = [project.title, project.description, project.date].join(' ').toLowerCase();
       return values.includes(searchQuery.toLowerCase());
     });
   }
@@ -87,7 +87,7 @@ function applyFilters() {
   // Update project count element (if present)
   const projectCountElement = document.querySelector('.projects-title');
   if (projectCountElement) {
-    projectCountElement.textContent = filtered.length;
+    projectCountElement.textContent = rawProjects.length;
   }
   
   // Render filtered projects
@@ -141,7 +141,7 @@ function renderFullPieChart(data) {
     let yearCounts = new Map();
 
     data.forEach(project => {
-        let years = Array.isArray(project.year) ? project.year : [project.year];
+        let years = Array.isArray(project.date) ? project.date.map(dateStr => +parseDate(dateStr).year) : [+parseDate(project.date).year];
 
         years.forEach(year => {
             yearCounts.set(year, (yearCounts.get(year) || 0) + 1);

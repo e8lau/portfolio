@@ -131,6 +131,7 @@ nav li {
 }
 
 nav a {
+  white-space: nowrap;
   color: inherit;
   padding: 0.6rem 1.2rem;
   text-decoration: none;
