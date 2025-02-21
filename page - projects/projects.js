@@ -29,7 +29,6 @@ function getCurrentParent() {
 // Initialization: fetch projects and render both views
 async function init() {
   rawProjects = await fetchJSON('../page - projects/projects.json');
-  console.log(rawProjects);
   applyFilters();
   buildCategoryFilterUI(rawProjects);
   renderFullPieChart(rawProjects);  // Always render full pie chart from rawProjects
@@ -87,7 +86,7 @@ function applyFilters() {
   // Update project count element (if present)
   const projectCountElement = document.querySelector('.projects-title');
   if (projectCountElement) {
-    projectCountElement.textContent = rawProjects.length;
+    projectCountElement.textContent = rawProjects.filter(p => { return !p.isParent }).length;
   }
   
   // Render filtered projects
@@ -240,9 +239,9 @@ function debounce(func, delay) {
 }
 
 // Category filter dynamic generation
-function buildCategoryFilterUI() {
+function buildCategoryFilterUI(data) {
   // Gather all categories from all projects
-  let allCategories = rawProjects.flatMap(p => {
+  let allCategories = data.flatMap(p => {
     if (Array.isArray(p.category)) return p.category;
     if (p.category) return [p.category];
     return [];
@@ -278,9 +277,31 @@ function buildCategoryFilterUI() {
     labelDiv.appendChild(categoryNameSpan);
     
     // Count the number of projects containing this category
+    const currentParent = getCurrentParent();
+    let allDescendantTitles = new Set();
+
+    if (currentParent) {
+      let stack = [currentParent];
+
+      while (stack.length > 0) {
+        let parentTitle = stack.pop();
+        allDescendantTitles.add(parentTitle);
+        let children = rawProjects.filter(x => x.parentKey === parentTitle);
+
+        for (let child of children) {
+          if (child.isParent) {
+            stack.push(child.title);
+          }
+        }
+      }
+    }
+  
     const count = rawProjects.filter(p => {
       let cats = Array.isArray(p.category) ? p.category : [p.category];
-      return cats.includes(category);
+      const inCategory = cats.includes(category);
+      
+      if (currentParent) { return inCategory && allDescendantTitles.has(p.parentKey) && !p.isParent; }
+      else { return inCategory && !p.isParent }
     }).length;
     
     // Create a span to display the count on the right

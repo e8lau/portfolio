@@ -516,6 +516,14 @@ svg {
   overflow: visible;
 }
 
+svg path:hover {
+  transform: scale(1.04);
+  opacity: 0.5;
+  stroke: var(--border-light);
+  stroke-width: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
 /* Make the swatch look like a swatch for projects pie chart */
 span.swatch {
   display: inline-flex;
@@ -574,6 +582,7 @@ path {
   display: block;
     margin-top: 4rem;
     width: 100%;
+    min-height: 40px;
     padding: 10px;
     font-size: 16px;
     margin-bottom: 30px;
@@ -678,7 +687,7 @@ dl.info dd {
 
 /* Style for .tooltip */
 .tooltip {
-  position: fixed;
+  position: absolute;
   top: 1em;
   left: 1em;
   background: var(--bg);
@@ -743,3 +752,25 @@ circle.selected {
   margin: 0;
 }
 
+/* Back Button Styling */
+#back-button {
+  justify-content: center;
+  background-color: var(--nav-bg);
+  color: var(--accent);
+  border: 2px solid var(--border-dark);
+  border-radius: 0.5rem;
+  padding: 0.75em 1.5em;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 1em auto;
+  display: block;
+  box-shadow: var(--shadow);
+}
+
+#back-button:hover {
+  color: var(--txt);
+  background-color: var(--accent-dark);
+  transform: translateY(-2px);
+}

@@ -1,4 +1,4 @@
-console.log('IT’S ALIVE!');
+console.log('Hello world!');
 
 function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
@@ -181,7 +181,7 @@ export async function renderProjects(projects, containerElement, headingLevel = 
     }
 
     // Prepend ../ if not in home directory
-    let filepath = (!ARE_WE_HOME ? '../' : '') + project.file;
+    let filepath = project.file.startsWith('http') ? project.file : (!ARE_WE_HOME ? '../' : '') + project.file;
     let thumbnail = (!ARE_WE_HOME ? '../' : '') + "images/thumbnails/default_thumb.png"; // Fallback default
     let thumbpath = filepath;
 
@@ -199,9 +199,9 @@ export async function renderProjects(projects, containerElement, headingLevel = 
       try {
         thumbnail = await pdfToBase64(thumbpath);
         if (!thumbnail) throw new Error("Thumbnail conversion failed");
-        console.log("Thumbnail Generated");
+        console.log("Thumbnails Generated");
       } catch(error) {
-        console.log("Thumbnail failed")
+        console.log("Thumbnails failed")
       }
     }
 

@@ -26,17 +26,18 @@
    {
       "title": "Excel Certification",
       "description": "Advanced level certification for Microsoft Excel: Advanced formulas, functions, data analysis, & pivot tables.",
-      "file": "Archive/https://www.udemy.com/certificate/UC-53f62925-3da7-4eaa-89e5-5bf9c050d5fd/?utm_source=sendgrid.com&utm_medium=email&utm_campaign=email",
+      "file": "https://www.udemy.com/certificate/UC-53f62925-3da7-4eaa-89e5-5bf9c050d5fd/?utm_source=sendgrid.com&utm_medium=email&utm_campaign=email",
       "date": "2023/1/9",
       "category": "Certification",
-      "parentKey": "Certificates"
+      "parentKey": "Certificates",
+      "thumbnail": "Archive/Certificates/UDEMY Certification.pdf"
    },
    {
       "title": "Student Government",
       "description": "Legislation, charters, SOPs, handbooks, documents, & more authored or contributed to.",
       "file": "#",
       "date": ["2022/12/1", "2022/11", "2022/10", "2022/10/27", "2023/3/2", "2022/2/9", "2023/2/9", "2023/3/16", "2023/5/18", "2024/1", "2021/7/30", "2020/9/15", "2020/4/6", "2020/6", "2020/8/3"],
-      "category": ["SOPs", "Manuals", "& Handbooks", "Legislation & Documents"],
+      "category": ["SOPs, Manuals, & Handbooks", "Legislation & Documents"],
       "isParent": true,
       "thumbnail": "images/thumbnails/folder_thumb.png"
    },
@@ -45,7 +46,7 @@
       "description": "Documents authored and or contributed to pertaining to responsibilities as Speaker of 7CSC.",
       "file": "#",
       "date": ["2022/12/1", "2022/11", "2022/10", "2022/10/27", "2023/3/2", "2022/2/9", "2023/2/9", "2023/3/16", "2023/5/18", "2024/1"],
-      "category": ["SOPs", "Manuals", "& Handbooks", "Legislation & Documents"],
+      "category": ["SOPs, Manuals, & Handbooks", "Legislation & Documents"],
       "isParent": true,
       "parentKey": "Student Government",
       "thumbnail": "images/thumbnails/folder_thumb.png"
@@ -65,7 +66,7 @@
       "description": "A comprehensive guide I authored to the amendment process within 7CSC, outlining procedures for modifying governing documents.",
       "file": "Archive/7CSC/7CSC Amendment Handbook.pdf",
       "date": "2022/12/1",
-      "category": ["SOPs", "Manuals", "& Handbooks"],
+      "category": "SOPs, Manuals, & Handbooks",
       "parentKey": "7th College Student Council (7CSC)"
    },
    {
@@ -73,7 +74,7 @@
       "description": "Co-authored this special committee charter to investigate and petition the UCSD Housing Department to address elevator maintenance breakdowns.",
       "file": "Archive/7CSC/Charter of the Elevator Special Committee for Advocacy & Petition.pdf",
       "date": "2022/11",
-      "category": ["SOPs", "Manuals", "& Handbooks"],
+      "category": "SOPs, Manuals, & Handbooks",
       "parentKey": "7th College Student Council (7CSC)"
    },
    {
@@ -167,9 +168,9 @@
    {
       "title": "The Board of Student Affairs (BOSA)",
       "description": "Documents authored and or contributed to pertaining to BOSA.",
-      "file": "#",
+      "file": "Archive/#",
       "date": ["2021/7/30", "2020/9/15", "2020/4/6", "2020/6", "2020/8/3"],
-      "category": ["SOPs", "Manuals", "& Handbooks", "Legislation & Documents"],
+      "category": ["SOPs, Manuals, & Handbooks", "Legislation & Documents"],
       "isParent": true,
       "parentKey": "Student Government",
       "thumbnail": "images/thumbnails/folder_thumb.png"
@@ -179,7 +180,7 @@
       "description": "Operational Handbook for the board and student government.",
       "file": "Archive/BOSA/The BOSA Handbook.pdf",
       "date": "2021/7/30",
-      "category": ["SOPs", "Manuals", "& Handbooks"],
+      "category": "SOPs, Manuals, & Handbooks",
       "parentKey": "The Board of Student Affairs (BOSA)"
    },
    {
