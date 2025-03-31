@@ -9,9 +9,9 @@ function $$(selector, context = document) {
 // create pages
 let pages = [
   { url: '', title: 'Home'},
-  { url: 'page - projects/', title: 'Projects & Certificates'},
-  { url: 'page - contact/', title: 'Contact'},
-  { url: 'page - meta/', title: 'Meta'},
+  { url: 'projects/', title: 'Projects & Certificates'},
+  // { url: 'contact/', title: 'Contact'},
+  { url: 'meta/', title: 'Meta'},
   { url: 'https://www.linkedin.com/in/ethan-lau-5b75701b9/', title: 'LinkedIn'},
   { url: 'https://github.com/e8lau', title: 'Github'},
 ]

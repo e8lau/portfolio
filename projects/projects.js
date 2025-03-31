@@ -28,7 +28,7 @@ function getCurrentParent() {
 
 // Initialization: fetch projects and render both views
 async function init() {
-  rawProjects = await fetchJSON('../page - projects/projects.json');
+  rawProjects = await fetchJSON('../projects/projects.json');
   applyFilters();
   buildCategoryFilterUI(rawProjects);
   renderFullPieChart(rawProjects);  // Always render full pie chart from rawProjects

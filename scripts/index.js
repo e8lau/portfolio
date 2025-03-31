@@ -1,7 +1,7 @@
 import { fetchJSON, renderProjects, fetchGitHubData, parseDate } from '../scripts/global.js';
 
 // Display latest projects
-const projects = await fetchJSON('./page - projects/projects.json');
+const projects = await fetchJSON('./projects/projects.json');
 const projectsContainer = document.querySelector('.projects');
 
 // Lates Project Rendering
