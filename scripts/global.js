@@ -14,6 +14,7 @@ let pages = [
   { url: 'meta/', title: 'Meta'},
   { url: 'https://www.linkedin.com/in/ethan-lau-5b75701b9/', title: 'LinkedIn'},
   { url: 'https://github.com/e8lau', title: 'Github'},
+  { url: 'Archive/Ethan Lau Resume.pdf', title: 'Resume'},
 ]
 
 // create constant variable that checks for home class in page
