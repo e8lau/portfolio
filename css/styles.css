@@ -3243,7 +3243,7 @@ td:last-child {
  * ## main navigation
  * -------------------------------------------------------------------- */
 .s-header__nav {
-	margin-left    : var(--vspace-1);
+	/* margin-left    : var(--vspace-1); REMOVING SPACING BETWEEN Nav and SVG*/
 	display        : flex;
 	flex           : 1 1 0%;
 	align-items    : center;
