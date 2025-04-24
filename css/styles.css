@@ -4683,6 +4683,19 @@ td:last-child {
 	top             : calc(0.8rem + var(--vspace-0_375));
 }
 
+.company-name {
+    font-weight: 600;
+    font-size: var(--text-sm);
+    margin-top: 0.1em;
+}
+
+.date-range {
+    font-weight: 600;
+    font-size: var(--text-sm);
+    font-style: italic;
+    margin-bottom: 0.5em;
+}
+
 /* --------------------------------------------------------------------
  * ## contact page
  * -------------------------------------------------------------------- */

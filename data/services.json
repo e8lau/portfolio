@@ -1,0 +1,76 @@
+[
+    {
+        "title": "Venture Capital Associate",
+        "company": "Los Altos Capital",
+        "date": "July 2024 – December 2024",
+        "description": "As a core member of a nascent venture capital fund, I partnered with the founding team to lay the groundwork for a firm targeting AI, blockchain, and crypto startups. My role blended strategic operations, investor engagement, and market intelligence to help build fund infrastructure from the ground up.",
+        "bullets": [
+            "Co-developed investment theses and supported operational strategy for fund formation.",
+            "Created pitch decks, refined positioning, and prepared due diligence materials for LPs.",
+            "Managed internal research systems and assessed startup market landscapes.",
+            "Represented the firm at industry events to deepen market insights.",
+            "Completed VC Lab’s 14-week accelerator focused on fund structuring and investor relations."
+        ]
+    },
+    {
+        "title": "Market Strategy Intern",
+        "company": "Kobil Inc.",
+        "date": "July 2023 – September 2023",
+        "description": "At Kobil Inc., I conducted market research to guide strategic decision-making and designed a mobile application targeted at the education sector. My contributions supported the company’s expansion efforts in new digital verticals.",
+        "bullets": [
+            "Identified market gaps and strategic opportunities through detailed research.",
+            "Created a mobile app concept tailored to educational institutions."
+        ]
+    },
+    {
+        "title": "Data Analyst & Database Manager",
+        "company": "UCSD ACAGPDI",
+        "date": "March 2023 – March 2025",
+        "description": "As a Data Analyst for UCSD's Alumni and Development departments, I built and managed large-scale data systems and predictive models to enhance alumni engagement efforts, contributing directly to improved operational efficiency and outreach targeting.",
+        "bullets": [
+            "Developed machine learning models to predict alumni engagement behaviors.",
+            "Built automated Excel tools and custom formulas for streamlined analysis.",
+            "Maintained databases with over 1,000,000 records, ensuring data integrity and accessibility."
+        ]
+    },
+    {
+        "title": "Consultant Intern",
+        "company": "Lumnus Consulting",
+        "date": "April 2023 – June 2023",
+        "description": "At Lumnus Consulting, I collaborated with clients to improve organizational efficiency through strategic recommendations and facilitated community-building events to enhance interdepartmental communication.",
+        "bullets": [
+            "Formulated strategy recommendations that optimized internal processes.",
+            "Planned and executed engagement events to promote team collaboration."
+        ]
+    },
+    {
+        "title": "Product Evangelist",
+        "company": "Coveritas Inc.",
+        "date": "October 2020 – January 2022",
+        "description": "As a co-founder of Coveritas, I spearheaded outreach to academic institutions and led branding efforts. My responsibilities spanned from direct customer engagement to the design and deployment of our digital presence.",
+        "bullets": [
+            "Directed outreach to schools and universities to promote early adoption.",
+            "Designed the company logo and built the website to establish brand identity."
+        ]
+    },
+    {
+        "title": "Speaker of the Council",
+        "company": "UC San Diego Seventh College Student Council",
+        "date": "May 2022 – June 2023",
+        "description": "I served as the Council’s lead policymaker and parliamentarian, authoring foundational documents that formalized council operations and governance. My leadership ensured legislative clarity and operational continuity during a period of structural evolution.",
+        "bullets": [
+            "Chaired meetings and coordinated policy reviews with the Rules Committee.",
+            "Drafted the Standing Orders that standardized council procedures."
+        ]
+    },
+    {
+        "title": "ASB President & SDMC Process Group Member",
+        "company": "Woodside High School",
+        "date": "September 2019 – May 2021",
+        "description": "As ASB President, I guided student governance and worked with school leadership to improve student life. Through the SDMC, I co-led initiatives that addressed school-wide academic and community priorities.",
+        "bullets": [
+            "Elected ASB President and served as the student representative in leadership decisions.",
+            "Helped implement policies aimed at increasing student engagement and satisfaction."
+        ]
+    }
+]

@@ -3,34 +3,34 @@
  *
  * ------------------------------------------------------------------- */
 
-(function(html) {
+(function (html) {
 
     'use strict';
 
     const cfg = {
 
         // MailChimp URL
-        mailChimpURL : 'https://facebook.us1.list-manage.com/subscribe/post?u=1abf75f6981256963a47d197a&amp;id=37c6d8f4d6' 
+        mailChimpURL: 'https://facebook.us1.list-manage.com/subscribe/post?u=1abf75f6981256963a47d197a&amp;id=37c6d8f4d6'
 
     };
 
 
-   /* preloader
-    * -------------------------------------------------- */
-    const ssPreloader = function() {
+    /* preloader
+     * -------------------------------------------------- */
+    const ssPreloader = function () {
 
         const siteBody = document.querySelector('body');
         const preloader = document.querySelector('#preloader');
         if (!preloader) return;
 
         html.classList.add('ss-preload');
-        
-        window.addEventListener('load', function() {
+
+        window.addEventListener('load', function () {
             html.classList.remove('ss-preload');
             html.classList.add('ss-loaded');
-            
+
             preloader.addEventListener('transitionend', function afterTransition(e) {
-                if (e.target.matches('#preloader'))  {
+                if (e.target.matches('#preloader')) {
                     siteBody.classList.add('ss-show');
                     e.target.style.display = 'none';
                     preloader.removeEventListener(e.type, afterTransition);
@@ -41,9 +41,9 @@
     }; // end ssPreloader
 
 
-   /* mobile menu
-    * ---------------------------------------------------- */ 
-    const ssMobileMenu = function() {
+    /* mobile menu
+     * ---------------------------------------------------- */
+    const ssMobileMenu = function () {
 
         const toggleButton = document.querySelector('.s-header__menu-toggle');
         const mainNavWrap = document.querySelector('.s-header__nav');
@@ -51,15 +51,15 @@
 
         if (!(toggleButton && mainNavWrap)) return;
 
-        toggleButton.addEventListener('click', function(e) {
+        toggleButton.addEventListener('click', function (e) {
             e.preventDefault();
             toggleButton.classList.toggle('is-clicked');
             siteBody.classList.toggle('menu-is-open');
         });
 
-        mainNavWrap.querySelectorAll('.s-header__nav a').forEach(function(link) {
+        mainNavWrap.querySelectorAll('.s-header__nav a').forEach(function (link) {
 
-            link.addEventListener("click", function(event) {
+            link.addEventListener("click", function (event) {
 
                 // at 900px and below
                 if (window.matchMedia('(max-width: 900px)').matches) {
@@ -69,7 +69,7 @@
             });
         });
 
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
 
             // above 900px
             if (window.matchMedia('(min-width: 901px)').matches) {
@@ -81,9 +81,9 @@
     }; // end ssMobileMenu
 
 
-   /* swiper
-    * ------------------------------------------------------ */ 
-    const ssSwiper = function() {
+    /* swiper
+     * ------------------------------------------------------ */
+    const ssSwiper = function () {
 
         const homeSliderSwiper = new Swiper('.home-slider', {
 
@@ -145,9 +145,9 @@
     }; // end ssSwiper
 
 
-   /* mailchimp form
-    * ---------------------------------------------------- */ 
-    const ssMailChimpForm = function() {
+    /* mailchimp form
+     * ---------------------------------------------------- */
+    const ssMailChimpForm = function () {
 
         const mcForm = document.querySelector('#mc-form');
 
@@ -211,7 +211,7 @@
         window.displayMailChimpStatus = function (data) {
 
             // Make sure the data is in the right format and that there's a status container
-            if (!data.result || !data.msg || !mcStatus ) return;
+            if (!data.result || !data.msg || !mcStatus) return;
 
             // Update our status message
             mcStatus.innerHTML = data.msg;
@@ -241,8 +241,8 @@
             url += serialize + '&c=displayMailChimpStatus';
 
             // Create script with url and callback (if specified)
-            var ref = window.document.getElementsByTagName( 'script' )[ 0 ];
-            var script = window.document.createElement( 'script' );
+            var ref = window.document.getElementsByTagName('script')[0];
+            var script = window.document.createElement('script');
             script.src = url;
 
             // Create global variable for the status container
@@ -251,7 +251,7 @@
             window.mcStatus.innerText = 'Submitting...';
 
             // Insert script tag into the DOM
-            ref.parentNode.insertBefore( script, ref );
+            ref.parentNode.insertBefore(script, ref);
 
             // After the script is loaded (and executed), remove it
             script.onload = function () {
@@ -281,20 +281,20 @@
     }; // end ssMailChimpForm
 
 
-   /* alert boxes
-    * ------------------------------------------------------ */
-    const ssAlertBoxes = function() {
+    /* alert boxes
+     * ------------------------------------------------------ */
+    const ssAlertBoxes = function () {
 
         const boxes = document.querySelectorAll('.alert-box');
-  
-        boxes.forEach(function(box){
 
-            box.addEventListener('click', function(e) {
+        boxes.forEach(function (box) {
+
+            box.addEventListener('click', function (e) {
                 if (e.target.matches('.alert-box__close')) {
                     e.stopPropagation();
                     e.target.parentElement.classList.add('hideit');
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         box.style.display = 'none';
                     }, 500)
                 }
@@ -306,7 +306,7 @@
 
     /* Back to Top
     * ------------------------------------------------------ */
-    const ssBackToTop = function() {
+    const ssBackToTop = function () {
 
         const pxShow = 900;
         const goTopButton = document.querySelector(".ss-go-top");
@@ -316,9 +316,9 @@
         // Show or hide the button
         if (window.scrollY >= pxShow) goTopButton.classList.add("link-is-visible");
 
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             if (window.scrollY >= pxShow) {
-                if(!goTopButton.classList.contains('link-is-visible')) goTopButton.classList.add("link-is-visible")
+                if (!goTopButton.classList.contains('link-is-visible')) goTopButton.classList.add("link-is-visible")
             } else {
                 goTopButton.classList.remove("link-is-visible")
             }
@@ -327,9 +327,9 @@
     }; // end ssBackToTop
 
 
-   /* smoothscroll
-    * ------------------------------------------------------ */
-    const ssMoveTo = function() {
+    /* smoothscroll
+     * ------------------------------------------------------ */
+    const ssMoveTo = function () {
 
         const easeFunctions = {
             easeInQuad: function (t, b, c, d) {
@@ -338,24 +338,24 @@
             },
             easeOutQuad: function (t, b, c, d) {
                 t /= d;
-                return -c * t* (t - 2) + b;
+                return -c * t * (t - 2) + b;
             },
             easeInOutQuad: function (t, b, c, d) {
-                t /= d/2;
-                if (t < 1) return c/2*t*t + b;
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t + b;
                 t--;
-                return -c/2 * (t*(t-2) - 1) + b;
+                return -c / 2 * (t * (t - 2) - 1) + b;
             },
             easeInOutCubic: function (t, b, c, d) {
-                t /= d/2;
-                if (t < 1) return c/2*t*t*t + b;
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t * t + b;
                 t -= 2;
-                return c/2*(t*t*t + 2) + b;
+                return c / 2 * (t * t * t + 2) + b;
             }
         }
 
         const triggers = document.querySelectorAll('.smoothscroll');
-        
+
         const moveTo = new MoveTo({
             tolerance: 0,
             duration: 1200,
@@ -363,15 +363,15 @@
             container: window
         }, easeFunctions);
 
-        triggers.forEach(function(trigger) {
+        triggers.forEach(function (trigger) {
             moveTo.registerTrigger(trigger);
         });
 
     }; // end ssMoveTo
 
 
-   /* Initialize
-    * ------------------------------------------------------ */
+    /* Initialize
+     * ------------------------------------------------------ */
     (function ssInit() {
 
         ssPreloader();
@@ -384,3 +384,7 @@
     })();
 
 })(document.documentElement);
+
+/* ///////////////
+CUSTOM FUNCTIONALITIES
+/////////////// */
