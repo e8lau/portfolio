@@ -1,10 +1,10 @@
 /* ────────────── NAVIGATION DYNAMIC LOADING ────────────────────────── */
 const NAV_ITEMS = [
     /* ─ internal pages ─ */
-    { url: 'index.html', title: 'Home', footer: true },
-    { url: 'about.html', title: 'About', footer: false },
-    { url: 'experiences.html', title: 'Experiences', footer: false },
-    { url: 'blog.html', title: 'Journal', footer: false },
+    { url: '', title: 'Home', footer: true },
+    { url: 'about/', title: 'About', footer: false },
+    { url: 'experiences/', title: 'Experiences', footer: false },
+    { url: 'projects/', title: 'Projects', footer: false },
     { url: 'contact.html', title: 'Contact', footer: false }
 ];
 
@@ -107,7 +107,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 import { renderList, servicePreviewTpl, serviceFullTpl } from './custom_loaders.js'; // the generic helper
 
-fetch('../data/services.json')
+fetch('../experiences/experiences.json')
     .then(r => r.json())
     .then(services => {
         const previewBox = document.querySelector('#services-preview');
