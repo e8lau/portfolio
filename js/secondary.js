@@ -7,10 +7,10 @@
 const NAV_ITEMS = [
     /* ─ internal pages ─ */
     { url: '', title: 'Home', footer: true },
-    { url: '/about/', title: 'About', footer: false },
-    { url: '/experience/', title: 'Experience', footer: false },
-    { url: '/portfolio/', title: 'Portfolio', footer: false },
-    { url: '/contact/', title: 'Contact', footer: false }
+    { url: 'about/', title: 'About', footer: false },
+    { url: 'experience/', title: 'Experience', footer: false },
+    { url: 'portfolio/', title: 'Portfolio', footer: false },
+    { url: 'contact/', title: 'Contact', footer: false }
 ];
 
 const SOCIAL_ITEMS = [
@@ -38,13 +38,9 @@ const SOCIAL_ITEMS = [
 
 /* Treat “/” and “/index.html” as identical for active link logic */
 const normalize = p => p.replace(/\/?(index\.html)?$/, '/');
-
-/* Are we at root? (home page or folder root) */
-const ARE_WE_HOME = normalize(location.pathname) === '/portfolio';
-
-/* If we’re inside a subfolder, prepend “…/” to relative URLs */
+const ARE_WE_HOME = normalize(location.pathname) === '/portfolio/';
 const fixURL = u =>
-    u.startsWith('http') || ARE_WE_HOME ? u : '../' + u;
+    u.startsWith('http') || ARE_WE_HOME ? './' + u : '../' + u;
 
 /* Build a single <li><a></a></li> and append to the given <ul> */
 function addNavItem(listEl, item) {
@@ -86,23 +82,24 @@ function appendSocial(ul, icon) {
 function loadFooter() {
     const contactEL = document.querySelector('section.s-cta');
     if (contactEL) {
-        fetch(fixURL((!ARE_WE_HOME ? '../' : '') + 'contact-preview.html'))  // adjust path if needed
+        fetch(fixURL('contact-preview.html'))
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.text();
             })
             .then(html => {
-                contactEL.innerHTML = html;
+                const adjustedHTML = html.replace(/href="\.\/contact\//g, `href="${fixURL('contact/')}`);
+                contactEL.innerHTML = adjustedHTML;
             })
             .catch(err => {
-                console.error('Failed to load footer:', err);
-                contactEL.style.display = 'none'; // hide broken footer if fetch fails
+                console.error('Failed to load contact preview:', err);
+                contactEL.style.display = 'none';
             });
     }
 
     const footerEl = document.querySelector('#footer-content-placeholder');
     if (footerEl) {
-        fetch(fixURL((!ARE_WE_HOME ? '../' : '') + 'footer.html'))  // adjust path if needed
+        fetch(fixURL('footer.html'))  // adjust path if needed
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.text();
@@ -144,7 +141,7 @@ function setupNavAndFooter() {
 
 import { renderList, servicePreviewTpl, serviceFullTpl } from './custom_loaders.js'; // the generic helper
 
-fetch((!ARE_WE_HOME ? '../' : '') + 'experience/experience.json')
+fetch(fixURL('experience/experience.json'))
     .then(r => r.json())
     .then(services => {
         const previewBox = document.querySelector('#services-preview');
@@ -156,7 +153,9 @@ fetch((!ARE_WE_HOME ? '../' : '') + 'experience/experience.json')
 
 /* ────────────── PROJECTS DYNAMIC LOADING ────────────────────────── */
 import { renderProjects, limitText } from './projects.js';
-const ARE_WE_PROJECTS = normalize(location.pathname).includes('/portfolio');
+const ARE_WE_PROJECTS = normalize(location.pathname) === '/portfolio/portfolio/';
+
+console.log(ARE_WE_PROJECTS);
 
 const homeCardTpl = (p, thumb, i) => `
     <div class="grid-list-items__item blog-card blog-card--project">

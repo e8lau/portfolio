@@ -7,7 +7,9 @@
  * -------------------------------------------------------------------------- */
 
 const normalize = p => p.replace(/\/?(index\.html)?$/, '/');
-const ARE_WE_HOME = normalize(location.pathname) === '/portfolio';
+const ARE_WE_HOME = normalize(location.pathname) === '/portfolio/';
+const fixURL = u =>
+    u.startsWith('http') || ARE_WE_HOME ? './' + u : '../' + u;
 
 /* ---------------------------------------------------------------------------
  * Utility Functions
@@ -42,7 +44,7 @@ export function limitText(text, limit = 30) {
  * @returns {Promise<string|null>} Base64 string or image path
  */
 export async function getThumbnail(filePath, useAsIs = '') {
-    if (useAsIs) filePath = (!ARE_WE_HOME ? '../' : '') + useAsIs;
+    if (useAsIs) filePath = fixURL(useAsIs);
 
     const imageExt = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff", ".svg"];
     if (imageExt.some(ext => filePath.toLowerCase().endsWith(ext))) {
@@ -93,7 +95,7 @@ async function pdfToBase64(pdfUrl, pageNumber = 1, scale = 1) {
  * ------------------------------------------------------------------------ */
 export async function renderProjects(opts = {}) {
     const defaults = {
-        jsonPath: ARE_WE_HOME ? 'portfolio/projects.json' : '../portfolio/projects.json',
+        jsonPath: fixURL('portfolio/projects.json'),
         targetUL: document.getElementById('project-list'),
         modalParent: document.getElementById('modal-container'),
         nav: document.getElementById('project-filter'),
@@ -121,8 +123,8 @@ export async function renderProjects(opts = {}) {
         .slice(0, cfg.count);
 
     for (const [i, p] of projects.entries()) {
-        const filePath = (!ARE_WE_HOME ? '../' : '') + p.file;
-        const thumb = await getThumbnail(filePath, p.thumbnail) || (!ARE_WE_HOME ? '../' : '') + 'images/thumbnails/default_thumb.png';
+        const filePath = fixURL(p.file);
+        const thumb = await getThumbnail(filePath, p.thumbnail) || fixURL('images/thumbnails/default_thumb.png');
 
         cfg.targetUL.insertAdjacentHTML('beforeend', cfg.cardTpl(p, thumb, i));
 
