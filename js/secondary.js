@@ -4,8 +4,8 @@ const NAV_ITEMS = [
     { url: '', title: 'Home', footer: true },
     { url: 'about/', title: 'About', footer: false },
     { url: 'experiences/', title: 'Experiences', footer: false },
-    { url: 'projects/', title: 'Projects', footer: false },
-    { url: 'contact.html', title: 'Contact', footer: false }
+    { url: 'portfolio/', title: 'Portfolio', footer: false },
+    { url: 'contact/', title: 'Contact', footer: false }
 ];
 
 const SOCIAL_ITEMS = [
@@ -78,30 +78,62 @@ function appendSocial(ul, icon) {
     ul.appendChild(li);
 }
 
-/* RENDER BOTH MENUS ON PAGE LOAD */
-window.addEventListener('DOMContentLoaded', () => {
+function loadFooter() {
+    const contactEL = document.querySelector('section.s-cta');
+    if (contactEL) {
+        fetch(fixURL('../contact-preview.html'))  // adjust path if needed
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.text();
+            })
+            .then(html => {
+                contactEL.innerHTML = html;
+            })
+            .catch(err => {
+                console.error('Failed to load footer:', err);
+                contactEL.style.display = 'none'; // hide broken footer if fetch fails
+            });
+    }
+
+    const footerEl = document.querySelector('#footer-content-placeholder');
+    if (footerEl) {
+        fetch(fixURL('../footer.html'))  // adjust path if needed
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.text();
+            })
+            .then(html => {
+                footerEl.innerHTML = html;
+            })
+            .catch(err => {
+                console.error('Failed to load footer:', err);
+                footerEl.style.display = 'none'; // hide broken footer if fetch fails
+            });
+    }
+
+    setupNavAndFooter(); // re-run nav and social filling after footer loads
+}
+
+function setupNavAndFooter() {
     // Header menu
     const headerUL = document.querySelector('#nav-menu');
     if (headerUL) {
         NAV_ITEMS
-            .filter(item => item.footer !== true)   // skip footer-only links
+            .filter(item => item.footer !== true)
             .forEach(item => addNavItem(headerUL, item));
     }
 
-    // FOOTER “Site Links”
+    // Footer links
     const footerUL = document.querySelector('#footer-links');
     if (footerUL) {
-        NAV_ITEMS
-            .forEach(item => addNavItem(footerUL, item));
+        NAV_ITEMS.forEach(item => addNavItem(footerUL, item));
     }
 
-    /* SOCIAL lists (about & footer) */
+    // Social media icons
     document
-        .querySelectorAll('.s-about__social.social-list, .s-footer__social.social-list')
+        .querySelectorAll('.s-about__social.social-list, .s-footer__social.social-list, .contact-social.social-list')
         .forEach(ul => SOCIAL_ITEMS.forEach(icon => appendSocial(ul, icon)));
-});
-
-
+}
 
 /* ────────────── EXPERIENCES DYNAMIC LOADING ────────────────────────── */
 
@@ -116,3 +148,61 @@ fetch('../experiences/experiences.json')
         const fullList = document.querySelector('#services-list');
         if (fullList) renderList(services, fullList, serviceFullTpl);
     });
+
+/* ────────────── PROJECTS DYNAMIC LOADING ────────────────────────── */
+import { renderProjects, limitText } from './projects.js';
+const ARE_WE_PROJECTS = normalize(location.pathname).includes('/portfolio');
+
+const homeCardTpl = (p, thumb, i) => `
+    <div class="grid-list-items__item blog-card blog-card--project">
+        <div class="blog-card__image-wrapper">
+            <a href="portfolio/?filter=${encodeURIComponent(p.category[0] || '')}" class="blog-card__image-link">
+                <img src="${thumb}" alt="${p.title}">
+            </a>
+        </div>
+        <div class="blog-card__header">
+            ${p.category?.length ? `<div class="blog-card__cat-links"><a>${p.category[0]}</a></div>` : ''}
+            <h3 class="blog-card__title">${limitText(p.title, 40)}</h3>
+        </div>
+        <div class="blog-card__text">
+            <p>${p.description || ''}</p>
+        </div>
+    </div>`;
+
+/* ────────────── MAIN DYNAMIC RUNNER ────────────────────────── */
+/* Main runner */
+window.addEventListener('DOMContentLoaded', () => {
+    loadFooter();
+
+    if (ARE_WE_HOME) {
+        // Home page → Preview latest 3 projects
+        renderProjects({
+            targetUL: document.querySelector('#home-projects'),
+            count: 3,
+            full: false,
+            cardTpl: homeCardTpl
+        });
+    }
+
+    if (ARE_WE_PROJECTS) {
+        renderProjects({
+            targetUL: document.querySelector('#project-list'),
+            modalParent: document.getElementById('modal-container'),
+            nav: document.getElementById('project-filter'),
+            searchInput: document.getElementById('project-search'),
+            full: true
+        }).then(() => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const filterCat = urlParams.get('filter');
+            if (filterCat) {
+                const nav = document.getElementById('project-filter');
+                if (nav) {
+                    const button = [...nav.querySelectorAll('button')].find(btn => btn.dataset.cat === filterCat);
+                    if (button) {
+                        button.click();  // simulate a click to filter automatically
+                    }
+                }
+            }
+        });
+    }
+});

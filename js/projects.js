@@ -1,213 +1,279 @@
 /* ============================================================================
  * projects.js
- * Build Luther-style “Works” grid + lightbox from /data/projects.json
- * Adds:
- *   – dynamic category buttons
- *   – live search bar
- *   – ESC-dismissable BasicLightbox pop-ups
+ * (modularized for flexible use across homepage, projects page, etc.)
+ * Exports:
+ *  – renderProjects(opts) : main function
+ *  – utilities: getThumbnail(), limitText(), fmtDate(), slug()
  * -------------------------------------------------------------------------- */
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetch('../projects/projects.json')
+const ARE_WE_HOME = document.documentElement.classList.contains('home');
+
+/* ---------------------------------------------------------------------------
+ * Utility Functions
+ * ------------------------------------------------------------------------ */
+export const slug = str =>
+    str.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+export function fmtDate(input) {
+    if (!input) return '';
+
+    const format = iso => {
+        const d = new Date(iso);
+        return isNaN(d) ? iso : d.toLocaleString('en-US', { month: 'short', year: 'numeric' });
+    };
+
+    if (Array.isArray(input)) {
+        return input.map(format).join(' – ');
+    } else {
+        return format(input);
+    }
+}
+
+export function limitText(text, limit = 30) {
+    if (!text) return '';
+    return text.length > limit ? text.slice(0, limit).trimEnd() + '…' : text;
+}
+
+/**
+ * Returns a thumbnail for a given file.
+ * @param {string} filePath – path to the asset
+ * @param {boolean|string} useAsIs – if true or non-empty, return provided thumbnail
+ * @returns {Promise<string|null>} Base64 string or image path
+ */
+export async function getThumbnail(filePath, useAsIs = '') {
+    if (useAsIs) return (!ARE_WE_HOME ? '../' : '') + useAsIs;
+
+    const imageExt = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff", ".svg"];
+    if (imageExt.some(ext => filePath.toLowerCase().endsWith(ext))) {
+        return filePath;
+    }
+
+    if (filePath.toLowerCase().endsWith(".pdf")) {
+        try {
+            const b64 = await pdfToBase64(filePath);
+            if (!b64) throw new Error("PDF conversion returned null");
+            return b64;
+        } catch (err) {
+            console.error("Thumbnail generation failed:", err);
+            return null;
+        }
+    }
+
+    return null;
+}
+
+/* PDF.js library worker */
+// pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+/**
+ * Convert first page of a PDF into a base64 PNG thumbnail
+ */
+async function pdfToBase64(pdfUrl, pageNumber = 1, scale = 1) {
+    try {
+        const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+        const page = await pdf.getPage(pageNumber);
+        const viewport = page.getViewport({ scale });
+
+        const canvas = document.createElement("canvas");
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        const ctx = canvas.getContext("2d");
+        await page.render({ canvasContext: ctx, viewport }).promise;
+        return canvas.toDataURL("image/png");
+    } catch (error) {
+        console.error("Error converting PDF to Base64:", error);
+        return null;
+    }
+}
+
+/* ---------------------------------------------------------------------------
+ * Main Export: renderProjects(opts)
+ * ------------------------------------------------------------------------ */
+export async function renderProjects(opts = {}) {
+    const defaults = {
+        jsonPath: ARE_WE_HOME ? 'portfolio/projects.json' : '../portfolio/projects.json',
+        targetUL: document.getElementById('project-list'),
+        modalParent: document.getElementById('modal-container'),
+        nav: document.getElementById('project-filter'),
+        searchInput: document.getElementById('project-search'),
+        count: Infinity,       // how many projects (Infinity = all)
+        full: true,           // build modals, filters, search
+        cardTpl: defaultCardTpl, // fallback card template
+    };
+    const cfg = { ...defaults, ...opts };
+
+    if (!cfg.targetUL) {
+        console.error('renderProjects: targetUL not found.');
+        return;
+    }
+
+    const data = await fetch(cfg.jsonPath)
         .then(r => {
             if (!r.ok) throw new Error('Could not load projects.json');
             return r.json();
         })
-        .then(initProjects)
         .catch(console.error);
-});
+
+    const projects = (data || [])
+        .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+        .slice(0, cfg.count);
+
+    for (const [i, p] of projects.entries()) {
+        const filePath = (!ARE_WE_HOME ? '../' : '') + p.file;
+        const thumb = await getThumbnail(filePath, p.thumbnail) || '../images/thumbnails/default_thumb.png';
+
+        cfg.targetUL.insertAdjacentHTML('beforeend', cfg.cardTpl(p, thumb, i));
+
+        if (cfg.full && cfg.modalParent) {
+            buildModal(p, thumb, i, filePath, cfg.modalParent);
+        }
+    }
+
+    if (cfg.full) {
+        initIsotopeFiltering(cfg);
+        initLightbox(cfg);
+    }
+}
 
 /* ---------------------------------------------------------------------------
- * helpers
+ * Templates
  * ------------------------------------------------------------------------ */
-const slug = str => str.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-
-const fmtDate = iso => {
-    if (!iso) return '';
-    const d = new Date(iso);
-    return d.toLocaleString('en-US', { month: 'short', year: 'numeric' });
-};
-
-/* ---------------------------------------------------------------------------
- * main
- * ------------------------------------------------------------------------ */
-function initProjects(data) {
-
-    /* --------- DOM targets ------------------------------------------------ */
-    const list = document.getElementById('project-list');      // <ul>
-    const modalBox = document.getElementById('modal-container');   // wrapper
-    const nav = document.getElementById('project-filter');    // <nav>
-    const searchInput = document.getElementById('project-search');    // <input>
-
-    /* --------- 1. build category buttons --------------------------------- */
-    const categories = Array.from(
-        new Set(data.flatMap(p => p.category || []))
-    ).sort();
-
-    nav.innerHTML =
-        ['All', ...categories].map(c =>
-            `<button class="filter-btn" data-cat="${c}">${c}</button>`
-        ).join('');
-
-    nav.querySelector('.filter-btn').classList.add('is-active'); /* highlight “All” */
-
-    /* --------- 2. build cards + pop-ups ---------------------------------- */
-    data.sort((a, b) => (b.date || '').localeCompare(a.date || ''));   // newest first
-
-    data.forEach((p, i) => {
-
-        const modalID = `modal-${i}-${slug(p.title)}`;
-        const thumb = p.thumbnail || 'images/portfolio/default-thumb.jpg';
-        const tagsStr = (p.category || []).join('|');
-
-        /* ---------- helpers ------------------------------------------------ */
-        const catHTML = (p.category && p.category.length)
-            ? `<ul class="modal-popup__cat">
-                    ${p.category.map(c => `<li>${c}</li>`).join('')}
-                </ul>`
-            : '';
-
-        const dateHTML = p.date
-            ? `<ul class="modal-popup__date">
-                    <li>${fmtDate(p.date)}</li>
-                </ul>`
-            : '';
-
-        const descHTML = p.description
-            ? `<p>${p.description}</p>`
-            : '';
-
-        /* ---------- card (unchanged except first-category line) ------------ */
-        list.insertAdjacentHTML('beforeend', `
-            <li class="folio-list__item column"
-                data-cat="${tagsStr}"
-                data-title="${p.title.toLowerCase()}"
-                data-desc ="${(p.description || '').toLowerCase()}"
-                data-date ="${(p.date || '').toLowerCase()}">
-
-                <a class="folio-list__item-link" href="#${modalID}">
+function defaultCardTpl(p, thumb, i) {
+    const modalID = `modal-${i}-${slug(p.title)}`;
+    return `
+        <li class="folio-list__item"
+            data-cat="${(p.category || []).join('|')}"
+            data-title="${p.title.toLowerCase()}"
+            data-desc="${(p.description || '').toLowerCase()}"
+            data-date="${(fmtDate(p.date) || '').toLowerCase()}">
+            <a class="folio-list__item-link" href="#${modalID}">
                 <div class="folio-list__item-pic">
-                    <img src="${thumb}" alt="${p.title}">
+                    <img src="${thumb}" alt="${p.title}" ${p.border ? 'style="border: 1px solid var(--color-border);"' : ''}>
                 </div>
                 <div class="folio-list__item-text">
-                    ${(p.category && p.category.length)
-                ? `<div class="folio-list__item-cat">${p.category[0]}</div>`
-                : ''}
-                    <div class="folio-list__item-title">${p.title}</div>
+                    ${(p.category?.length) ? `<div class="folio-list__item-cat">${p.category[0]}</div>` : ''}
+                    <div class="folio-list__item-title">${limitText(p.title, 28)}</div>
                 </div>
-                </a>
+            </a>
+            <a class="folio-list__proj-link" href="${p.file}" target="_blank" title="project link">
+                <svg width="15" height="15"><use href="#icon-link"/></svg>
+            </a>
+        </li>`;
+}
 
-                <a class="folio-list__proj-link"
-                    href="${p.file}" target="_blank" title="project link">
-                    <svg width="15" height="15"><use href="#icon-link"/></svg>
-                </a>
-            </li>`);
+function buildModal(p, thumb, i, filePath, container) {
+    const modalID = `modal-${i}-${slug(p.title)}`;
+    const catHTML = (p.category && p.category.length)
+        ? `<ul class="modal-popup__cat">${p.category.map(c => `<li>${c}</li>`).join('')}</ul>`
+        : '';
 
-        /* ---------- modal -------------------------------------------------- */
-        modalBox.insertAdjacentHTML('beforeend', `
-            <div id="${modalID}" hidden>
-                <div class="modal-popup">
-                    <img src="${thumb}" alt="">
-                    <div class="modal-popup__desc">
-                        <h5>${p.title}</h5>
-                        ${descHTML}
-                        ${catHTML}
-                        ${dateHTML}
-                    </div>
-                    <a href="${p.file}" class="modal-popup__details" target="_blank">
-                        Project link
-                    </a>
+    const dateHTML = p.date
+        ? `<ul class="modal-popup__date"><li>${fmtDate(p.date)}</li></ul>`
+        : '';
+
+    const descHTML = p.description
+        ? `<p>${p.description}</p>`
+        : '';
+
+    container.insertAdjacentHTML('beforeend', `
+        <div id="${modalID}" hidden>
+            <div class="modal-popup">
+                <img src="${thumb}" alt="">
+                <div class="modal-popup__desc">
+                    <h5>${p.title}</h5>
+                    ${descHTML}
+                    ${catHTML}
+                    ${dateHTML}
                 </div>
-            </div>`);
-    });
+                <a href="${filePath}" class="modal-popup__details" target="_blank">Project link</a>
+            </div>
+        </div>`);
+}
 
-    const iso = new Isotope(list, {
+/* ---------------------------------------------------------------------------
+ * Extra: Isotope filtering + search
+ * ------------------------------------------------------------------------ */
+function initIsotopeFiltering(cfg) {
+    const iso = new Isotope(cfg.targetUL, {
         itemSelector: '.folio-list__item',
-        layoutMode: 'masonry',
+        layoutMode: 'fitRows',
         percentPosition: true,
         transitionDuration: '0.5s'
     });
 
-    /* --------- 3. BasicLightbox wiring ---------------------------------- */
-    const links = list.querySelectorAll('.folio-list__item-link');
+    if (cfg.nav) {
+        cfg.nav.innerHTML = `
+            <button class="filter-btn is-active" data-cat="All">All</button>
+            ${[...new Set((Array.from(cfg.targetUL.children))
+            .flatMap(item => item.dataset.cat.split('|')))
+            ].sort().map(cat =>
+                `<button class="filter-btn" data-cat="${cat}">${cat}</button>`).join('')
+            }
+        `;
+
+        cfg.nav.addEventListener('click', e => {
+            if (!e.target.matches('.filter-btn')) return;
+            const cat = e.target.dataset.cat;
+
+            cfg.nav.querySelectorAll('.filter-btn')
+                .forEach(b => b.classList.toggle('is-active', b === e.target));
+
+            iso.arrange({
+                filter: cat === 'All' ? '*' : itemElem => itemElem.dataset.cat.split('|').includes(cat)
+            });
+        });
+    }
+
+    if (cfg.searchInput) {
+        let debounce;
+        const handleSearch = () => {
+            const query = cfg.searchInput.value.trim().toLowerCase();
+            iso.arrange({
+                filter: itemElem => {
+                    const title = itemElem.dataset.title || '';
+                    const desc = itemElem.dataset.desc || '';
+                    const date = itemElem.dataset.date || '';
+                    const tags = itemElem.dataset.cat.split('|');
+
+                    return (
+                        (!query || title.includes(query) || desc.includes(query) || date.includes(query)) &&
+                        (cfg.nav && cfg.nav.querySelector('.is-active').dataset.cat === 'All' ||
+                            tags.includes(cfg.nav.querySelector('.is-active').dataset.cat))
+                    );
+                }
+            });
+        };
+        cfg.searchInput.addEventListener('input', () => {
+            clearTimeout(debounce);
+            debounce = setTimeout(handleSearch, 300);
+        });
+        cfg.searchInput.addEventListener('search', handleSearch);
+    }
+}
+
+/* ---------------------------------------------------------------------------
+ * Extra: BasicLightbox setup
+ * ------------------------------------------------------------------------ */
+function initLightbox(cfg) {
+    const links = cfg.targetUL.querySelectorAll('.folio-list__item-link');
     const modals = [];
 
     links.forEach(link => {
         const id = link.getAttribute('href');
-        modals.push(
-            basicLightbox.create(
-                document.querySelector(id),
-                {
-                    onShow: inst =>
-                        document.addEventListener('keydown',
-                            e => (e.key === 'Escape') && inst.close())
-                }
-            )
+        const modal = basicLightbox.create(
+            document.querySelector(id),
+            {
+                onShow: inst => document.addEventListener('keydown', e => (e.key === 'Escape') && inst.close())
+            }
         );
+        modals.push(modal);
     });
 
-    links.forEach((link, idx) =>
+    links.forEach((link, idx) => {
         link.addEventListener('click', e => {
             e.preventDefault();
             modals[idx].show();
-        })
-    );
-
-    /* --------- 4. filtering (category + search) ------------------------- */
-    let activeCat = 'All';
-    let searchQuery = '';
-
-    /* category clicks */
-    nav.addEventListener('click', e => {
-        if (!e.target.matches('.filter-btn')) return;
-        activeCat = e.target.dataset.cat;
-
-        nav.querySelectorAll('.filter-btn')
-            .forEach(b => b.classList.toggle('is-active', b === e.target));
-
-        // Tell Isotope to filter:
-        if (activeCat === 'All') {
-            iso.arrange({ filter: '*' });
-        } else {
-            iso.arrange({
-                filter: itemElem => {
-                    const tags = itemElem.dataset.cat.split('|');
-                    return tags.includes(activeCat);
-                }
-            });
-        }
-    });
-
-    /* live search (300 ms debounce) */
-    if (searchInput) {
-        let debounce;
-        const handle = () => {
-            searchQuery = searchInput.value.trim().toLowerCase();
-
-            iso.arrange({
-                filter: itemElem => {
-                    const tags = itemElem.dataset.cat.split('|');
-                    const matchCat = (activeCat === 'All') || tags.includes(activeCat);
-
-                    const title = itemElem.dataset.title || '';
-                    const desc = itemElem.dataset.desc || '';
-                    const date = itemElem.dataset.date || '';
-
-                    const matchSearch =
-                        !searchQuery ||
-                        title.includes(searchQuery) ||
-                        desc.includes(searchQuery) ||
-                        date.includes(searchQuery);
-
-                    return matchCat && matchSearch;
-                }
-            });
-        };
-
-        searchInput.addEventListener('input', () => {
-            clearTimeout(debounce);
-            debounce = setTimeout(handle, 300);
         });
-        searchInput.addEventListener('search', handle);
-    }
+    });
 }

@@ -7,7 +7,7 @@
     ================================================== -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Projects - Monica</title>
+    <title>Projects - Ethan</title>
 
     <script>
         document.documentElement.classList.remove('no-js');
@@ -68,7 +68,7 @@
                     <ul class="s-header__menu-links" id="nav-menu"></ul> <!-- s-header__menu-links -->
 
                     <div class="s-header__contact">
-                        <a href="../contact.html" class="btn btn--primary s-header__contact-btn">Let's Work Together</a>
+                        <a href="../contact" class="btn btn--primary s-header__contact-btn">Let's Work Together</a>
                     </div> <!-- s-header__contact -->
 
                 </nav> <!-- end s-header__nav -->
@@ -87,7 +87,7 @@
                     <div class="column xl-12">
                         <h1 class="page-title">
                             <span class="page-title__small-type text-pretitle">Ideas in Action</span>
-                            My Projects
+                            Projects, Awards, & More
                         </h1>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                         <!-- <div class="grid-full">         -->
                         <div class="grid-full grid-list-items">
                             <!-- project grid -->
-                            <ul id="project-list" class="folio-list row block-lg-one-half block-stack-on-1000">
+                            <ul id="project-list" class="folio-list grid-list-items">
                             </ul>
                         </div> <!-- grid-list-items -->
                         <!-- </div>     -->
@@ -164,27 +164,7 @@
 
         <!-- # cta
         ================================================== -->
-        <section id="cta" class="s-cta">
-
-            <div class="row row-x-center text-center">
-                <div class="column xl-8 lg-12">
-
-                    <div class="s-cta__content">
-                        <h2 class="text-display-title">
-                            Get started with a consultation today.
-                        </h2>
-                        <p class="lead">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis rem, esse doloribus sint
-                            eaque at debitis enim vitae minus expedita ratione dignissimos sit nostrum optio sequi. Ipsa
-                            at beatae quam.
-                        </p>
-                        <a href="contact.html" class="btn btn--primary">Let's Work Together</a>
-                    </div>
-
-                </div>
-            </div>
-
-        </section> <!-- end s-cta -->
+        <section id="cta" class="s-cta"></section> <!-- end s-cta -->
 
 
         <!-- # footer 
@@ -192,21 +172,30 @@
         <footer class="s-footer">
             <div class="row s-footer__content">
                 <div class="column xl-6 lg-6 md-12 s-footer__block s-footer__about">
-                    <h3>About Monica</h3>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas illum quasi facere libero,
-                        fugiat laboriosam possimus reprehenderit eveniet vero voluptatum fugit ad quis veritatis
-                        suscipit beatae
-                        incidunt perferendis tempore earum hic repellendus quisquam recusandae ipsa id esse. Nobis, aut
-                        deleniti.
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere ratione dignissimos.
-                    </p>
+                    <div id="footer-content-placeholder"></div> <!-- injected content -->
                 </div>
                 <div class="column xl-3 lg-6 md-12 s-footer__block s-footer__site-links">
                     <h3>Site Links</h3>
                     <ul id="footer-links" class="link-list"></ul>
+                    <!--<ul class="link-list">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="blog.html">Journal</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="https://www.dreamhost.com/r.cgi?287326">DreamHost</a></li>
+                    </ul>-->
                 </div>
-                <div class="column xl-3 lg-6 md-12 tab-12 s-footer__block s-footer__newsletter">
+                <div class="column xl-3 lg-6 md-12 s-footer__block s-footer__site-links">
+                    <h3>Skills</h3>
+                    <ul class="s-footer__list">
+                        <li><a>Technical:</a> Python, SQL, Machine Learning, Excel, R, Java, JavaScript, Web
+                            Development</li>
+                        <li><a>Core:</a> Data Analytics, Financial Modeling, Market Research, Public Speaking,
+                            Project Management</li>
+                    </ul>
+                </div>
+                <!-- <div class="column xl-3 lg-6 md-12 tab-12 s-footer__block s-footer__newsletter">
                     <h3>Newsletter</h3>
 
                     <p>
@@ -222,11 +211,11 @@
                                 required>
                             <input type="submit" name="subscribe" value="Subscribe"
                                 class="btn btn--primary btn--small u-fullwidth">
-                            <!-- <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_cdb7b577e41181934ed6a6a44_9a91cfe7b3" tabindex="-1" value=""></div> -->
+                            COMMENTED OUT FYI <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_cdb7b577e41181934ed6a6a44_9a91cfe7b3" tabindex="-1" value=""></div>
                             <div class="mc-status"></div>
                         </form>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="row s-footer__bottom">
@@ -235,7 +224,7 @@
                 </div>
                 <div class="column xl-6 lg-12">
                     <p class="ss-copyright">
-                        <span>© Copyright Monica 2022</span>
+                        <span>© Copyright Ethan Lau 2025</span>
                         <span>Design by <a href="https://www.styleshout.com/">StyleShout</a> Distribution By <a
                                 href="https://themewagon.com">ThemeWagon</a></span>
                     </p>
@@ -261,11 +250,17 @@
     ================================================== -->
     <script src="../js/plugins.js"></script>
     <script src="../js/main.js"></script>
-    <script src="../js/secondary.js" type="module" defer></script>
+
+    <!-- Global Navigation / Footer Handling -->
+    <script type="module" src="../js/secondary.js" defer></script>
+
+    <!-- PDF.js Library (for thumbnails) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
+    <!-- External Libraries -->
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/basiclightbox@5/dist/basicLightbox.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basiclightbox@5/dist/basicLightbox.min.css">
-    <script src="../js/projects.js"></script>
 
 </body>
 
