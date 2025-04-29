@@ -5089,34 +5089,29 @@ td:last-child {
 }
 
 /* ---------- Projects page: force 3 columns ---------- */
-@media (min-width: 1200px) {
-
-    /* desktop */
-    #project-list .folio-list__item {
-        width: 33.333%;
-    }
-
-    /* 3 equal columns  */
+#project-row {
+    max-width: 85%;
+    /* or 95vw for even more dynamic sizing */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 4rem;
+    /* optional breathing space */
+    padding-right: 4rem;
+    width: auto;
 }
 
-@media (max-width: 1199px) {
-
-    /* tablet */
-    #project-list .folio-list__item {
-        width: 50%;
-    }
-
-    /* 2 columns        */
+#project-list {
+    width: 100%;
+    position: relative;
 }
 
-@media (max-width: 800px) {
-
-    /* mobile */
-    #project-list .folio-list__item {
-        width: 100%;
-    }
-
-    /* single-column    */
+#project-list .folio-list__item {
+    width: calc(33.333% - 4rem);
+    /* 3 columns, minus margin space */
+    min-width: 400px;
+    margin: 2rem;
+    box-sizing: border-box;
+    /* include padding+border in width */
 }
 
 /* ------------------------------------------------------------------- 

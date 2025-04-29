@@ -18,7 +18,6 @@
     /* preloader
      * -------------------------------------------------- */
     const ssPreloader = function () {
-
         const siteBody = document.querySelector('body');
         const preloader = document.querySelector('#preloader');
         if (!preloader) return;
@@ -26,18 +25,33 @@
         html.classList.add('ss-preload');
 
         window.addEventListener('load', function () {
-            html.classList.remove('ss-preload');
-            html.classList.add('ss-loaded');
+            // (NEW) Define a "finish" function that hides the preloader
+            // so we can call it AFTER dynamic content is ready too
+            const finish = () => {
+                html.classList.remove('ss-preload');
+                html.classList.add('ss-loaded');
 
-            preloader.addEventListener('transitionend', function afterTransition(e) {
-                if (e.target.matches('#preloader')) {
-                    siteBody.classList.add('ss-show');
-                    e.target.style.display = 'none';
-                    preloader.removeEventListener(e.type, afterTransition);
-                }
-            });
+                preloader.addEventListener('transitionend', function afterTransition(e) {
+                    if (e.target.matches('#preloader')) {
+                        siteBody.classList.add('ss-show');
+                        e.target.style.display = 'none';
+                        preloader.removeEventListener(e.type, afterTransition);
+                    }
+                });
+            };
+
+            // (NEW) Check if dynamicInitDone exists (meaning dynamic stuff like renderProjects is still running)
+            if (window.dynamicInitDone && typeof window.dynamicInitDone.then === 'function') {
+
+                // (NEW) If it exists, wait for all dynamic content to finish
+                window.dynamicInitDone
+                    .catch(console.error)   // (NEW) Catch any error but still continue (avoids getting stuck)
+                    .finally(finish);        // (NEW) Then finish hiding the preloader
+            } else {
+                // (NEW) Otherwise (no dynamic content), just finish immediately
+                finish();
+            }
         });
-
     }; // end ssPreloader
 
 

@@ -1,9 +1,14 @@
+/* ============================================================================
+ * secondary.js
+ * (modularized loader for flexible use across all pages)
+ * -------------------------------------------------------------------------- */
+
 /* ────────────── NAVIGATION DYNAMIC LOADING ────────────────────────── */
 const NAV_ITEMS = [
     /* ─ internal pages ─ */
     { url: '', title: 'Home', footer: true },
     { url: 'about/', title: 'About', footer: false },
-    { url: 'experiences/', title: 'Experiences', footer: false },
+    { url: 'experience/', title: 'Experience', footer: false },
     { url: 'portfolio/', title: 'Portfolio', footer: false },
     { url: 'contact/', title: 'Contact', footer: false }
 ];
@@ -139,7 +144,7 @@ function setupNavAndFooter() {
 
 import { renderList, servicePreviewTpl, serviceFullTpl } from './custom_loaders.js'; // the generic helper
 
-fetch('../experiences/experiences.json')
+fetch('../experience/experience.json')
     .then(r => r.json())
     .then(services => {
         const previewBox = document.querySelector('#services-preview');
@@ -172,37 +177,45 @@ const homeCardTpl = (p, thumb, i) => `
 /* ────────────── MAIN DYNAMIC RUNNER ────────────────────────── */
 /* Main runner */
 window.addEventListener('DOMContentLoaded', () => {
+    const jobs = [];
+
     loadFooter();
 
     if (ARE_WE_HOME) {
         // Home page → Preview latest 3 projects
-        renderProjects({
-            targetUL: document.querySelector('#home-projects'),
-            count: 3,
-            full: false,
-            cardTpl: homeCardTpl
-        });
+        jobs.push(
+            renderProjects({
+                targetUL: document.querySelector('#home-projects'),
+                count: 3,
+                full: false,
+                cardTpl: homeCardTpl
+            })
+        );
     }
 
     if (ARE_WE_PROJECTS) {
-        renderProjects({
-            targetUL: document.querySelector('#project-list'),
-            modalParent: document.getElementById('modal-container'),
-            nav: document.getElementById('project-filter'),
-            searchInput: document.getElementById('project-search'),
-            full: true
-        }).then(() => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const filterCat = urlParams.get('filter');
-            if (filterCat) {
-                const nav = document.getElementById('project-filter');
-                if (nav) {
-                    const button = [...nav.querySelectorAll('button')].find(btn => btn.dataset.cat === filterCat);
-                    if (button) {
-                        button.click();  // simulate a click to filter automatically
+        jobs.push(
+            renderProjects({
+                targetUL: document.querySelector('#project-list'),
+                modalParent: document.getElementById('modal-container'),
+                nav: document.getElementById('project-filter'),
+                searchInput: document.getElementById('project-search'),
+                full: true
+            }).then(() => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const filterCat = urlParams.get('filter');
+                if (filterCat) {
+                    const nav = document.getElementById('project-filter');
+                    if (nav) {
+                        const button = [...nav.querySelectorAll('button')].find(btn => btn.dataset.cat === filterCat);
+                        if (button) {
+                            button.click();// simulate a click to filter automatically
+                        }
                     }
                 }
-            }
-        });
+            })
+        );
     }
+
+    window.dynamicInitDone = Promise.all(jobs); // <- expose global promise
 });

@@ -41,7 +41,7 @@ export function limitText(text, limit = 30) {
  * @returns {Promise<string|null>} Base64 string or image path
  */
 export async function getThumbnail(filePath, useAsIs = '') {
-    if (useAsIs) return (!ARE_WE_HOME ? '../' : '') + useAsIs;
+    if (useAsIs) filePath = (!ARE_WE_HOME ? '../' : '') + useAsIs;
 
     const imageExt = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff", ".svg"];
     if (imageExt.some(ext => filePath.toLowerCase().endsWith(ext))) {
