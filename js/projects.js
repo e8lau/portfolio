@@ -6,7 +6,8 @@
  *  – utilities: getThumbnail(), limitText(), fmtDate(), slug()
  * -------------------------------------------------------------------------- */
 
-const ARE_WE_HOME = document.documentElement.classList.contains('home');
+const normalize = p => p.replace(/\/?(index\.html)?$/, '/');
+const ARE_WE_HOME = normalize(location.pathname) === '/portfolio';
 
 /* ---------------------------------------------------------------------------
  * Utility Functions
@@ -121,7 +122,7 @@ export async function renderProjects(opts = {}) {
 
     for (const [i, p] of projects.entries()) {
         const filePath = (!ARE_WE_HOME ? '../' : '') + p.file;
-        const thumb = await getThumbnail(filePath, p.thumbnail) || '../images/thumbnails/default_thumb.png';
+        const thumb = await getThumbnail(filePath, p.thumbnail) || (!ARE_WE_HOME ? '../' : '') + 'images/thumbnails/default_thumb.png';
 
         cfg.targetUL.insertAdjacentHTML('beforeend', cfg.cardTpl(p, thumb, i));
 

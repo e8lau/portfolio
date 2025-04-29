@@ -7,10 +7,10 @@
 const NAV_ITEMS = [
     /* ─ internal pages ─ */
     { url: '', title: 'Home', footer: true },
-    { url: 'about/', title: 'About', footer: false },
-    { url: 'experience/', title: 'Experience', footer: false },
-    { url: 'portfolio/', title: 'Portfolio', footer: false },
-    { url: 'contact/', title: 'Contact', footer: false }
+    { url: '/about/', title: 'About', footer: false },
+    { url: '/experience/', title: 'Experience', footer: false },
+    { url: '/portfolio/', title: 'Portfolio', footer: false },
+    { url: '/contact/', title: 'Contact', footer: false }
 ];
 
 const SOCIAL_ITEMS = [
@@ -40,7 +40,7 @@ const SOCIAL_ITEMS = [
 const normalize = p => p.replace(/\/?(index\.html)?$/, '/');
 
 /* Are we at root? (home page or folder root) */
-const ARE_WE_HOME = normalize(location.pathname) === '/';
+const ARE_WE_HOME = normalize(location.pathname) === '/portfolio';
 
 /* If we’re inside a subfolder, prepend “…/” to relative URLs */
 const fixURL = u =>
@@ -86,7 +86,7 @@ function appendSocial(ul, icon) {
 function loadFooter() {
     const contactEL = document.querySelector('section.s-cta');
     if (contactEL) {
-        fetch(fixURL('../contact-preview.html'))  // adjust path if needed
+        fetch(fixURL((!ARE_WE_HOME ? '../' : '') + 'contact-preview.html'))  // adjust path if needed
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.text();
@@ -102,7 +102,7 @@ function loadFooter() {
 
     const footerEl = document.querySelector('#footer-content-placeholder');
     if (footerEl) {
-        fetch(fixURL('../footer.html'))  // adjust path if needed
+        fetch(fixURL((!ARE_WE_HOME ? '../' : '') + 'footer.html'))  // adjust path if needed
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.text();
@@ -144,7 +144,7 @@ function setupNavAndFooter() {
 
 import { renderList, servicePreviewTpl, serviceFullTpl } from './custom_loaders.js'; // the generic helper
 
-fetch('../experience/experience.json')
+fetch((!ARE_WE_HOME ? '../' : '') + 'experience/experience.json')
     .then(r => r.json())
     .then(services => {
         const previewBox = document.querySelector('#services-preview');
