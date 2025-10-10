@@ -1,0 +1,55 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const { title = "Portfolio", current = "" } = Astro.props;
+const BASE = import.meta.env.BASE_URL || "/";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{title}</title>
+
+        <!-- Core styles -->
+        <link rel="stylesheet" href={`${BASE}css/vendor.css`} />
+        <link rel="stylesheet" href={`${BASE}css/styles.css`} />
+
+        <!-- Favicon & Manifest -->
+        <link rel="icon" href={`${BASE}favicon.ico`} />
+        <link rel="manifest" href={`${BASE}site.webmanifest`} />
+
+        <!-- Meta basics -->
+        <meta name="theme-color" content="#0d0d0d" />
+        <meta
+            name="description"
+            content="Personal portfolio and project showcase."
+        />
+    </head>
+
+    <!-- 👇 Add ss-preload so the preloader script knows to fade in/out -->
+    <body id="top" class="ss-show ss-preload">
+        <!-- ========================================= -->
+        <!-- Preloader (identical to template)         -->
+        <!-- ========================================= -->
+        <div id="preloader">
+            <div id="loader" class="dots-fade">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+
+        <!-- Main wrapper -->
+        <div id="page" class="s-pagewrap">
+            <Header current={current} />
+            <slot />
+            <Footer />
+        </div>
+
+        <!-- Template scripts (no change) -->
+        <script type="module" src={`${BASE}js/plugins.js`}></script>
+        <script type="module" src={`${BASE}js/main.js`}></script>
+    </body>
+</html>

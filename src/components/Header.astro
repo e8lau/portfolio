@@ -1,0 +1,45 @@
+---
+const BASE = import.meta.env.BASE_URL || "/";
+const { pathname } = Astro.url;
+const isCurrent = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`) ? "current" : "";
+---
+
+<header class="s-header">
+    <div class="row s-header__inner width-sixteen-col">
+        <div class="s-header__block">
+            <div class="s-header__logo">
+                <a class="logo" href={`${BASE}`}>
+                    <img src={`${BASE}images/logo.svg`} alt="Homepage" />
+                </a>
+            </div>
+            <a class="s-header__menu-toggle" href="#0"><span>Menu</span></a>
+        </div>
+
+        <nav class="s-header__nav">
+            <ul class="s-header__menu-links">
+                <li class={isCurrent(`${BASE}about`)}>
+                    <a href={`${BASE}about`}>About</a>
+                </li>
+                <li class={isCurrent(`${BASE}services`)}>
+                    <a href={`${BASE}services`}>Services</a>
+                </li>
+                <li class={isCurrent(`${BASE}blog`)}>
+                    <a href={`${BASE}blog`}>Journal</a>
+                </li>
+                <li class={isCurrent(`${BASE}contact`)}>
+                    <a href={`${BASE}contact`}>Contact</a>
+                </li>
+            </ul>
+
+            <div class="s-header__contact">
+                <a
+                    href={`${BASE}contact`}
+                    class="btn btn--primary s-header__contact-btn"
+                >
+                    Let's Work Together
+                </a>
+            </div>
+        </nav>
+    </div>
+</header>

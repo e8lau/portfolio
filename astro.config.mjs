@@ -1,9 +1,24 @@
-// @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
+import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
 
-import react from '@astrojs/react';
+// ✅ set your actual repo name here
+const REPO_NAME = "portfolio";
 
-// https://astro.build/config
 export default defineConfig({
-  integrations: [react()]
+    // 🔹 the base path Astro will prepend to asset and link URLs
+    base: '/', // `/${REPO_NAME}/`,
+
+    // 🔹 used by sitemap, canonical URLs, and social meta
+    site: `https://username.github.io/${REPO_NAME}/`,
+
+    integrations: [react(), sitemap()],
+    output: "static", // ✅ ensures a fully static build (works with GitHub Pages)
+
+    vite: {
+        build: {
+            // optional, ensures relative paths in the final HTML
+            assetsInlineLimit: 0,
+        },
+    },
 });

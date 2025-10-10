@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Home components (pure-presentational; same template classes)
+import HomeAboutTeaser from "../components/home/HomeAboutTeaser.astro";
+import HomeExpertise from "../components/home/HomeExpertise.astro";
+import HomeClients from "../components/home/HomeClients.astro";
+import HomeTestimonials from "../components/home/HomeTestimonials.astro";
+import HomeCTA from "../components/home/HomeCTA.astro";
+import HomeJournal from "../components/home/HomeJournal.astro";
+
+const BASE = import.meta.env.BASE_URL || "/";
+---
+
+<BaseLayout title="Home">
+    <section id="content" class="s-content">
+        <!-- intro -->
+        <section id="intro" class="s-intro">
+            <div class="row s-intro__content width-sixteen-col">
+                <div class="column lg-12 s-intro__content-inner grid-block">
+                    <div class="s-intro__content-text">
+                        <div class="s-intro__content-pretitle text-pretitle">
+                            Hello, I'm Monica
+                        </div>
+                        <h1 class="s-intro__content-title">
+                            I create marketing <br />
+                            strategies for your <br />
+                            business that get <br />
+                            results.
+                        </h1>
+                    </div>
+
+                    <div class="s-intro__content-media">
+                        <div class="s-intro__content-media-inner">
+                            <img
+                                src={`${BASE}images/intro-bg.jpg`}
+                                srcset={`${BASE}images/intro-bg.jpg 1x, ${BASE}images/intro-bg@2x.jpg 2x`}
+                                alt=""
+                            />
+                            <div class="lines"><span></span></div>
+                        </div>
+                    </div>
+
+                    <div class="s-intro__scroll-down">
+                        <a href="#about" class="smoothscroll">
+                            <div class="scroll-icon">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="36"
+                                    height="36"
+                                    fill="none"
+                                    stroke="#97b34a"
+                                    stroke-width="1"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    ><polyline points="7 13 12 18 17 13"
+                                    ></polyline><line
+                                        x1="12"
+                                        y1="18"
+                                        x2="12"
+                                        y2="6"></line></svg
+                                >
+                            </div>
+                            <span>Scroll for more</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- more sections/components will follow here -->
+
+        <!-- The rest of home as composable blocks -->
+        <HomeAboutTeaser BASE={BASE} />
+        <HomeExpertise BASE={BASE} />
+        <HomeClients BASE={BASE} />
+        <HomeTestimonials BASE={BASE} />
+        <HomeCTA BASE={BASE} />
+        <HomeJournal BASE={BASE} />
+    </section>
+</BaseLayout>

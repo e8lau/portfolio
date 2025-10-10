@@ -1,0 +1,19 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+const { title, date } = Astro.props;
+---
+
+<BaseLayout title={title} current="blog">
+    <article id="content" class="s-content entry">
+        <header class="s-pageheader entry__header">
+            <h1 class="entry__title">{title}</h1>
+            <div class="entry__meta">
+                <div class="entry__meta-date">{date}</div>
+            </div>
+        </header>
+        <section class="s-pagecontent pagecontent">
+            <slot />
+            <!-- paste post body HTML -->
+        </section>
+    </article>
+</BaseLayout>
