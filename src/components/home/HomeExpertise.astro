@@ -1,9 +1,99 @@
 ---
-const { BASE = "/" } = Astro.props;
+const BASE = import.meta.env.BASE_URL || "/";
 ---
 
-<section class="s-expertise expertise">
-    <!-- Paste the “expertise/services” grid from the home page here.
-       Keep the same card classes and icons.
-  -->
-</section>
+<!-- expertise -->
+<section id="expertise" class="s-expertise">
+    <div class="row s-expertise__content width-sixteen-col">
+        <div class="column xl-12 grid-block grid-section-split">
+            <div class="section-header grid-section-split__header">
+                <div class="text-pretitle">Expertise</div>
+                <h2 class="text-display-title">My key areas of expertise.</h2>
+                <p class="lead">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Laborum suscipit debitis quam dignissimos veritatis atque
+                    pariatur magnam obcaecati fugit reprehenderit vel numquam
+                    facere esse est deserunt, perferendis commodi voluptatem
+                    similique.
+                </p>
+            </div><!-- end section-header -->
+
+            <div class="s-expertise__content-main grid-section-split__primary">
+                <div class="grid-list-items list-items show-ctr">
+                    <div class="grid-list-items__item list-items__item">
+                        <div
+                            class="grid-list-items__title list-items__item-header"
+                        >
+                            <h3 class="list-items__item-title">
+                                Digital Marketing
+                            </h3>
+                        </div>
+                        <div
+                            class="grid-list-items__text list-items__item-text"
+                        >
+                            <p>
+                                Quibusdam quis autem voluptatibus earum vel ex
+                                error ea magni. Rerum quam quos. Aut asperiores
+                                sit mollitia. Rem neque et voluptatem eos quia
+                                sed eligendi et. Eaque velit eligendi ut magnam.
+                                Cumque ducimus laborum doloribus facere maxime
+                                vel earum quidem enim suscipit.
+                            </p>
+                        </div>
+                    </div><!-- list-expertise__item -->
+
+                    <div class="grid-list-items__item list-items__item">
+                        <div
+                            class="grid-list-items__title list-items__item-header"
+                        >
+                            <h3 class="list-items__item-title">
+                                Content Marketing
+                            </h3>
+                        </div>
+                        <div
+                            class="grid-list-items__text list-items__item-text"
+                        >
+                            <p>
+                                Eaque velit eligend. iQuibusdam quis autem
+                                voluptatibus earum vel ex error ea magni. Rerum
+                                quam quos. Aut asperiores sit mollitia. Rem
+                                neque et voluptatem eos quia sed eligendi et.
+                                Eaque velit eligendi ut magnam. Cumque ducimus
+                                laborum doloribus facere maxime vel earum quidem
+                                enim suscipit.
+                            </p>
+                        </div>
+                    </div><!-- list-expertise__item -->
+
+                    <div class="grid-list-items__item list-items__item">
+                        <div
+                            class="grid-list-items__title list-items__item-header"
+                        >
+                            <h3 class="list-items__item-title">
+                                Research & Discovery
+                            </h3>
+                        </div>
+                        <div
+                            class="grid-list-items__text list-items__item-text"
+                        >
+                            <p>
+                                Quibusdam quis autem voluptatibus earum vel ex
+                                error ea magni. Rerum quam quos. Aut asperiores
+                                sit mollitia. Rem neque et voluptatem eos quia
+                                sed eligendi et. Eaque velit eligendi ut magnam.
+                                Cumque ducimus laborum doloribus facere maxime
+                                vel earum quidem enim suscipit.
+                            </p>
+                        </div>
+                    </div><!-- list-expertise__item -->
+                </div><!-- grid-list-items -->
+            </div><!-- end s-expertise__content-main -->
+
+            <div class="s-expertise__content-btn grid-section-split__bottom">
+                <a href={`${BASE}services`} class="btn btn--stroke u-fullwidth"
+                    >View All Services</a
+                >
+            </div><!-- end s-expertise__content-btn -->
+        </div><!-- end grid-block-->
+    </div><!-- end s-expertise__content -->
+</section><!-- end s-expertise -->
