@@ -1,17 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PageHeader from "../components/PageHeader.astro";
-import CTA from "../components/CTA.astro";
+import PageHeader from "../components/common/PageHeader.astro";
+import CTA from "../components/common/CTA.astro";
 const BASE = import.meta.env.BASE_URL || "/";
 ---
 
 <BaseLayout title="About">
     <section id="content" class="s-content">
         <PageHeader pretitle="About" title="Hi, I’m ET" />
-        <section class="s-pagecontent pagecontent">
-            <!-- Paste About intro/media/testimonials from template -->
-        </section>
-        <!-- end pageheader -->
 
         <section class="s-pagecontent pagecontent">
             <div class="row pageintro">

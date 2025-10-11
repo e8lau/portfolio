@@ -1,11 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PageHeader from "../components/PageHeader.astro";
-import CTA from "../components/CTA.astro";
+import PageHeader from "../components/common/PageHeader.astro";
+import CTA from "../components/common/CTA.astro";
 const BASE = import.meta.env.BASE_URL || "/";
 ---
 
-<BaseLayout title="Journal" current="blog">
+<BaseLayout title="Projects" current="projects">
     <section id="content" class="s-content">
         <PageHeader pretitle="My Blog" title="Recent Writings" />
 
@@ -14,19 +14,19 @@ const BASE = import.meta.env.BASE_URL || "/";
                 <div class="column xl-12 grid-block">
                     <!-- <div class="grid-full">         -->
                     <div class="grid-full grid-list-items">
-                        <div class="grid-list-items__item blog-card">
-                            <div class="blog-card__header">
-                                <div class="blog-card__cat-links">
-                                    <a href="blog.html">Sponsored</a>
+                        <div class="grid-list-items__item projects-card">
+                            <div class="projects-card__header">
+                                <div class="projects-card__cat-links">
+                                    <a href="projects.html">Sponsored</a>
                                 </div>
-                                <h3 class="blog-card__title">
+                                <h3 class="projects-card__title">
                                     <a
                                         href="https://www.dreamhost.com/r.cgi?287326"
                                         >Need Web Hosting for Your Websites?</a
                                     >
                                 </h3>
                             </div>
-                            <div class="blog-card__text">
+                            <div class="projects-card__text">
                                 <p>
                                     Need hosting for your website? We would
                                     highly recommend <a
@@ -42,20 +42,20 @@ const BASE = import.meta.env.BASE_URL || "/";
                                 </p>
                             </div>
                         </div>
-                        <!-- end blog-card -->
-                        <div class="grid-list-items__item blog-card">
-                            <div class="blog-card__header">
-                                <div class="blog-card__cat-links">
-                                    <a href="blog.html">SEO</a>
+                        <!-- end projects-card -->
+                        <div class="grid-list-items__item projects-card">
+                            <div class="projects-card__header">
+                                <div class="projects-card__cat-links">
+                                    <a href="projects.html">SEO</a>
                                 </div>
-                                <h3 class="blog-card__title">
+                                <h3 class="projects-card__title">
                                     <a href="single.html"
                                         >7 SEO Factors to Consider for Better
                                         Website Ranking</a
                                     >
                                 </h3>
                             </div>
-                            <div class="blog-card__text">
+                            <div class="projects-card__text">
                                 <p>
                                     Quibusdam quis autem voluptatibus earum vel
                                     ex error ea magni. Rerum quam quos. Aut
@@ -67,19 +67,19 @@ const BASE = import.meta.env.BASE_URL || "/";
                                 </p>
                             </div>
                         </div>
-                        <!-- end blog-card -->
-                        <div class="grid-list-items__item blog-card">
-                            <div class="blog-card__header">
-                                <div class="blog-card__cat-links">
-                                    <a href="blog.html">Web Design</a>
+                        <!-- end projects-card -->
+                        <div class="grid-list-items__item projects-card">
+                            <div class="projects-card__header">
+                                <div class="projects-card__cat-links">
+                                    <a href="projects.html">Web Design</a>
                                 </div>
-                                <h3 class="blog-card__title">
+                                <h3 class="projects-card__title">
                                     <a href="single.html"
                                         >5 Effective Web Design Principles</a
                                     >
                                 </h3>
                             </div>
-                            <div class="blog-card__text">
+                            <div class="projects-card__text">
                                 <p>
                                     Lorem ipsum dolor sit amet consectetur,
                                     adipisicing elit. Rerum ullam et laborum
@@ -92,20 +92,20 @@ const BASE = import.meta.env.BASE_URL || "/";
                                 </p>
                             </div>
                         </div>
-                        <!-- end blog card -->
-                        <div class="grid-list-items__item blog-card">
-                            <div class="blog-card__header">
-                                <div class="blog-card__cat-links">
-                                    <a href="blog.html">Productivity</a>
+                        <!-- end projects card -->
+                        <div class="grid-list-items__item projects-card">
+                            <div class="projects-card__header">
+                                <div class="projects-card__cat-links">
+                                    <a href="projects.html">Productivity</a>
                                 </div>
-                                <h3 class="blog-card__title">
+                                <h3 class="projects-card__title">
                                     <a href="single.html"
                                         >The Advantages of Hiring a Consultant
                                         Rather Than An Employee Or An Agency</a
                                     >
                                 </h3>
                             </div>
-                            <div class="blog-card__text">
+                            <div class="projects-card__text">
                                 <p>
                                     Rerum quam quos. Quibusdam quis autem
                                     voluptatibus earum vel ex error ea magni.
@@ -117,20 +117,20 @@ const BASE = import.meta.env.BASE_URL || "/";
                                 </p>
                             </div>
                         </div>
-                        <!-- end blog-card -->
-                        <div class="grid-list-items__item blog-card">
-                            <div class="blog-card__header">
-                                <div class="blog-card__cat-links">
-                                    <a href="blog.html">Productivity</a>
+                        <!-- end projects-card -->
+                        <div class="grid-list-items__item projects-card">
+                            <div class="projects-card__header">
+                                <div class="projects-card__cat-links">
+                                    <a href="projects.html">Productivity</a>
                                 </div>
-                                <h3 class="blog-card__title">
+                                <h3 class="projects-card__title">
                                     <a href="single.html"
                                         >5 Marketing Productivity Apps for Your
                                         Team</a
                                     >
                                 </h3>
                             </div>
-                            <div class="blog-card__text">
+                            <div class="projects-card__text">
                                 <p>
                                     Rerum quam quos. Quibusdam quis autem
                                     voluptatibus earum vel ex error ea magni.
@@ -142,20 +142,20 @@ const BASE = import.meta.env.BASE_URL || "/";
                                 </p>
                             </div>
                         </div>
-                        <!-- end blog-card -->
-                        <div class="grid-list-items__item blog-card">
-                            <div class="blog-card__header">
-                                <div class="blog-card__cat-links">
-                                    <a href="blog.html">Marketing</a>
+                        <!-- end projects-card -->
+                        <div class="grid-list-items__item projects-card">
+                            <div class="projects-card__header">
+                                <div class="projects-card__cat-links">
+                                    <a href="projects.html">Marketing</a>
                                 </div>
-                                <h3 class="blog-card__title">
+                                <h3 class="projects-card__title">
                                     <a href="single.html"
                                         >How to Determine the Reach of Your
                                         Campaign</a
                                     >
                                 </h3>
                             </div>
-                            <div class="blog-card__text">
+                            <div class="projects-card__text">
                                 <p>
                                     Quibusdam quis autem voluptatibus earum vel
                                     ex error ea magni. Rerum quam quos. Aut
@@ -167,19 +167,19 @@ const BASE = import.meta.env.BASE_URL || "/";
                                 </p>
                             </div>
                         </div>
-                        <!-- end blog-card -->
-                        <div class="grid-list-items__item blog-card">
-                            <div class="blog-card__header">
-                                <div class="blog-card__cat-links">
-                                    <a href="blog.html">SEO</a>
+                        <!-- end projects-card -->
+                        <div class="grid-list-items__item projects-card">
+                            <div class="projects-card__header">
+                                <div class="projects-card__cat-links">
+                                    <a href="projects.html">SEO</a>
                                 </div>
-                                <h3 class="blog-card__title">
+                                <h3 class="projects-card__title">
                                     <a href="single.html"
                                         >The Complete Guide to Redirects</a
                                     >
                                 </h3>
                             </div>
-                            <div class="blog-card__text">
+                            <div class="projects-card__text">
                                 <p>
                                     Eaque velit eligendi ut magnam.Quibusdam
                                     quis autem voluptatibus earum vel ex error
@@ -191,20 +191,20 @@ const BASE = import.meta.env.BASE_URL || "/";
                                 </p>
                             </div>
                         </div>
-                        <!-- end blog card -->
-                        <div class="grid-list-items__item blog-card">
-                            <div class="blog-card__header">
-                                <div class="blog-card__cat-links">
-                                    <a href="blog.html">SEO</a>
+                        <!-- end projects card -->
+                        <div class="grid-list-items__item projects-card">
+                            <div class="projects-card__header">
+                                <div class="projects-card__cat-links">
+                                    <a href="projects.html">SEO</a>
                                 </div>
-                                <h3 class="blog-card__title">
+                                <h3 class="projects-card__title">
                                     <a href="single.html"
                                         >What Backlinks Are & Why They Are
                                         Important for SEO</a
                                     >
                                 </h3>
                             </div>
-                            <div class="blog-card__text">
+                            <div class="projects-card__text">
                                 <p>
                                     Quibusdam quis autem voluptatibus earum vel
                                     ex error ea magni. Rerum quam quos. Aut
@@ -216,19 +216,19 @@ const BASE = import.meta.env.BASE_URL || "/";
                                 </p>
                             </div>
                         </div>
-                        <!-- end blog-card -->
-                        <div class="grid-list-items__item blog-card">
-                            <div class="blog-card__header">
-                                <div class="blog-card__cat-links">
-                                    <a href="blog.html">Marketing</a>
+                        <!-- end projects-card -->
+                        <div class="grid-list-items__item projects-card">
+                            <div class="projects-card__header">
+                                <div class="projects-card__cat-links">
+                                    <a href="projects.html">Marketing</a>
                                 </div>
-                                <h3 class="blog-card__title">
+                                <h3 class="projects-card__title">
                                     <a href="single.html"
                                         >Why Is Data-Driven Marketing Important?</a
                                     >
                                 </h3>
                             </div>
-                            <div class="blog-card__text">
+                            <div class="projects-card__text">
                                 <p>
                                     Rerum quam quos. Quibusdam quis autem
                                     voluptatibus earum vel ex error ea magni.
@@ -240,20 +240,20 @@ const BASE = import.meta.env.BASE_URL || "/";
                                 </p>
                             </div>
                         </div>
-                        <!-- end blog card -->
-                        <div class="grid-list-items__item blog-card">
-                            <div class="blog-card__header">
-                                <div class="blog-card__cat-links">
-                                    <a href="blog.html">Marketing</a>
+                        <!-- end projects card -->
+                        <div class="grid-list-items__item projects-card">
+                            <div class="projects-card__header">
+                                <div class="projects-card__cat-links">
+                                    <a href="projects.html">Marketing</a>
                                 </div>
-                                <h3 class="blog-card__title">
+                                <h3 class="projects-card__title">
                                     <a href="single.html"
                                         >How to Develop Successful Marketing
                                         Strategies</a
                                     >
                                 </h3>
                             </div>
-                            <div class="blog-card__text">
+                            <div class="projects-card__text">
                                 <p>
                                     Quibusdam quis autem voluptatibus earum vel
                                     ex error ea magni. Rerum quam quos. Aut
@@ -265,20 +265,20 @@ const BASE = import.meta.env.BASE_URL || "/";
                                 </p>
                             </div>
                         </div>
-                        <!-- end blog-card -->
-                        <div class="grid-list-items__item blog-card">
-                            <div class="blog-card__header">
-                                <div class="blog-card__cat-links">
-                                    <a href="blog.html">Keyword Research</a>
+                        <!-- end projects-card -->
+                        <div class="grid-list-items__item projects-card">
+                            <div class="projects-card__header">
+                                <div class="projects-card__cat-links">
+                                    <a href="projects.html">Keyword Research</a>
                                 </div>
-                                <h3 class="blog-card__title">
+                                <h3 class="projects-card__title">
                                     <a href="single.html"
                                         >What Exactly Are Keywords? How to Make
                                         Use of Them for SEO</a
                                     >
                                 </h3>
                             </div>
-                            <div class="blog-card__text">
+                            <div class="projects-card__text">
                                 <p>
                                     Rem neque et voluptatem eos quia sed
                                     eligendi et. Quibusdam quis autem
@@ -290,20 +290,20 @@ const BASE = import.meta.env.BASE_URL || "/";
                                 </p>
                             </div>
                         </div>
-                        <!-- end blog-card -->
-                        <div class="grid-list-items__item blog-card">
-                            <div class="blog-card__header">
-                                <div class="blog-card__cat-links">
-                                    <a href="blog.html">Sponsored</a>
+                        <!-- end projects-card -->
+                        <div class="grid-list-items__item projects-card">
+                            <div class="projects-card__header">
+                                <div class="projects-card__cat-links">
+                                    <a href="projects.html">Sponsored</a>
                                 </div>
-                                <h3 class="blog-card__title">
+                                <h3 class="projects-card__title">
                                     <a
                                         href="https://www.dreamhost.com/r.cgi?287326"
                                         >Need Web Hosting for Your Websites?</a
                                     >
                                 </h3>
                             </div>
-                            <div class="blog-card__text">
+                            <div class="projects-card__text">
                                 <p>
                                     Need hosting for your website? We would
                                     highly recommend <a
@@ -319,7 +319,7 @@ const BASE = import.meta.env.BASE_URL || "/";
                                 </p>
                             </div>
                         </div>
-                        <!-- end blog card -->
+                        <!-- end projects card -->
                     </div>
                     <!-- grid-list-items -->
                     <!-- </div>     -->

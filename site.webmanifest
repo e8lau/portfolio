@@ -24,12 +24,12 @@
             "url": "./"
         },
         {
-            "name": "Services",
-            "url": "./services"
+            "name": "Experience",
+            "url": "./experience"
         },
         {
-            "name": "Journal",
-            "url": "./blog"
+            "name": "Projects",
+            "url": "./projects"
         },
         {
             "name": "About",

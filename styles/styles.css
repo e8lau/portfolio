@@ -42,7 +42,7 @@
  * # PROJECT-WIDE SHARED STYLES
  *		## list items
  *		## social list
- *		## blog card
+ *		## projects card
  *		## testimonials
  *		## swiper overrides
  * # GRID-BASED LAYOUTS
@@ -70,7 +70,7 @@
  *		## go top
  * # BLOG STYLES 
  * # PAGE STYLES 
- *		## services page
+ *		## experiences page
  *		## contact page
  *
  * ------------------------------------------------------------------ */
@@ -2882,26 +2882,26 @@ td:last-child {
 }
 
 /* ------------------------------------------------------------------- 
- * ## blog card
+ * ## projects card
  * ------------------------------------------------------------------- */
-.blog-card__header {
+.projects-card__header {
 	margin-bottom: var(--vspace-0_75);
 }
 
-.blog-card__cat-links {
+.projects-card__cat-links {
 	font-size: var(--text-sm);
 }
 
-.blog-card__cat-links a {
+.projects-card__cat-links a {
 	color: var(--color-1);
 }
 
-.blog-card__title {
+.projects-card__title {
 	margin     : 0;
 	line-height: 1.1574;
 }
 
-.blog-card__title a {
+.projects-card__title a {
 	color: var(--color-text-dark);
 }
 
@@ -4189,7 +4189,7 @@ td:last-child {
  *
  *
  * ------------------------------------------------------------------- */
-.s-journal {
+.s-projects {
 	padding-top     : var(--vspace-6);
 	padding-bottom  : var(--vspace-3);
 	background-color: #181818;
@@ -4197,44 +4197,44 @@ td:last-child {
 	border-bottom   : 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.s-journal a {
+.s-projects a {
 	color: var(--color-1);
 }
 
-.s-journal a:focus,
-.s-journal a:hover {
+.s-projects a:focus,
+.s-projects a:hover {
 	color: var(--color-3-dark);
 }
 
-.s-journal h3 a {
+.s-projects h3 a {
 	color: var(--color-3);
 }
 
-.s-journal h3 a:focus,
-.s-journal h3 a:hover {
+.s-projects h3 a:focus,
+.s-projects h3 a:hover {
 	color: var(--color-3);
 }
 
-.s-journal .section-header {
+.s-projects .section-header {
 	margin: 0 auto;
 }
 
-.s-journal .text-display-title,
-.s-journal h3 {
+.s-projects .text-display-title,
+.s-projects h3 {
 	color: var(--color-3);
 }
 
-.s-journal .text-pretitle,
-.s-journal .text-display-title {
+.s-projects .text-pretitle,
+.s-projects .text-display-title {
 	width : min(900px, 100%);
 	margin: 0 auto;
 }
 
-.s-journal .blog-card-title a {
+.s-projects .projects-card-title a {
 	color: var(--color-3);
 }
 
-.s-journal__content-main {
+.s-projects__content-main {
 	margin-top: var(--vspace-2);
 }
 
@@ -4591,7 +4591,7 @@ td:last-child {
 
 /* ------------------------------------------------------------------- 
  * responsive:
- * blog styles
+ * projects styles
  * ------------------------------------------------------------------- */
 @media screen and (max-width: 900px) {
 	.entry__media {
@@ -4651,9 +4651,9 @@ td:last-child {
 }
 
 /* --------------------------------------------------------------------
- * ## services page
+ * ## experiences page
  * -------------------------------------------------------------------- */
-.list-services {
+.list-experience {
 	list-style : none;
 	font-size  : calc(var(--text-size) * 0.95);
 	font-weight: 400;
@@ -4663,7 +4663,7 @@ td:last-child {
 	margin-left: 0;
 }
 
-.list-services li {
+.list-experience li {
 	display      : block;
 	border-bottom: 1px dotted var(--color-border);
 	padding      : 0.6rem 0;
@@ -4671,7 +4671,7 @@ td:last-child {
 	position     : relative;
 }
 
-.list-services li::before {
+.list-experience li::before {
 	content         : "";
 	display         : block;
 	height          : 6px;

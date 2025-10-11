@@ -6,8 +6,8 @@ import HomeAboutTeaser from "../components/home/HomeAboutTeaser.astro";
 import HomeExpertise from "../components/home/HomeExpertise.astro";
 import HomeClients from "../components/home/HomeClients.astro";
 import HomeTestimonials from "../components/home/HomeTestimonials.astro";
-import CTA from "../components/CTA.astro";
-import HomeJournal from "../components/home/HomeJournal.astro";
+import CTA from "../components/common/CTA.astro";
+import HomeProjects from "../components/home/HomeProjects.astro";
 
 const BASE = import.meta.env.BASE_URL || "/";
 ---
@@ -79,6 +79,6 @@ const BASE = import.meta.env.BASE_URL || "/";
             <!-- originally s-cta -->
             <CTA BASE={BASE} />
         </section>
-        <HomeJournal BASE={BASE} />
+        <HomeProjects BASE={BASE} />
     </section>
 </BaseLayout>
