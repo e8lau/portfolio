@@ -7,13 +7,14 @@ const REPO_NAME = "portfolio";
 
 export default defineConfig({
     // 🔹 the base path Astro will prepend to asset and link URLs
-    base: '/', // `/${REPO_NAME}/`,
+    base: `/${REPO_NAME}/`,
 
     // 🔹 used by sitemap, canonical URLs, and social meta
-    site: `https://username.github.io/${REPO_NAME}/`,
+    site: `https://e8lau.github.io/${REPO_NAME}/`,
 
     integrations: [react(), sitemap()],
     output: "static", // ✅ ensures a fully static build (works with GitHub Pages)
+    trailingSlash: "ignore",
 
     vite: {
         build: {
