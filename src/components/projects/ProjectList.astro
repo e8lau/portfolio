@@ -1,0 +1,70 @@
+---
+import { getCollection } from "astro:content";
+
+type Props = {
+    categories?: string[]; // optional: pre-filter by category (ANY match)
+    tags?: string[]; // optional: pre-filter by tag (ANY match)
+    limit?: number; // optional: cap number of cards
+};
+
+const { categories, tags, limit } = Astro.props as Props;
+
+function anyMatch(
+    haystack: string[] | undefined,
+    needles: string[] | undefined,
+) {
+    if (!needles || needles.length === 0) return true;
+    if (!haystack || haystack.length === 0) return false;
+    const set = new Set(haystack.map((s) => s.toLowerCase()));
+    return needles.some((n) => set.has(n.toLowerCase()));
+}
+
+const all = await getCollection("projects", (e) => !e.data.draft);
+
+// stable ordering: order → title
+let entries = all
+    .map((e) => ({ slug: e.slug, ...e.data }))
+    .sort((a, b) => {
+        const ao = a.order ?? 9999;
+        const bo = b.order ?? 9999;
+        if (ao !== bo) return ao - bo;
+        return a.title.localeCompare(b.title);
+    })
+    .filter((e) => anyMatch(e.categories, categories))
+    .filter((e) => anyMatch(e.tags, tags));
+
+if (limit && limit > 0) entries = entries.slice(0, limit);
+
+// Link preference for the card title (keeps template behavior simple for now)
+function hrefFor(e: any) {
+    if (e.links?.demo) return e.links.demo;
+    if (e.links?.repo) return e.links.repo;
+    if (e.links?.external) return e.links.external;
+    return "/projects"; // fallback (can become `/projects/${e.slug}` later)
+}
+---
+
+<!-- EXACT wrapper and classes from your template; no CSS changes -->
+<div class="grid-full grid-list-items">
+    {
+        entries.map((e) => (
+            <div class="grid-list-items__item projects-card">
+                <div class="projects-card__header">
+                    <div class="projects-card__cat-links">
+                        {e.categories?.map((c: string) => (
+                            <a href="/projects">{c}</a>
+                        ))}
+                    </div>
+                    <h3 class="projects-card__title">
+                        <a href={hrefFor(e)} rel="noopener noreferrer">
+                            {e.title}
+                        </a>
+                    </h3>
+                </div>
+                <div class="projects-card__text">
+                    <p>{e.summary ?? ""}</p>
+                </div>
+            </div>
+        ))
+    }
+</div>

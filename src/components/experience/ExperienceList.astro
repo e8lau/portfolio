@@ -1,0 +1,90 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+
+/**
+ * Props:
+ * - category?: string | string[]   -> filter by one or more categories
+ * - limit?: number                 -> limit number of cards
+ * - items?: LocalItem[]            -> optional direct data (fallback for content.ts approach)
+ *
+ * LocalItem shape mirrors the collection schema.
+ */
+interface LocalItem {
+    title: string;
+    category?: string;
+    summary?: string;
+    bullets: string[];
+    order?: number;
+}
+
+const { category, limit, items } = Astro.props as {
+    category?: string | string[];
+    limit?: number;
+    items?: LocalItem[];
+};
+
+function normalizeCategory(val?: string) {
+    return (val || "").trim().toLowerCase();
+}
+
+let entries: Array<
+    Pick<LocalItem, "title" | "category" | "summary" | "bullets" | "order">
+> = [];
+
+// If items were passed directly, use them (content.ts fallback).
+if (items && Array.isArray(items)) {
+    entries = items;
+} else {
+    // Otherwise load from the content collection.
+    const all = await getCollection("experience", (e) => !e.data.draft);
+    entries = all.map((e: CollectionEntry<"experience">) => ({
+        title: e.data.title,
+        category: e.data.category,
+        summary: e.data.summary,
+        bullets: e.data.bullets,
+        order: e.data.order,
+    }));
+}
+
+// Filter by category if provided.
+if (category) {
+    const cats = Array.isArray(category) ? category : [category];
+    const wanted = new Set(cats.map((c) => normalizeCategory(c)));
+    entries = entries.filter((e) => wanted.has(normalizeCategory(e.category)));
+}
+
+// Sort by "order" then title for deterministic output.
+entries.sort((a, b) => {
+    const ao = a.order ?? 9999;
+    const bo = b.order ?? 9999;
+    if (ao !== bo) return ao - bo;
+    return a.title.localeCompare(b.title);
+});
+
+// Apply limit if any.
+if (typeof limit === "number" && limit > 0) {
+    entries = entries.slice(0, limit);
+}
+---
+
+<!-- Matches your exact structure and classes; no CSS changes needed -->
+<div class="grid-full grid-list-items list-items show-ctr">
+    {
+        entries.map((e) => (
+            <div class="grid-list-items__item list-items__item">
+                <div class="list-items__item-header">
+                    <h3 class="list-items__item-title">{e.title}</h3>
+                </div>
+                <div class="list-items__item-text">
+                    {e.summary && <p set:html={e.summary} />}
+                    <ul class="list-experience">
+                        {e.bullets.map((b) => (
+                            <li>{b}</li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        ))
+    }
+</div>
