@@ -1,31 +1,45 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/common/PageHeader.astro";
-import ProjectList from "../components/projects/ProjectList.astro";
 import CTA from "../components/common/CTA.astro";
+
+// NEW: hydrate search/filter UI as a React island
+import ProjectsBrowser from "../components/projects/ProjectsBrowser.tsx";
+import { getCollection } from "astro:content";
+
 const BASE = import.meta.env.BASE_URL || "/";
+
+// Load projects on the server for stable initial order
+const all = await getCollection("projects", (e) => !e.data.draft);
+const entries = all
+    .map((e) => ({ slug: e.slug, ...e.data }))
+    .sort((a, b) => {
+        const ao = a.order ?? 9999;
+        const bo = b.order ?? 9999;
+        if (ao !== bo) return ao - bo;
+        return a.title.localeCompare(b.title);
+    });
 ---
 
 <BaseLayout title="Projects" current="projects">
     <section id="content" class="s-content">
-        <PageHeader pretitle="My Blog" title="Recent Writings" />
+        <!-- Update copy from Blog → Projects (pure content change) -->
+        <PageHeader pretitle="My Work" title="Selected Projects" />
 
         <section class="s-pagecontent pagecontent">
             <div class="row">
                 <div class="column xl-12 grid-block">
-                    <ProjectList />
-                    {
-                        /*
-                        Ready for later without visual changes:
-                        <ProjectList categories={["Web"]} />
-                        <ProjectList tags={["astro"]} limit={6} />
-                        */
-                    }
+                    <!-- Search + Filter + Cards (uses existing CSS classes) -->
+                    <ProjectsBrowser
+                        client:load
+                        entries={entries}
+                        categoryHrefBase={`${BASE}projects`}
+                    />
                 </div>
             </div>
             <!-- end row -->
 
-            <!-- pagination -->
+            <!-- keep your existing pagination for later wiring -->
             <div class="row navigation pagination">
                 <div class="column xl-12">
                     <nav class="pgn">
