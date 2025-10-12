@@ -2,44 +2,64 @@
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 
-/**
- * Props:
- * - category?: string | string[]   -> filter by one or more categories
- * - limit?: number                 -> limit number of cards
- * - items?: LocalItem[]            -> optional direct data (fallback for content.ts approach)
- *
- * LocalItem shape mirrors the collection schema.
- */
 interface LocalItem {
     title: string;
+    company?: string;
+    dates?: string;
     category?: string;
     summary?: string;
     bullets: string[];
     order?: number;
 }
 
-const { category, limit, items } = Astro.props as {
+const {
+    category,
+    limit,
+    items,
+    variant = "page",
+    maxChars = 200,
+} = Astro.props as {
     category?: string | string[];
     limit?: number;
     items?: LocalItem[];
+    variant?: "page" | "home";
+    maxChars?: number;
 };
 
 function normalizeCategory(val?: string) {
     return (val || "").trim().toLowerCase();
 }
+function stripTags(html?: string) {
+    if (!html) return "";
+    return html.replace(/<[^>]*>/g, "");
+}
+function truncatePlain(text: string, max: number) {
+    if (!text) return "";
+    if (text.length <= max) return text;
+    return text.slice(0, max).replace(/\s+$/, "") + "...";
+}
 
 let entries: Array<
-    Pick<LocalItem, "title" | "category" | "summary" | "bullets" | "order">
+    Pick<
+        LocalItem,
+        | "title"
+        | "company"
+        | "dates"
+        | "category"
+        | "summary"
+        | "bullets"
+        | "order"
+    >
 > = [];
 
-// If items were passed directly, use them (content.ts fallback).
 if (items && Array.isArray(items)) {
     entries = items;
 } else {
-    // Otherwise load from the content collection.
     const all = await getCollection("experience", (e) => !e.data.draft);
     entries = all.map((e: CollectionEntry<"experience">) => ({
         title: e.data.title,
+        company: e.data.company,
+        dates: e.data.dates,
         category: e.data.category,
         summary: e.data.summary,
         bullets: e.data.bullets,
@@ -47,14 +67,12 @@ if (items && Array.isArray(items)) {
     }));
 }
 
-// Filter by category if provided.
 if (category) {
     const cats = Array.isArray(category) ? category : [category];
     const wanted = new Set(cats.map((c) => normalizeCategory(c)));
     entries = entries.filter((e) => wanted.has(normalizeCategory(e.category)));
 }
 
-// Sort by "order" then title for deterministic output.
 entries.sort((a, b) => {
     const ao = a.order ?? 9999;
     const bo = b.order ?? 9999;
@@ -62,29 +80,62 @@ entries.sort((a, b) => {
     return a.title.localeCompare(b.title);
 });
 
-// Apply limit if any.
 if (typeof limit === "number" && limit > 0) {
     entries = entries.slice(0, limit);
 }
+
+const headerClass =
+    variant === "home"
+        ? "grid-list-items__title list-items__item-header"
+        : "list-items__item-header";
+
+const textClass =
+    variant === "home"
+        ? "grid-list-items__text list-items__item-text"
+        : "list-items__item-text";
 ---
 
-<!-- Matches your exact structure and classes; no CSS changes needed -->
 <div class="grid-full grid-list-items list-items show-ctr">
     {
-        entries.map((e) => (
-            <div class="grid-list-items__item list-items__item">
-                <div class="list-items__item-header">
-                    <h3 class="list-items__item-title">{e.title}</h3>
+        entries.map((e) => {
+            const summaryPlain = stripTags(e.summary);
+            const displaySummary =
+                variant === "home"
+                    ? truncatePlain(summaryPlain, maxChars)
+                    : summaryPlain;
+
+            return (
+                <div class="grid-list-items__item list-items__item">
+                    <div class={headerClass}>
+                        <h3 class="list-items__item-title">{e.title}</h3>
+                    </div>
+
+                    <div class={textClass}>
+                        {/* Page variant only: Company + Dates */}
+                        {variant === "page" && (e.company || e.dates) && (
+                            <p class="list-items__meta">
+                                {e.company && <strong>{e.company}</strong>}
+                                {e.company && e.dates && " | "}
+                                {e.dates}
+                            </p>
+                        )}
+
+                        {variant === "page" ? (
+                            e.summary && <p set:html={e.summary} />
+                        ) : (
+                            <p>{displaySummary}</p>
+                        )}
+
+                        {variant === "page" && e.bullets?.length && (
+                            <ul class="list-experience">
+                                {e.bullets.map((b) => (
+                                    <li>{b}</li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
                 </div>
-                <div class="list-items__item-text">
-                    {e.summary && <p set:html={e.summary} />}
-                    <ul class="list-experience">
-                        {e.bullets.map((b) => (
-                            <li>{b}</li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
-        ))
+            );
+        })
     }
 </div>

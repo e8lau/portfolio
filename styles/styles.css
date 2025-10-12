@@ -42,7 +42,7 @@
  * # PROJECT-WIDE SHARED STYLES
  *		## list items
  *		## social list
- *		## projects card
+ *		## blog card
  *		## testimonials
  *		## swiper overrides
  * # GRID-BASED LAYOUTS
@@ -2882,26 +2882,26 @@ td:last-child {
 }
 
 /* ------------------------------------------------------------------- 
- * ## projects card
+ * ## blog card
  * ------------------------------------------------------------------- */
-.projects-card__header {
+.blog-card__header {
 	margin-bottom: var(--vspace-0_75);
 }
 
-.projects-card__cat-links {
+.blog-card__cat-links {
 	font-size: var(--text-sm);
 }
 
-.projects-card__cat-links a {
+.blog-card__cat-links a {
 	color: var(--color-1);
 }
 
-.projects-card__title {
+.blog-card__title {
 	margin     : 0;
 	line-height: 1.1574;
 }
 
-.projects-card__title a {
+.blog-card__title a {
 	color: var(--color-text-dark);
 }
 
@@ -4189,7 +4189,7 @@ td:last-child {
  *
  *
  * ------------------------------------------------------------------- */
-.s-projects {
+.s-journal {
 	padding-top     : var(--vspace-6);
 	padding-bottom  : var(--vspace-3);
 	background-color: #181818;
@@ -4197,44 +4197,44 @@ td:last-child {
 	border-bottom   : 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.s-projects a {
+.s-journal a {
 	color: var(--color-1);
 }
 
-.s-projects a:focus,
-.s-projects a:hover {
+.s-journal a:focus,
+.s-journal a:hover {
 	color: var(--color-3-dark);
 }
 
-.s-projects h3 a {
+.s-journal h3 a {
 	color: var(--color-3);
 }
 
-.s-projects h3 a:focus,
-.s-projects h3 a:hover {
+.s-journal h3 a:focus,
+.s-journal h3 a:hover {
 	color: var(--color-3);
 }
 
-.s-projects .section-header {
+.s-journal .section-header {
 	margin: 0 auto;
 }
 
-.s-projects .text-display-title,
-.s-projects h3 {
+.s-journal .text-display-title,
+.s-journal h3 {
 	color: var(--color-3);
 }
 
-.s-projects .text-pretitle,
-.s-projects .text-display-title {
+.s-journal .text-pretitle,
+.s-journal .text-display-title {
 	width : min(900px, 100%);
 	margin: 0 auto;
 }
 
-.s-projects .projects-card-title a {
+.s-journal .blog-card-title a {
 	color: var(--color-3);
 }
 
-.s-projects__content-main {
+.s-journal__content-main {
 	margin-top: var(--vspace-2);
 }
 
@@ -4591,7 +4591,7 @@ td:last-child {
 
 /* ------------------------------------------------------------------- 
  * responsive:
- * projects styles
+ * blog styles
  * ------------------------------------------------------------------- */
 @media screen and (max-width: 900px) {
 	.entry__media {

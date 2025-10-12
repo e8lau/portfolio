@@ -1,4 +1,6 @@
 ---
+// src/components/home/HomeExpertise.astro
+import ExperienceList from "../experience/ExperienceList.astro";
 const BASE = import.meta.env.BASE_URL || "/";
 ---
 
@@ -8,90 +10,26 @@ const BASE = import.meta.env.BASE_URL || "/";
         <div class="column xl-12 grid-block grid-section-split">
             <div class="section-header grid-section-split__header">
                 <div class="text-pretitle">Expertise</div>
-                <h2 class="text-display-title">My key areas of expertise.</h2>
+                <h2 class="text-display-title">
+                    My job & organization experiences.
+                </h2>
                 <p class="lead">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Laborum suscipit debitis quam dignissimos veritatis atque
-                    pariatur magnam obcaecati fugit reprehenderit vel numquam
-                    facere esse est deserunt, perferendis commodi voluptatem
-                    similique.
+                    My path hasn’t been linear—but it’s been intentional. Though
+                    diverse in scope, each role has strengthened my ability to
+                    connect analytical rigor with business insight and deliver
+                    meaningful results.
                 </p>
             </div><!-- end section-header -->
 
             <div class="s-expertise__content-main grid-section-split__primary">
-                <div class="grid-list-items list-items show-ctr">
-                    <div class="grid-list-items__item list-items__item">
-                        <div
-                            class="grid-list-items__title list-items__item-header"
-                        >
-                            <h3 class="list-items__item-title">
-                                Digital Marketing
-                            </h3>
-                        </div>
-                        <div
-                            class="grid-list-items__text list-items__item-text"
-                        >
-                            <p>
-                                Quibusdam quis autem voluptatibus earum vel ex
-                                error ea magni. Rerum quam quos. Aut asperiores
-                                sit mollitia. Rem neque et voluptatem eos quia
-                                sed eligendi et. Eaque velit eligendi ut magnam.
-                                Cumque ducimus laborum doloribus facere maxime
-                                vel earum quidem enim suscipit.
-                            </p>
-                        </div>
-                    </div><!-- list-expertise__item -->
-
-                    <div class="grid-list-items__item list-items__item">
-                        <div
-                            class="grid-list-items__title list-items__item-header"
-                        >
-                            <h3 class="list-items__item-title">
-                                Content Marketing
-                            </h3>
-                        </div>
-                        <div
-                            class="grid-list-items__text list-items__item-text"
-                        >
-                            <p>
-                                Eaque velit eligend. iQuibusdam quis autem
-                                voluptatibus earum vel ex error ea magni. Rerum
-                                quam quos. Aut asperiores sit mollitia. Rem
-                                neque et voluptatem eos quia sed eligendi et.
-                                Eaque velit eligendi ut magnam. Cumque ducimus
-                                laborum doloribus facere maxime vel earum quidem
-                                enim suscipit.
-                            </p>
-                        </div>
-                    </div><!-- list-expertise__item -->
-
-                    <div class="grid-list-items__item list-items__item">
-                        <div
-                            class="grid-list-items__title list-items__item-header"
-                        >
-                            <h3 class="list-items__item-title">
-                                Research & Discovery
-                            </h3>
-                        </div>
-                        <div
-                            class="grid-list-items__text list-items__item-text"
-                        >
-                            <p>
-                                Quibusdam quis autem voluptatibus earum vel ex
-                                error ea magni. Rerum quam quos. Aut asperiores
-                                sit mollitia. Rem neque et voluptatem eos quia
-                                sed eligendi et. Eaque velit eligendi ut magnam.
-                                Cumque ducimus laborum doloribus facere maxime
-                                vel earum quidem enim suscipit.
-                            </p>
-                        </div>
-                    </div><!-- list-expertise__item -->
-                </div><!-- grid-list-items -->
+                <!-- Show first four, homepage variant, truncate to 200 chars -->
+                <ExperienceList variant="home" limit={4} maxChars={1000} />
             </div><!-- end s-expertise__content-main -->
 
             <div class="s-expertise__content-btn grid-section-split__bottom">
-                <a href={`${BASE}experience`} class="btn btn--stroke u-fullwidth"
-                    >View All Experience</a
+                <a
+                    href={`${BASE}experience`}
+                    class="btn btn--stroke u-fullwidth">View All Experience</a
                 >
             </div><!-- end s-expertise__content-btn -->
         </div><!-- end grid-block-->

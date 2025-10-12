@@ -1,10 +1,13 @@
+// src/content/config.ts
 import { defineCollection, z } from "astro:content";
 
 export const collections = {
     experience: defineCollection({
         type: "content",
         schema: z.object({
-            title: z.string(),
+            title: z.string(),                // e.g. "Digital Marketing"
+            company: z.string().optional(),   // e.g. "Kobil Inc."
+            dates: z.string().optional(),     // e.g. "Dec 2021 – Apr 2023"
             category: z.string().default("General"),
             summary: z.string().optional(),
             bullets: z.array(z.string()).nonempty(),
