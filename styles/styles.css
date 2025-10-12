@@ -4189,7 +4189,7 @@ td:last-child {
  *
  *
  * ------------------------------------------------------------------- */
-.s-journal {
+.s-projects {
 	padding-top     : var(--vspace-6);
 	padding-bottom  : var(--vspace-3);
 	background-color: #181818;
@@ -4197,44 +4197,44 @@ td:last-child {
 	border-bottom   : 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.s-journal a {
+.s-projects a {
 	color: var(--color-1);
 }
 
-.s-journal a:focus,
-.s-journal a:hover {
+.s-projects a:focus,
+.s-projects a:hover {
 	color: var(--color-3-dark);
 }
 
-.s-journal h3 a {
+.s-projects h3 a {
 	color: var(--color-3);
 }
 
-.s-journal h3 a:focus,
-.s-journal h3 a:hover {
+.s-projects h3 a:focus,
+.s-projects h3 a:hover {
 	color: var(--color-3);
 }
 
-.s-journal .section-header {
+.s-projects .section-header {
 	margin: 0 auto;
 }
 
-.s-journal .text-display-title,
-.s-journal h3 {
+.s-projects .text-display-title,
+.s-projects h3 {
 	color: var(--color-3);
 }
 
-.s-journal .text-pretitle,
-.s-journal .text-display-title {
+.s-projects .text-pretitle,
+.s-projects .text-display-title {
 	width : min(900px, 100%);
 	margin: 0 auto;
 }
 
-.s-journal .blog-card-title a {
+.s-projects .blog-card-title a {
 	color: var(--color-3);
 }
 
-.s-journal__content-main {
+.s-projects__content-main {
 	margin-top: var(--vspace-2);
 }
 
