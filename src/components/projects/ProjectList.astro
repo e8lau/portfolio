@@ -1,13 +1,20 @@
 ---
+// src/components/projects/ProjectList.astro
 import { getCollection } from "astro:content";
 
 type Props = {
     categories?: string[]; // optional: pre-filter by category (ANY match)
     tags?: string[]; // optional: pre-filter by tag (ANY match)
     limit?: number; // optional: cap number of cards
+    categoryHrefBase?: string; // default: "/projects"
 };
 
-const { categories, tags, limit } = Astro.props as Props;
+const {
+    categories,
+    tags,
+    limit,
+    categoryHrefBase = "/projects",
+} = Astro.props as Props;
 
 function anyMatch(
     haystack: string[] | undefined,
@@ -52,7 +59,7 @@ function hrefFor(e: any) {
                 <div class="projects-card__header">
                     <div class="projects-card__cat-links">
                         {e.categories?.map((c: string) => (
-                            <a href="/projects">{c}</a>
+                            <a href={categoryHrefBase}>{c}</a>
                         ))}
                     </div>
                     <h3 class="projects-card__title">
