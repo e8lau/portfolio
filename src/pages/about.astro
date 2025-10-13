@@ -35,10 +35,10 @@ const BASE = import.meta.env.BASE_URL || "/";
                 <d class="column xl-12">
                     <figure class="page-media">
                         <img
-                            src="images/thumbs/about/about-1200.jpg"
-                            srcset="images/thumbs/about/about-2400.jpg 2400w, 
-                                             images/thumbs/about/about-1200.jpg 1200w, 
-                                             images/thumbs/about/about-600.jpg 600w"
+                            src={`${BASE}images/thumbs/about/about-1200.jpg`}
+                            srcset={`${BASE}images/thumbs/about/about-2400.jpg 2400w, 
+                                     ${BASE}images/thumbs/about/about-1200.jpg 1200w, 
+                                     ${BASE}images/thumbs/about/about-600.jpg 600w`}
                             sizes="(max-width: 2400px) 100vw, 2400px"
                             alt=""
                         />
