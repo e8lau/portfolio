@@ -38,10 +38,6 @@ export const collections = {
             // Short text shown on the project card.
             // Example: "Minimal, fast Astro + React islands portfolio site."
 
-            description: z.string().optional(),
-            // Longer meta/SEO description for detail page.
-            // Example: "A full rebuild of my portfolio using Astro, React islands, and typed content collections."
-
             status: z.enum(["in_progress", "shipped", "archived"]).default("shipped"),
             // Current project state.
 
