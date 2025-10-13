@@ -1,11 +1,10 @@
 ---
-import PostLayout from "../../layouts/PostLayout.astro";
-const { slug } = Astro.params;
-// For now, you can hardcode/paste content per post while you migrate.
-// Later, switch to Markdown/Content Collections.
-const post = { title: "Sample Post", date: "Dec 15, 2020" };
+// src/pages/projects/[slug].astro
+export const prerender = true;
+
+export async function getStaticPaths() {
+    return []; // no dynamic pages yet; prevents the build error
+}
 ---
 
-<PostLayout title={post.title} date={post.date}>
-    <!-- Paste the single.html article body here -->
-</PostLayout>
+<!-- Optional: simple message -->
