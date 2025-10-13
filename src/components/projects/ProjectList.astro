@@ -2,19 +2,21 @@
 // src/components/projects/ProjectList.astro
 import { getCollection } from "astro:content";
 
-type Props = {
-    categories?: string[]; // optional: pre-filter by category (ANY match)
-    tags?: string[]; // optional: pre-filter by tag (ANY match)
-    limit?: number; // optional: cap number of cards
-    categoryHrefBase?: string; // default: "/projects"
-};
-
 const {
     categories,
     tags,
     limit,
     categoryHrefBase = "/projects",
-} = Astro.props as Props;
+    maxChars = 200,
+    maxTitleLen = 100,
+} = Astro.props as {
+    categories?: string[]; // optional: pre-filter by category (ANY match)
+    tags?: string[]; // optional: pre-filter by tag (ANY match)
+    limit?: number; // optional: cap number of cards
+    categoryHrefBase?: string; // default: "/projects"
+    maxChars?: number; // default: 200
+    maxTitleLen?: number; // default: 100
+};
 
 function anyMatch(
     haystack: string[] | undefined,
@@ -24,6 +26,11 @@ function anyMatch(
     if (!haystack || haystack.length === 0) return false;
     const set = new Set(haystack.map((s) => s.toLowerCase()));
     return needles.some((n) => set.has(n.toLowerCase()));
+}
+function truncatePlain(text: string, max: number) {
+    if (!text) return "";
+    if (text.length <= max) return text;
+    return text.slice(0, max).replace(/\s+$/, "") + "...";
 }
 
 const all = await getCollection("projects", (e) => !e.data.draft);
@@ -64,12 +71,12 @@ function hrefFor(e: any) {
                     </div>
                     <h3 class="projects-card__title">
                         <a href={hrefFor(e)} rel="noopener noreferrer">
-                            {e.title}
+                            {truncatePlain(e.title, maxTitleLen)}
                         </a>
                     </h3>
                 </div>
                 <div class="projects-card__text">
-                    <p>{e.summary ?? ""}</p>
+                    <p>{truncatePlain(e.summary ?? "", maxChars)}</p>
                 </div>
             </div>
         ))

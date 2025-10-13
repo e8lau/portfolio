@@ -18,12 +18,14 @@ const {
     items,
     variant = "page",
     maxChars = 200,
+    maxTitleLen = 100,
 } = Astro.props as {
     category?: string | string[];
     limit?: number;
     items?: LocalItem[];
     variant?: "page" | "home";
     maxChars?: number;
+    maxTitleLen?: number;
 };
 
 function normalizeCategory(val?: string) {
@@ -107,7 +109,7 @@ const textClass =
             return (
                 <div class="grid-list-items__item list-items__item">
                     <div class={headerClass}>
-                        <h3 class="list-items__item-title">{e.title}</h3>
+                        <h3 class="list-items__item-title">{truncatePlain(e.title, maxTitleLen)}</h3>
                     </div>
 
                     <div class={textClass}>

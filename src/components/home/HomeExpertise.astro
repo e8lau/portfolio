@@ -23,7 +23,7 @@ const BASE = import.meta.env.BASE_URL || "/";
 
             <div class="s-expertise__content-main grid-section-split__primary">
                 <!-- Show first four, homepage variant, truncate to 200 chars -->
-                <ExperienceList variant="home" limit={4} maxChars={1000} />
+                <ExperienceList variant="home" limit={4} maxChars={1000} maxTitleLen={1000} />
             </div><!-- end s-expertise__content-main -->
 
             <div class="s-expertise__content-btn grid-section-split__bottom">
