@@ -42,7 +42,7 @@
  * # PROJECT-WIDE SHARED STYLES
  *		## list items
  *		## social list
- *		## blog card
+ *		## projects card
  *		## testimonials
  *		## swiper overrides
  * # GRID-BASED LAYOUTS
@@ -2882,26 +2882,26 @@ td:last-child {
 }
 
 /* ------------------------------------------------------------------- 
- * ## blog card
+ * ## projects card
  * ------------------------------------------------------------------- */
-.blog-card__header {
+.projects-card__header {
 	margin-bottom: var(--vspace-0_75);
 }
 
-.blog-card__cat-links {
+.projects-card__cat-links {
 	font-size: var(--text-sm);
 }
 
-.blog-card__cat-links a {
+.projects-card__cat-links a {
 	color: var(--color-1);
 }
 
-.blog-card__title {
+.projects-card__title {
 	margin     : 0;
 	line-height: 1.1574;
 }
 
-.blog-card__title a {
+.projects-card__title a {
 	color: var(--color-text-dark);
 }
 
@@ -4230,7 +4230,7 @@ td:last-child {
 	margin: 0 auto;
 }
 
-.s-projects .blog-card-title a {
+.s-projects .projects-card-title a {
 	color: var(--color-3);
 }
 
@@ -4591,7 +4591,7 @@ td:last-child {
 
 /* ------------------------------------------------------------------- 
  * responsive:
- * blog styles
+ * projects styles
  * ------------------------------------------------------------------- */
 @media screen and (max-width: 900px) {
 	.entry__media {

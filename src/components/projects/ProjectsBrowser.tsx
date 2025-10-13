@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 type Entry = {
     slug: string;
     title: string;
-    summary?: string;
+    description?: string;
     categories?: string[];
     tags?: string[];
     links?: { demo?: string; repo?: string; external?: string };
@@ -13,6 +13,8 @@ type Entry = {
 type Props = {
     entries: Entry[];         // passed from Astro (getCollection)
     categoryHrefBase?: string; // where category chips point (default: "/projects")
+    maxChars?: number; // default: 200
+    maxTitleLen?: number; // default: 100
 };
 
 function hrefFor(e: Entry) {
@@ -21,10 +23,17 @@ function hrefFor(e: Entry) {
     if (e.links?.external) return e.links.external;
     return `/projects/${e.slug}`;
 }
+function truncatePlain(text: string, max: number) {
+    if (!text) return "";
+    if (text.length <= max) return text;
+    return text.slice(0, max).replace(/\s+$/, "") + "...";
+}
 
 export default function ProjectsBrowser({
     entries,
     categoryHrefBase = "/projects",
+    maxChars = 200,
+    maxTitleLen = 100,
 }: Props) {
     // initialize from URL
     const params = new URLSearchParams(typeof window !== "undefined" ? window.location.search : "");
@@ -60,7 +69,7 @@ export default function ProjectsBrowser({
             const inText =
                 !ql ||
                 e.title.toLowerCase().includes(ql) ||
-                (e.summary || "").toLowerCase().includes(ql) ||
+                (e.description || "").toLowerCase().includes(ql) ||
                 (e.tags || []).some((t) => t.toLowerCase().includes(ql));
             return inCat && inText;
         });
@@ -125,12 +134,12 @@ export default function ProjectsBrowser({
                             </div>
                             <h3 className="projects-card__title">
                                 <a href={hrefFor(e)} rel="noopener noreferrer">
-                                    {e.title}
+                                    {truncatePlain(e.title, maxTitleLen)}
                                 </a>
                             </h3>
                         </div>
                         <div className="projects-card__text">
-                            <p>{e.summary || ""}</p>
+                            <p>{truncatePlain(e.description ?? "", maxChars)}</p>
                         </div>
                     </div>
                 ))}

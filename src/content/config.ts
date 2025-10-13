@@ -34,8 +34,8 @@ export const collections = {
             // Finer-grained keywords.
             // Example: ["astro", "react", "islands"]
 
-            summary: z.string().optional(),
-            // Short text shown on the project card.
+            description: z.string().optional(),
+            // Text shown on the project card.
             // Example: "Minimal, fast Astro + React islands portfolio site."
 
             status: z.enum(["in_progress", "shipped", "archived"]).default("shipped"),

@@ -13,6 +13,8 @@
     "astro": "^5.14.3"
   },
   "devDependencies": {
-    "@astrojs/sitemap": "^3.6.0"
+    "@astrojs/sitemap": "^3.6.0",
+    "csv-parse": "^6.1.0",
+    "js-yaml": "^4.1.0"
   }
 }
