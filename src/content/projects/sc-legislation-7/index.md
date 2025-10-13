@@ -2,7 +2,17 @@
 folder: "sc-legislation-7"
 title: "S.C. Legislation 7"
 slug: ""
-categories: []
+categories:
+  - "Legislative Reform & Governance"
+tags:
+  - "legislation"
+  - "student-gov"
+  - "appointments"
+  - "process-design"
+  - "governance"
+  - "author"
+  - "speaker"
+  - "in-effect"
 description: |
   In my ongoing effort to strengthen administrative continuity, I sponsored and passed this amendment to synchronize the appointment cycle for key representative positions with the Spring Quarter schedule. This shift allowed for smoother transitions between outgoing and incoming representatives and ensured that appointments occurred with sufficient time for training and onboarding before the academic year’s end. The reform continues to provide structural stability, enabling consistent representation and operational readiness across annual leadership changes.
 status: "shipped"
@@ -14,16 +24,15 @@ order: 0
 draft: false
 thumb: ""
 gallery: []
-video: null
 ogImage: ""
-links_demo: "[{\"label\": \"Full Legislation (PDF)\", \"path\": \"/archive/7CSC/7CSC Legislation/S.C.Legislation.7.pdf\"}]"
-downloads: []
+downloads:
+  - label: "Full Legislation (PDF)"
+    path: "/archive/7CSC/7CSC Legislation/S.C.Legislation.7.pdf"
 role: "Author & Speaker of the Council"
 collaborators: []
 metrics:
   - key: "Status"
     value: "Adopted & in effect"
-demoAuth: {}
 related:
   - "sc-legislation-6"
   - "sc-legislation-8"

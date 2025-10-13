@@ -14,15 +14,27 @@ order: 0
 draft: false
 thumb: ""
 gallery: []
-video: null
 ogImage: ""
-links_demo: "[{\"label\": \"Full Paper (PDF)\", \"path\": \"/archive/The Effects of Constituent Characteristics on ESP Matching.pdf\"}]"
-downloads: []
+categories:
+  - "Data Analysis & Research"
+  - "Predictive Modeling & Machine Learning"
+tags:
+  - "paper"
+  - "alumni-engagement"
+  - "data-analysis"
+  - "ml"
+  - "imputation"
+  - "deduplication"
+  - "fuzzy-matching"
+  - "analyst"
+  - "in-effect"
+downloads:
+  - label: "Full Paper (PDF)"
+    path: "/archive/The Effects of Constituent Characteristics on ESP Matching.pdf"
 role: "Author & Data Analyst"
 collaborators: []
 metrics:
   - key: "Records analyzed"
     value: "1M+"
-demoAuth: {}
 related: []
 ---

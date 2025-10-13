@@ -2,7 +2,17 @@
 folder: "bosa-handbook"
 title: "The BOSA Handbook"
 slug: ""
-categories: []
+categories:
+  - "Administrative Frameworks & Handbooks"
+  - "Organizational Development & Policy"
+tags:
+  - "handbook"
+  - "k12"
+  - "governance"
+  - "continuity"
+  - "documentation"
+  - "author"
+  - "in-effect"
 description: |
   As President of the Board of Student Affairs, I authored and published The Woodside BOSA Handbook—a 13-chapter administrative guide that codified operational procedures, documentation standards, and continuity practices for future student-government teams. The handbook consolidated protocols for meetings, constitutional updates, digital record-keeping, and event planning, establishing a long-term knowledge base for the Leadership Program. It served as both a governance manual and digital-infrastructure reference, linking Google Drive directories, webpage update systems, and archival workflows I previously developed. Today, the handbook remains the foundation for training incoming BOSA officers and preserving institutional memory within Woodside High School’s student leadership ecosystem.
 status: "shipped"
@@ -14,16 +24,15 @@ order: 0
 draft: false
 thumb: ""
 gallery: []
-video: null
 ogImage: ""
-links_demo: "[{\"label\": \"Full Handbook (PDF)\", \"path\": \"/archive/BOSA/The BOSA Handbook.pdf\"}]"
-downloads: []
+downloads:
+  - label: "Full Handbook (PDF)"
+    path: "/archive/BOSA/The BOSA Handbook.pdf"
 role: "Author & President of the Board of Student Affairs"
 collaborators: []
 metrics:
   - key: "Status"
     value: "Implemented & in effect"
-demoAuth: {}
 related:
   - "bosa-digital-series"
 ---

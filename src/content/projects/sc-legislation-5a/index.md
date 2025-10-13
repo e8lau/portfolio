@@ -2,7 +2,18 @@
 folder: "sc-legislation-5a"
 title: "S.C. Legislation 5a"
 slug: ""
-categories: []
+categories:
+  - "Legislative Reform & Governance"
+  - "Procedural Design & Documentation"
+tags:
+  - "legislation"
+  - "student-gov"
+  - "constitution"
+  - "modernization"
+  - "roles-structure"
+  - "author"
+  - "speaker"
+  - "in-effect"
 description: |
   Building on the structural reforms of prior amendments, I authored and passed Legislation 5A to modernize the Council’s Constitution and ensure that all listed positions accurately reflected the Council’s active structure. The legislation removed outdated and inactive positions, alphabetized membership listings, and standardized role titles to maintain internal consistency across constitutional documents. By codifying these updates, the amendment streamlined operational language and brought the Constitution into alignment with the Council’s actual composition, creating a more functional and maintainable framework for future governance.
 status: "shipped"
@@ -14,16 +25,15 @@ order: 0
 draft: false
 thumb: ""
 gallery: []
-video: null
 ogImage: ""
-links_demo: "[{\"label\": \"Full Legislation (PDF)\", \"path\": \"/archive/7CSC/7CSC Legislation/S.C.Legislation.5A.pdf\"}]"
-downloads: []
+downloads:
+  - label: "Full Legislation (PDF)"
+    path: "/archive/7CSC/7CSC Legislation/S.C.Legislation.5A.pdf"
 role: "Author & Speaker of the Council"
 collaborators: []
 metrics:
   - key: "Status"
     value: "Adopted & in effect"
-demoAuth: {}
 related:
   - "sc-legislation-4"
   - "sc-legislation-5b"
