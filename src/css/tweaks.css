@@ -1,0 +1,65 @@
+/* ===== Projects toolbar (filters row) ===== */
+.filters-bar .column {
+    /* tighten column gutters just for this bar */
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.filters-bar .column>* {
+    margin-bottom: 0.5em;
+    /* neutralize default margins on inputs/wrappers/buttons */
+}
+
+/* Prevent long date range text from overflowing its button */
+.filters-bar .btn,
+.filters-bar .sel {
+    white-space: nowrap;
+    /* keep the range on one line */
+    overflow: hidden;
+    /* hide anything beyond button width */
+    text-overflow: ellipsis;
+    /* show "..." if it's too long */
+}
+
+/* ===== Date menu ===== */
+.date-menu {
+    /* container already positioned inline in JS; we just normalize box model */
+    box-sizing: border-box;
+    padding: 10px 12px;
+    /* compact vertical rhythm */
+    max-width: min(680px, calc(100vw - 2 * var(--gutter, 16px)));
+    overflow: hidden;
+    /* prevent inner child bleed */
+}
+
+.date-menu form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.date-menu input[type="date"] {
+    width: 100%;
+    min-width: 0;
+    /* allow shrinking inside flex/grid */
+    box-sizing: border-box;
+}
+
+/* Clear + Close in one row, equal-width, no wrap */
+.date-menu .btn-row {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+.date-menu .btn-row .btn {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+/* small screens: add a hair more breathing room between stacked columns */
+@media (max-width: 640px) {
+    .filters-bar .column {
+        margin-bottom: .5rem;
+    }
+}
