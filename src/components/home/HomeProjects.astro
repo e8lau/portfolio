@@ -1,28 +1,39 @@
 ---
-import ProjectList from "../projects/ProjectList.astro";
-const BASE = import.meta.env.BASE_URL || "/";
+// src/sections/HomeProjects.astro
+import ProjectCard from "../projects/ProjectCard.tsx";
+import { getCollection } from "astro:content";
+import { toCardProps } from "../../lib/project-mappers";
+
+const all = await getCollection("projects");
+
+// Hide drafts by default; keep private visible (card ok, links are UI concern)
+const publicish = all.filter((e) => !e.data.draft);
+
+// Optional sorting: featured first, then order asc, then started desc
+const items = publicish
+    .sort((a, b) => {
+        const fa = (a.data.featured ? 0 : 1) - (b.data.featured ? 0 : 1);
+        if (fa !== 0) return fa;
+        const oa = (a.data.order ?? 9999) - (b.data.order ?? 9999);
+        if (oa !== 0) return oa;
+        // fallback: started desc
+        return (b.data.started ?? "").localeCompare(a.data.started ?? "");
+    })
+    .slice(0, 6)
+    .map(toCardProps);
 ---
 
-<!-- projects -->
-<section id="projects" class="s-clients">
+<section id="projects" class="s-projects">
     <div class="row s-projects__content width-sixteen-col">
         <div class="column xl-12 grid-block">
             <div class="grid-full section-header text-center">
-                <div class="text-pretitle">Recent Projects, Awards, & More</div>
-                <h2 class="text-display-title">
-                    Latest Portfolio Additions
-                </h2>
-            </div><!-- end section-header -->
+                <div class="text-pretitle">Selected Work</div>
+                <h2 class="text-display-title">Projects & case studies.</h2>
+            </div>
 
             <div class="grid-full s-projects__content-main grid-list-items">
-                <ProjectList limit={4} categoryHrefBase={`${BASE}projects`} maxTitleLen={200} />
-            </div><!-- end grid-list-items -->
-        </div><!-- end grid-block -->
-
-        <!-- <div class="grid-full section-header text-center">
-            <a href={`${BASE}experience`} class="btn btn--primary"
-                >See All Experiences</a
-            >
-        </div> -->
-    </div><!-- end s-projects__content -->
-</section><!-- end s-projects -->
+                {items.map((p) => <ProjectCard {...p} />)}
+            </div>
+        </div>
+    </div>
+</section>

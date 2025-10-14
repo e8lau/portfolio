@@ -4,40 +4,29 @@ import PageHeader from "../components/common/PageHeader.astro";
 import CTA from "../components/common/CTA.astro";
 
 // NEW: hydrate search/filter UI as a React island
-import ProjectsBrowser from "../components/projects/ProjectsBrowser.tsx";
 import { getCollection } from "astro:content";
+import ProjectsBrowser from "../components/projects/ProjectsBrowser.tsx";
+import { toCardProps } from "../lib/project-mappers";
+
+const entries = await getCollection("projects");
+const items = entries
+    .filter((e) => !e.data.draft) // hide drafts
+    .map(toCardProps);
 
 const BASE = import.meta.env.BASE_URL || "/";
-
-// Load projects on the server for stable initial order
-const all = await getCollection("projects", (e) => !e.data.draft);
-const entries = all
-    .map((e) => ({ slug: e.slug, ...e.data }))
-    .sort((a, b) => {
-        const ao = a.order ?? 9999;
-        const bo = b.order ?? 9999;
-        if (ao !== bo) return ao - bo;
-        return a.title.localeCompare(b.title);
-    });
 ---
 
 <BaseLayout title="Projects" current="projects">
     <section id="content" class="s-content">
         <!-- Update copy from Blog → Projects (pure content change) -->
-        <PageHeader pretitle="Ideas in Action" title="My Projects, Awards, & More" />
+        <PageHeader
+            pretitle="Ideas in Action"
+            title="My Projects, Awards, & More"
+        />
 
         <section class="s-pagecontent pagecontent">
             <div class="row">
-                <div class="column xl-12 grid-block">
-                    <!-- Search + Filter + Cards (uses existing CSS classes) -->
-                    <ProjectsBrowser
-                        client:load
-                        entries={entries}
-                        categoryHrefBase={`${BASE}projects`}
-                        maxChars={120}
-                        maxTitleLen={40}
-                    />
-                </div>
+                <ProjectsBrowser client:load items={items} />
             </div>
             <!-- end row -->
 
