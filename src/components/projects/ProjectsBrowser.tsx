@@ -4,21 +4,31 @@ import ProjectCard from "./ProjectCard.tsx";
 import DateFilterPopup from "./DateFilterPopup";
 import type { ProjectCardProps } from "../../types/projects";
 
+// ✅ new: day-precision helpers
+import {
+    normalizeToDay,
+    rangesOverlap,
+    isISODate,
+} from "../../lib/date"; // adjust the path if your date.ts lives elsewhere
+
 type Props = { items: ProjectCardProps[] };
 
 export default function ProjectsBrowser({ items }: Props) {
+    // ----- state
     const [query, setQuery] = React.useState("");
-    // pendingQuery is the live input value; query is the debounced value used for filtering and URL
     const [pendingQuery, setPendingQuery] = React.useState("");
     const [facet, setFacet] = React.useState<string | null>(null);
-    // date range filter in YYYY-MM format (matches frontmatter 'started' / 'ended')
-    const [dateRange, setDateRange] = React.useState<{ start: string | null; end: string | null }>(
-        { start: null, end: null }
-    );
+
+    // ✅ day-precision YYYY-MM-DD (or null)
+    const [dateRange, setDateRange] = React.useState<{ start: string | null; end: string | null }>({
+        start: null,
+        end: null,
+    });
+
     const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
     const popupRef = React.useRef<HTMLDivElement | null>(null);
 
-    // close popup on outside click or Escape
+    // ----- close popup on outside click / Escape
     React.useEffect(() => {
         if (!menuOpen) return;
         function onDocClick(e: MouseEvent) {
@@ -29,7 +39,6 @@ export default function ProjectsBrowser({ items }: Props) {
         function onKey(e: KeyboardEvent) {
             if (e.key === "Escape") setMenuOpen(false);
         }
-
         document.addEventListener("mousedown", onDocClick);
         document.addEventListener("keydown", onKey);
         return () => {
@@ -38,102 +47,132 @@ export default function ProjectsBrowser({ items }: Props) {
         };
     }, [menuOpen]);
 
-    // Initialize filters from URL params for shareable links
+    // ----- init from URL (?q, ?filter, ?on, ?start, ?end)
     React.useEffect(() => {
         try {
             const url = new URL(window.location.href);
             const q = url.searchParams.get("q");
             const f = url.searchParams.get("filter");
+            const on = url.searchParams.get("on"); // single-day
             const s = url.searchParams.get("start");
             const e = url.searchParams.get("end");
-            if (q) setQuery(q);
+
+            if (q) {
+                setQuery(q);
+                setPendingQuery(q);
+            }
             if (f) setFacet(f);
-            if (s || e) setDateRange({ start: s, end: e });
-        } catch (err) {
-            // ignore (non-browser or malformed URL)
+
+            if (on && (isISODate(on) || normalizeToDay(on, "start"))) {
+                const d = normalizeToDay(on, "start"); // same for start/end
+                setDateRange({ start: d, end: d });
+            } else if (s || e) {
+                const startNorm = s ? normalizeToDay(s, "start") : null;
+                const endNorm = e ? normalizeToDay(e, "end") : null;
+                setDateRange({ start: startNorm, end: endNorm });
+            }
+        } catch {
+            // non-browser or malformed URL; ignore
         }
     }, []);
 
-    // Sync filter state to URL so the link can be shared. We'll update on changes.
+    // ----- sync to URL (shareable)
     React.useEffect(() => {
         try {
             const url = new URL(window.location.href);
             const sp = url.searchParams;
-            if (query) sp.set("q", query); else sp.delete("q");
-            if (facet) sp.set("filter", facet); else sp.delete("filter");
-            if (dateRange.start) sp.set("start", dateRange.start); else sp.delete("start");
-            if (dateRange.end) sp.set("end", dateRange.end); else sp.delete("end");
-            const out = url.pathname + "?" + sp.toString();
+
+            // q
+            query ? sp.set("q", query) : sp.delete("q");
+
+            // facet
+            facet ? sp.set("filter", facet) : sp.delete("filter");
+
+            // date: prefer ?on= when start===end
+            sp.delete("on");
+            sp.delete("start");
+            sp.delete("end");
+            if (dateRange.start && dateRange.end && dateRange.start === dateRange.end) {
+                sp.set("on", dateRange.start);
+            } else {
+                if (dateRange.start) sp.set("start", dateRange.start);
+                if (dateRange.end) sp.set("end", dateRange.end);
+            }
+
+            const out = url.pathname + (sp.toString() ? `?${sp.toString()}` : "");
             window.history.replaceState({}, document.title, out);
-        } catch (err) {
-            // ignore in non-browser contexts
+        } catch {
+            // ignore in SSR / restricted envs
         }
     }, [query, facet, dateRange]);
 
-    // menu open/close handled by DateFilterPopup; keep state here for toggling
-
-    // debounce search input
+    // ----- debounce search input
     React.useEffect(() => {
         const t = setTimeout(() => setQuery(pendingQuery), 250);
         return () => clearTimeout(t);
     }, [pendingQuery]);
 
-    const filtered = items.filter((p) => {
+    // ----- computed: facets (categories + tags, unique)
+    const allFacets = React.useMemo(() => {
+        return Array.from(
+            new Set(
+                items.flatMap((p) => [
+                    ...(p.categories ?? []),
+                    ...((p as any).tags ?? []),
+                ])
+            )
+        );
+    }, [items]);
+
+    // ----- computed: filtered list
+    const filtered = React.useMemo(() => {
+        // normalize filter once
+        const fStart = normalizeToDay(dateRange.start, "start");
+        const fEnd = normalizeToDay(dateRange.end, "end");
+        const hasDateFilter = !!(fStart || fEnd);
+
         const q = query.trim().toLowerCase();
-        const hay =
-            p.title.toLowerCase() +
-            " " +
-            (p.excerpt ?? "").toLowerCase() +
-            " " +
-            (p.categories ?? []).join(" ").toLowerCase() +
-            " " +
-            p.categories.join(" ").toLowerCase();
 
-        const qOk = q ? hay.includes(q) : true;
+        return items
+            .filter((p) => {
+                // search haystack
+                const haystack = [
+                    p.title ?? "",
+                    p.excerpt ?? "",
+                    ...(p.categories ?? []),
+                    ...((p as any).tags ?? []),
+                ]
+                    .join(" ")
+                    .toLowerCase();
 
-        const pool = (p.categories && p.categories.length ? p.categories : p.categories) ?? [];
-        const fOk = facet ? pool.includes(facet) : true;
+                const qOk = q ? haystack.includes(q) : true;
 
-        // date range filtering: include projects whose [started, ended] overlaps
-        // the selected dateRange. If no range set, include all. Projects without
-        // a `started` are excluded when a range is active.
-        const dOk = (() => {
-            const rs = dateRange.start;
-            const re = dateRange.end;
-            if (!rs && !re) return true;
+                // facet check
+                const pool = [
+                    ...(p.categories ?? []),
+                    ...((p as any).tags ?? []),
+                ];
+                const fOk = facet ? pool.includes(facet) : true;
 
-            const ps = p.started ?? null;
-            const pe = p.ended ?? null;
+                // date overlap (day-precision); if no project dates and filter is active -> exclude
+                const pStart = normalizeToDay((p as any).started ?? null, "start");
+                const pEnd = normalizeToDay((p as any).ended ?? null, "end");
 
-            if (!ps) return false; // unknown start -> exclude when filtering
+                const dOk = hasDateFilter
+                    ? (pStart ? rangesOverlap(pStart, pEnd, fStart, fEnd) : false)
+                    : true;
 
-            // Both start and end provided: overlap if ps <= re && (pe ? pe >= rs : true)
-            if (rs && re) {
-                if (!pe) return ps <= re; // ongoing project
-                return ps <= re && pe >= rs;
-            }
+                return qOk && fOk && dOk;
+            })
+            // sort: most recent end/start first
+            .sort((a, b) => {
+                const aSort = normalizeToDay((a as any).ended ?? (a as any).started ?? null, "end") ?? "0000-01-01";
+                const bSort = normalizeToDay((b as any).ended ?? (b as any).started ?? null, "end") ?? "0000-01-01";
+                return bSort.localeCompare(aSort);
+            });
+    }, [items, query, facet, dateRange.start, dateRange.end]);
 
-            // Only start provided: treat end as +inf, include if pe >= rs or ongoing
-            if (rs && !re) {
-                if (!pe) return true; // ongoing
-                return pe >= rs;
-            }
-
-            // Only end provided: include if ps <= re
-            if (!rs && re) {
-                return ps <= re;
-            }
-
-            return true;
-        })();
-
-        return qOk && fOk && dOk;
-    });
-
-    const allFacets = Array.from(
-        new Set(items.flatMap((p) => (p.categories && p.categories.length ? p.categories : p.categories)))
-    );
-
+    // ----- render
     return (
         <div className="column xl-12 grid-block">
             <div className="grid-full filter-bar">
@@ -148,6 +187,7 @@ export default function ProjectsBrowser({ items }: Props) {
                             aria-label="Search projects"
                         />
                     </div>
+
                     <div className="column xl-2 lg-5 md-12">
                         <select
                             value={facet ?? ""}
@@ -157,10 +197,13 @@ export default function ProjectsBrowser({ items }: Props) {
                         >
                             <option value="">All Categories</option>
                             {allFacets.map((t) => (
-                                <option key={t} value={t}>{t}</option>
+                                <option key={t} value={t}>
+                                    {t}
+                                </option>
                             ))}
                         </select>
                     </div>
+
                     <div className="column xl-3 lg-5 md-12">
                         <div className="projects-browser__date-popup-wrapper" ref={popupRef}>
                             <button
@@ -169,8 +212,11 @@ export default function ProjectsBrowser({ items }: Props) {
                                 onClick={() => setMenuOpen((s) => !s)}
                                 aria-haspopup="dialog"
                                 aria-expanded={menuOpen}
+                                title="Filter by date"
                             >
-                                {dateRange.start || dateRange.end ? `Range ${dateRange.start ?? "*"} → ${dateRange.end ?? "*"}` : "Filter by date"}
+                                {dateRange.start || dateRange.end
+                                    ? `Range ${dateRange.start ?? "…"} → ${dateRange.end ?? "…"}`
+                                    : "Filter by date"}
                             </button>
 
                             {menuOpen && (
@@ -184,22 +230,27 @@ export default function ProjectsBrowser({ items }: Props) {
                             )}
                         </div>
                     </div>
+
                     <div className="column xl-2 lg-5 md-12">
                         <button
                             type="button"
                             className="u-fullwidth projects-browser__clear-btn"
                             onClick={() => {
                                 setQuery("");
+                                setPendingQuery("");
                                 setFacet(null);
                                 setDateRange({ start: null, end: null });
                                 setMenuOpen(false);
-                                // optionally, reset url filter param
                                 try {
                                     const url = new URL(window.location.href);
+                                    url.searchParams.delete("q");
                                     url.searchParams.delete("filter");
-                                    window.history.replaceState({}, document.title, url.toString());
-                                } catch (e) {
-                                    /* ignore (server side or restricted) */
+                                    url.searchParams.delete("on");
+                                    url.searchParams.delete("start");
+                                    url.searchParams.delete("end");
+                                    window.history.replaceState({}, document.title, url.pathname);
+                                } catch {
+                                    /* ignore */
                                 }
                             }}
                         >

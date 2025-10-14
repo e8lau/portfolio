@@ -21,49 +21,6 @@
     /* show "..." if it's too long */
 }
 
-/* ===== Date menu ===== */
-.date-menu {
-    /* container already positioned inline in JS; we just normalize box model */
-    box-sizing: border-box;
-    padding: 10px 12px;
-    /* compact vertical rhythm */
-    max-width: min(680px, calc(100vw - 2 * var(--gutter, 16px)));
-    overflow: hidden;
-    /* prevent inner child bleed */
-}
-
-.date-menu form {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.date-menu input[type="date"] {
-    width: 100%;
-    min-width: 0;
-    /* allow shrinking inside flex/grid */
-    box-sizing: border-box;
-}
-
-/* Clear + Close in one row, equal-width, no wrap */
-.date-menu .btn-row {
-    display: flex;
-    gap: 8px;
-    width: 100%;
-}
-
-.date-menu .btn-row .btn {
-    flex: 1 1 0;
-    min-width: 0;
-}
-
-/* small screens: add a hair more breathing room between stacked columns */
-@media (max-width: 640px) {
-    .filters-bar .column {
-        margin-bottom: .5rem;
-    }
-}
-
 /* ===== Date popup positioning (floating) ===== */
 .projects-browser__date-popup-wrapper {
     position: relative; /* anchor for the absolutely-positioned popup */
@@ -71,7 +28,7 @@
 
 .projects-browser__date-popup {
     position: absolute;
-    top: calc(100% + 8px); /* sit just below the button */
+    top: calc(100% + 5px); /* sit just below the button */
     left: 0;
     z-index: 1200; /* float above most page content */
     background: var(--card-bg, #fff);
@@ -79,21 +36,14 @@
     border-radius: 6px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06);
     padding: 8px;
-    min-width: 260px;
+    min-width: 90%;
     max-width: min(90vw, 360px);
     box-sizing: border-box;
 }
 
-/* inner popup component styling */
-.projects-date-popup__body {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
 .projects-date-popup__actions {
     display: flex;
-    gap: 8px;
+    gap: 5px;
     justify-content: flex-end;
 }
 

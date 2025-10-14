@@ -1,7 +1,7 @@
 // src/components/projects/ProjectCard.tsx
 import * as React from "react";
 import type { ProjectCardProps } from "../../types/projects";
-import { formatRange } from "../../lib/date";
+import { formatRange, normalizeToDay } from "../../lib/date";
 
 export default function ProjectCard({
     href,
