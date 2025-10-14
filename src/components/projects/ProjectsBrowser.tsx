@@ -118,7 +118,7 @@ export default function ProjectsBrowser({ items }: Props) {
             new Set(
                 items.flatMap((p) => [
                     ...(p.categories ?? []),
-                    ...((p as any).tags ?? []),
+                    // ...((p as any).tags ?? []),
                 ])
             )
         );

@@ -11,8 +11,7 @@
 }
 
 /* Prevent long date range text from overflowing its button */
-.filters-bar .btn,
-.filters-bar .sel {
+.projects-browser__date-button {
     white-space: nowrap;
     /* keep the range on one line */
     overflow: hidden;
@@ -23,18 +22,21 @@
 
 /* ===== Date popup positioning (floating) ===== */
 .projects-browser__date-popup-wrapper {
-    position: relative; /* anchor for the absolutely-positioned popup */
+    position: relative;
+    /* anchor for the absolutely-positioned popup */
 }
 
 .projects-browser__date-popup {
     position: absolute;
-    top: calc(100% + 5px); /* sit just below the button */
+    top: calc(100% + 5px);
+    /* sit just below the button */
     left: 0;
-    z-index: 1200; /* float above most page content */
+    z-index: 1200;
+    /* float above most page content */
     background: var(--card-bg, #fff);
     color: inherit;
     border-radius: 6px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
     padding: 8px;
     min-width: 90%;
     max-width: min(90vw, 360px);
