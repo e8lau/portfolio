@@ -63,3 +63,54 @@
         margin-bottom: .5rem;
     }
 }
+
+/* ===== Date popup positioning (floating) ===== */
+.projects-browser__date-popup-wrapper {
+    position: relative; /* anchor for the absolutely-positioned popup */
+}
+
+.projects-browser__date-popup {
+    position: absolute;
+    top: calc(100% + 8px); /* sit just below the button */
+    left: 0;
+    z-index: 1200; /* float above most page content */
+    background: var(--card-bg, #fff);
+    color: inherit;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06);
+    padding: 8px;
+    min-width: 260px;
+    max-width: min(90vw, 360px);
+    box-sizing: border-box;
+}
+
+/* inner popup component styling */
+.projects-date-popup__body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.projects-date-popup__actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+/* ensure inputs don't cause overflow */
+.projects-date-popup input[type="month"] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* small screens: make popup full-width and anchored to viewport for easier tapping */
+@media (max-width: 480px) {
+    .projects-browser__date-popup {
+        position: fixed;
+        left: 8px;
+        right: 8px;
+        top: auto;
+        bottom: 16px;
+        max-width: none;
+    }
+}
