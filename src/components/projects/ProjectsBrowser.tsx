@@ -1,34 +1,24 @@
-// src/components/projects/ProjectsBrowser.tsx
 import * as React from "react";
 import ProjectCard from "./ProjectCard.tsx";
 import DateFilterPopup from "./DateFilterPopup";
 import type { ProjectCardProps } from "../../types/projects";
-
-// ✅ new: day-precision helpers
-import {
-    normalizeToDay,
-    rangesOverlap,
-    isISODate,
-} from "../../lib/date"; // adjust the path if your date.ts lives elsewhere
+import { normalizeToDay, rangesOverlap, isISODate } from "../../lib/date";
 
 type Props = { items: ProjectCardProps[] };
 
 export default function ProjectsBrowser({ items }: Props) {
-    // ----- state
+    // --- State
     const [query, setQuery] = React.useState("");
     const [pendingQuery, setPendingQuery] = React.useState("");
     const [facet, setFacet] = React.useState<string | null>(null);
-
-    // ✅ day-precision YYYY-MM-DD (or null)
     const [dateRange, setDateRange] = React.useState<{ start: string | null; end: string | null }>({
         start: null,
         end: null,
     });
-
     const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
     const popupRef = React.useRef<HTMLDivElement | null>(null);
 
-    // ----- close popup on outside click / Escape
+    // --- Close date popup on outside click / Esc
     React.useEffect(() => {
         if (!menuOpen) return;
         function onDocClick(e: MouseEvent) {
@@ -47,13 +37,12 @@ export default function ProjectsBrowser({ items }: Props) {
         };
     }, [menuOpen]);
 
-    // ----- init from URL (?q, ?filter, ?on, ?start, ?end)
+    // --- Init from URL (?q, ?filter, ?start, ?end)
     React.useEffect(() => {
         try {
             const url = new URL(window.location.href);
             const q = url.searchParams.get("q");
             const f = url.searchParams.get("filter");
-            const on = url.searchParams.get("on"); // single-day
             const s = url.searchParams.get("start");
             const e = url.searchParams.get("end");
 
@@ -63,70 +52,55 @@ export default function ProjectsBrowser({ items }: Props) {
             }
             if (f) setFacet(f);
 
-            if (on && (isISODate(on) || normalizeToDay(on, "start"))) {
-                const d = normalizeToDay(on, "start"); // same for start/end
-                setDateRange({ start: d, end: d });
-            } else if (s || e) {
-                const startNorm = s ? normalizeToDay(s, "start") : null;
-                const endNorm = e ? normalizeToDay(e, "end") : null;
-                setDateRange({ start: startNorm, end: endNorm });
-            }
+            const startNorm = s ? normalizeToDay(s, "start") : null;
+            const endNorm = e ? normalizeToDay(e, "end") : null;
+            setDateRange({ start: startNorm, end: endNorm });
         } catch {
-            // non-browser or malformed URL; ignore
+            /* ignore SSR */
         }
     }, []);
 
-    // ----- sync to URL (shareable)
+    // --- Sync to URL
     React.useEffect(() => {
         try {
             const url = new URL(window.location.href);
             const sp = url.searchParams;
 
-            // q
             query ? sp.set("q", query) : sp.delete("q");
-
-            // facet
             facet ? sp.set("filter", facet) : sp.delete("filter");
 
-            // date: prefer ?on= when start===end
-            sp.delete("on");
             sp.delete("start");
             sp.delete("end");
-            if (dateRange.start && dateRange.end && dateRange.start === dateRange.end) {
-                sp.set("on", dateRange.start);
-            } else {
-                if (dateRange.start) sp.set("start", dateRange.start);
-                if (dateRange.end) sp.set("end", dateRange.end);
-            }
+            if (dateRange.start) sp.set("start", dateRange.start);
+            if (dateRange.end) sp.set("end", dateRange.end);
 
             const out = url.pathname + (sp.toString() ? `?${sp.toString()}` : "");
             window.history.replaceState({}, document.title, out);
         } catch {
-            // ignore in SSR / restricted envs
+            /* ignore SSR */
         }
     }, [query, facet, dateRange]);
 
-    // ----- debounce search input
+    // --- Debounce search typing
     React.useEffect(() => {
         const t = setTimeout(() => setQuery(pendingQuery), 250);
         return () => clearTimeout(t);
     }, [pendingQuery]);
 
-    // ----- computed: facets (categories + tags, unique)
+    // --- Facets (categories + tags)
     const allFacets = React.useMemo(() => {
         return Array.from(
             new Set(
                 items.flatMap((p) => [
                     ...(p.categories ?? []),
-                    // ...((p as any).tags ?? []),
+                    ...((p as any).tags ?? []),
                 ])
             )
         );
     }, [items]);
 
-    // ----- computed: filtered list
+    // --- Filtered list
     const filtered = React.useMemo(() => {
-        // normalize filter once
         const fStart = normalizeToDay(dateRange.start, "start");
         const fEnd = normalizeToDay(dateRange.end, "end");
         const hasDateFilter = !!(fStart || fEnd);
@@ -135,7 +109,7 @@ export default function ProjectsBrowser({ items }: Props) {
 
         return items
             .filter((p) => {
-                // search haystack
+                // search
                 const haystack = [
                     p.title ?? "",
                     p.excerpt ?? "",
@@ -147,24 +121,25 @@ export default function ProjectsBrowser({ items }: Props) {
 
                 const qOk = q ? haystack.includes(q) : true;
 
-                // facet check
+                // facet
                 const pool = [
                     ...(p.categories ?? []),
                     ...((p as any).tags ?? []),
                 ];
                 const fOk = facet ? pool.includes(facet) : true;
 
-                // date overlap (day-precision); if no project dates and filter is active -> exclude
+                // date ANY-overlap
                 const pStart = normalizeToDay((p as any).started ?? null, "start");
-                const pEnd = normalizeToDay((p as any).ended ?? null, "end");
+                const pEnd = normalizeToDay((p as any).ended ?? (p as any).started ?? null, "end");
 
                 const dOk = hasDateFilter
-                    ? (pStart ? rangesOverlap(pStart, pEnd, fStart, fEnd) : false)
+                    ? pStart
+                        ? rangesOverlap(pStart, pEnd, fStart, fEnd)
+                        : false
                     : true;
 
                 return qOk && fOk && dOk;
             })
-            // sort: most recent end/start first
             .sort((a, b) => {
                 const aSort = normalizeToDay((a as any).ended ?? (a as any).started ?? null, "end") ?? "0000-01-01";
                 const bSort = normalizeToDay((b as any).ended ?? (b as any).started ?? null, "end") ?? "0000-01-01";
@@ -172,9 +147,10 @@ export default function ProjectsBrowser({ items }: Props) {
             });
     }, [items, query, facet, dateRange.start, dateRange.end]);
 
-    // ----- render
+    // --- Render
     return (
         <div className="column xl-12 grid-block">
+            {/* Toolbar */}
             <div className="grid-full filter-bar">
                 <div className="row">
                     <div className="column xl-5 lg-5 md-12">
@@ -213,6 +189,11 @@ export default function ProjectsBrowser({ items }: Props) {
                                 aria-haspopup="dialog"
                                 aria-expanded={menuOpen}
                                 title="Filter by date"
+                                style={{
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                }}
                             >
                                 {dateRange.start || dateRange.end
                                     ? `Range ${dateRange.start ?? "…"} → ${dateRange.end ?? "…"}`
@@ -245,7 +226,6 @@ export default function ProjectsBrowser({ items }: Props) {
                                     const url = new URL(window.location.href);
                                     url.searchParams.delete("q");
                                     url.searchParams.delete("filter");
-                                    url.searchParams.delete("on");
                                     url.searchParams.delete("start");
                                     url.searchParams.delete("end");
                                     window.history.replaceState({}, document.title, url.pathname);
@@ -260,9 +240,15 @@ export default function ProjectsBrowser({ items }: Props) {
                 </div>
             </div>
 
+            {/* Cards */}
             <div className="grid-full grid-list-items">
                 {filtered.map((p) => (
-                    <ProjectCard key={p.href} {...p} />
+                    <ProjectCard
+                        key={p.href}
+                        {...p}
+                        mode="projects"               // ← no modal yet, title links to project href
+                        projectsPath="/portfolio/portfolio"
+                    />
                 ))}
             </div>
         </div>

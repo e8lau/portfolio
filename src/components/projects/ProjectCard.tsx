@@ -3,50 +3,74 @@ import * as React from "react";
 import type { ProjectCardProps } from "../../types/projects";
 import { formatRange, normalizeToDay } from "../../lib/date";
 
-// add a tiny local formatter for single-date label (month-year looks clean)
+type Mode = "home" | "projects";
+
+type Props = ProjectCardProps & {
+    /** where this card is rendered */
+    mode?: Mode;
+    /** Absolute/base-relative path to the Projects page (used in home mode & date links) */
+    projectsPath?: string; // e.g., "/portfolio/portfolio"
+    /** Projects page only: open preview modal */
+    onOpenPreview?: (project: ProjectCardProps) => void;
+};
+
+// month-year looks clean for link labels
 const fmtSingle = (iso: string, locale = "en-US") =>
     new Date(iso).toLocaleDateString(locale, { month: "short", year: "numeric" });
 
-export default function ProjectCard({
-    href,
-    title,
-    excerpt,
-    cover,
-    // categories,
-    // tags,
-    started,
-    ended,
-}: ProjectCardProps) {
-    // We keep formatRange in case you still use it somewhere else,
-    // but we’ll render two individual linked dates here.
+export default function ProjectCard(props: Props) {
+    const {
+        href,
+        title,
+        excerpt,
+        cover,
+        started,
+        ended,
+        mode = "home",
+        projectsPath = "/portfolio/portfolio",
+        onOpenPreview,
+    } = props;
+
+    // (still exported for anywhere else you use it)
     const range = formatRange(started, ended);
 
     const sN = normalizeToDay(started ?? null, "start");
     const eN = normalizeToDay(ended ?? null, "end");
-
-    // build links to the Projects page with date prefilled as a single-day filter
-    // NOTE: adjust "/portfolio/projects" if your route differs
-    const base = "/portfolio/portfolio";
-    const startHref = sN ? `${base}?start=${encodeURIComponent(sN)}` : null;
-    const endHref = eN ? `${base}?end=${encodeURIComponent(eN)}` : null;
-
-    // same-day → show just one link
     const sameDay = sN && eN && sN === eN;
+
+    // build Projects link with search prefilled by title (home mode)
+    const searchUrl = `${projectsPath}?q=${encodeURIComponent(title)}`;
+
+    // pick the title behavior by mode
+    const TitleLink =
+        mode === "projects" && onOpenPreview ? (
+            <a
+                href={href}
+                onClick={(e) => {
+                    e.preventDefault();
+                    onOpenPreview(props);
+                }}
+                role="button"
+            >
+                {title}
+            </a>
+        ) : (
+            <a href={searchUrl}>{title}</a>
+        );
+
+    // date→date links using your ?start / ?end scheme
+    const startHref = sN ? `${projectsPath}?start=${encodeURIComponent(sN)}` : null;
+    const endHref = eN ? `${projectsPath}?end=${encodeURIComponent(eN)}` : null;
 
     return (
         <article className="grid-list-items__item projects-card">
             <div className="projects-card__header">
                 <div className="projects-card__cat-links">
-                    {/* Date → Date, each date is its own link. No categories/tags here. */}
                     {sN && !sameDay && (
                         <>
                             <a href={startHref!}>{fmtSingle(sN)}</a>
                             <span> – </span>
-                            {eN ? (
-                                <a href={endHref!}>{fmtSingle(eN)}</a>
-                            ) : (
-                                <span>Present</span>
-                            )}
+                            {eN ? <a href={endHref!}>{fmtSingle(eN)}</a> : <span>Present</span>}
                         </>
                     )}
 
@@ -60,16 +84,14 @@ export default function ProjectCard({
                     )}
                 </div>
 
-                <h3 className="projects-card__title">
-                    <a href={href}>{title}</a>
-                </h3>
+                <h3 className="projects-card__title">{TitleLink}</h3>
             </div>
 
             {excerpt && <p className="projects-card__text">{excerpt}</p>}
 
             {cover && (
                 <a className="projects-card__img" href={href} aria-label={title}>
-                    <img src={cover} alt="" loading="lazy" />
+                    <img src={cover} alt="" loading="lazy" decoding="async" />
                 </a>
             )}
         </article>
