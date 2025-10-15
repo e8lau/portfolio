@@ -19,13 +19,13 @@ description: >-
   the Council’s representational framework, reinforcing inclusivity and democratic participation within 7CSC governance.
 status: shipped
 visibility: public
-started: May 2023
-ended: May 2023
+started: '2023-05-01'
+ended: '2023-05-01'
 featured: false
 draft: false
 downloads:
   - label: Full Legislation (PDF)
-    path: /archive/7CSC/7CSC Legislation/S.C.Legislation.8.pdf
+    path: /portfolio/archive/7CSC/7CSC Legislation/S.C.Legislation.8.pdf
 role: Author & Speaker of the Council
 metrics:
   - key: Status

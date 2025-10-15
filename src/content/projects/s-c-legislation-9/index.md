@@ -22,13 +22,13 @@ description: >-
   Legislation 9 continue to serve as the structural foundation of the Council’s operations today.
 status: shipped
 visibility: public
-started: Jan 2024
-ended: Jan 2024
+started: '2024-01-01'
+ended: '2024-01-01'
 featured: false
 draft: false
 downloads:
   - label: Full Legislation (PDF)
-    path: /archive/7CSC/7CSC Legislation/Seventh Council Legislation 9 (2023 - 2024).pdf
+    path: /portfolio/archive/7CSC/7CSC Legislation/Seventh Council Legislation 9 (2023 - 2024).pdf
 role: Author & Speaker of the Council
 metrics:
   - key: Status

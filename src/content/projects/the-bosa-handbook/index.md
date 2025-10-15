@@ -21,13 +21,14 @@ description: >-
   incoming BOSA officers and preserving institutional memory within Woodside High School’s student leadership ecosystem.
 status: shipped
 visibility: public
-started: Jul 2021
-ended: Jul 2021
+started: '2021-07-01'
+ended: '2021-07-01'
 featured: false
 draft: false
+thumb: /src/content/projects/the-bosa-handbook/thumb.webp
 downloads:
   - label: Full Handbook (PDF)
-    path: /archive/BOSA/The BOSA Handbook.pdf
+    path: /portfolio/archive/BOSA/The BOSA Handbook.pdf
 role: Author & President of the Board of Student Affairs
 metrics:
   - key: Status

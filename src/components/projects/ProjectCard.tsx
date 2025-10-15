@@ -6,15 +6,11 @@ import { formatRange, normalizeToDay } from "../../lib/date";
 type Mode = "home" | "projects";
 
 type Props = ProjectCardProps & {
-    /** where this card is rendered */
     mode?: Mode;
-    /** Absolute/base-relative path to the Projects page (used in home mode & date links) */
     projectsPath?: string; // e.g., "/portfolio/portfolio"
-    /** Projects page only: open preview modal */
     onOpenPreview?: (project: ProjectCardProps) => void;
 };
 
-// month-year looks clean for link labels
 const fmtSingle = (iso: string, locale = "en-US") =>
     new Date(iso).toLocaleDateString(locale, { month: "short", year: "numeric" });
 
@@ -31,39 +27,28 @@ export default function ProjectCard(props: Props) {
         onOpenPreview,
     } = props;
 
-    // (still exported for anywhere else you use it)
     const range = formatRange(started, ended);
-
     const sN = normalizeToDay(started ?? null, "start");
     const eN = normalizeToDay(ended ?? null, "end");
     const sameDay = sN && eN && sN === eN;
 
-    // build Projects link with search prefilled by title (home mode)
     const searchUrl = `${projectsPath}?q=${encodeURIComponent(title)}`;
+    const cardHref = mode === "projects" && onOpenPreview ? href : searchUrl;
 
-    // pick the title behavior by mode
-    const TitleLink =
-        mode === "projects" && onOpenPreview ? (
-            <a
-                href={href}
-                onClick={(e) => {
-                    e.preventDefault();
-                    onOpenPreview(props);
-                }}
-                role="button"
-            >
-                {title}
-            </a>
-        ) : (
-            <a href={searchUrl}>{title}</a>
-        );
+    // handler for preview mode
+    const handleCardClick: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+        if (mode === "projects" && onOpenPreview) {
+            e.preventDefault();
+            onOpenPreview(props);
+        }
+    };
 
-    // date→date links using your ?start / ?end scheme
+    // date links (keep these as real anchors)
     const startHref = sN ? `${projectsPath}?start=${encodeURIComponent(sN)}` : null;
     const endHref = eN ? `${projectsPath}?end=${encodeURIComponent(eN)}` : null;
 
     return (
-        <article className="grid-list-items__item projects-card">
+        <article className="grid-list-items__item projects-card has-stretched-link">
             <div className="projects-card__header">
                 <div className="projects-card__cat-links">
                     {sN && !sameDay && (
@@ -73,9 +58,7 @@ export default function ProjectCard(props: Props) {
                             {eN ? <a href={endHref!}>{fmtSingle(eN)}</a> : <span>Present</span>}
                         </>
                     )}
-
                     {sameDay && sN && <a href={startHref!}>{fmtSingle(sN)}</a>}
-
                     {!sN && eN && (
                         <>
                             <span>Until </span>
@@ -84,21 +67,23 @@ export default function ProjectCard(props: Props) {
                     )}
                 </div>
 
-                <h3 className="projects-card__title">
-                    {React.cloneElement(TitleLink as React.ReactElement, { title })}
-                </h3>
+                <h3 className="projects-card__title">{title}</h3>
             </div>
 
-            {excerpt && (
-                <p className="projects-card__text" title={excerpt}>
-                    {excerpt}
-                </p>
-            )}
+            {excerpt && <p className="projects-card__text" title={excerpt}>{excerpt}</p>}
+
+            {/* The stretched link overlay – makes the whole card clickable */}
+            <a
+                href={cardHref}
+                className="stretched-link"
+                aria-label={title}
+                onClick={handleCardClick}
+            />
 
             {cover && (
-                <a className="projects-card__img" href={href} aria-label={title}>
+                <div className="projects-card__img" aria-label={title}>
                     <img src={cover} alt="" loading="lazy" decoding="async" />
-                </a>
+                </div>
             )}
         </article>
     );

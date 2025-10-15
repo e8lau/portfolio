@@ -21,13 +21,14 @@ description: >-
   7CSC’s amendment management system and is still referenced by Council officers today.
 status: shipped
 visibility: public
-started: Dec 2022
-ended: Dec 2022
+started: '2022-12-01'
+ended: '2022-12-01'
 featured: false
 draft: false
+thumb: /src/content/projects/7csc-amendment-handbook/thumb.webp
 downloads:
   - label: Full Handbook (PDF)
-    path: /archive/7CSC/7CSC Amendment Handbook.pdf
+    path: /portfolio/archive/7CSC/7CSC Amendment Handbook.pdf
 role: Author & Speaker of the Council
 metrics:
   - key: Status

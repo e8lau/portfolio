@@ -20,13 +20,13 @@ description: >-
   key precedent in 7CSC’s internal legal history.
 status: shipped
 visibility: public
-started: Oct 2022
-ended: Oct 2022
+started: '2022-10-01'
+ended: '2022-10-01'
 featured: false
 draft: false
 downloads:
   - label: Full Inquiry (PDF)
-    path: /archive/7CSC/Constitutional Amendment Process Inquiry.pdf
+    path: /portfolio/archive/7CSC/Constitutional Amendment Process Inquiry.pdf
 role: Author & Speaker of the Council
 metrics:
   - key: Status

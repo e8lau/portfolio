@@ -4,11 +4,11 @@
 .projects-browser__date-button,
 .projects-browser__clear-btn {
     display: flex;
-    margin-bottom: 1rem;
-    padding-inline: 8px;
-    max-height: 50px;
     align-items: center;
     justify-content: center;
+    padding-inline: 8px;
+    margin-bottom: 1rem;
+    max-height: 50px;
 }
 
 .projects-browser__clear-btn--active {
@@ -22,26 +22,20 @@
 /* Prevent long date range text from overflowing its button */
 .projects-browser__date-button {
     white-space: nowrap;
-    /* keep the range on one line */
     overflow: hidden;
-    /* hide anything beyond button width */
     text-overflow: ellipsis;
-    /* show "..." if it's too long */
 }
 
 /* ===== Date popup positioning (floating) ===== */
 .projects-browser__date-popup-wrapper {
     position: relative;
-    /* anchor for the absolutely-positioned popup */
 }
 
 .projects-browser__date-popup {
     position: absolute;
     top: calc(100% + 5px);
-    /* sit just below the button */
     left: 0;
     z-index: 1200;
-    /* float above most page content */
     background: var(--card-bg, #fff);
     color: inherit;
     border-radius: 6px;
@@ -54,17 +48,16 @@
 
 .projects-date-popup__actions {
     display: flex;
-    gap: 5px;
     justify-content: flex-end;
+    gap: 5px;
 }
 
-/* ensure inputs don't cause overflow */
 .projects-date-popup input[type="month"] {
     width: 100%;
     box-sizing: border-box;
 }
 
-/* small screens: make popup full-width and anchored to viewport for easier tapping */
+/* small screens */
 @media (max-width: 480px) {
     .projects-browser__date-popup {
         position: fixed;
@@ -77,47 +70,33 @@
 }
 
 /* ===== Projects grid line clamping ===== */
-/* ----- Title (2 lines) ----- */
 .projects-card__title,
 .projects-card__title a {
-    /* line clamp */
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
-
-    /* long-token handling */
     overflow-wrap: anywhere;
-    /* modern, best effort */
     word-break: break-word;
-    /* fallback */
     hyphens: auto;
-    /* nicer breaks for real words */
 }
 
-/* ----- Excerpt (3 lines, always) ----- */
 .projects-card__text {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
-    /* fixed three lines */
     overflow: hidden;
-
     overflow-wrap: anywhere;
     word-break: break-word;
     hyphens: auto;
 }
 
-/* (optional) prevent weird margins collapsing inside cards */
 .projects-card__text,
 .projects-card__title {
     margin-top: 0.4rem;
 }
 
-/* ===== PROJECT POPUP ===== 
-==============================
-*/
-/* Minimal shell; everything else comes from your existing theme classes */
+/* ===== PROJECT POPUP ===== */
 .project-preview__overlay {
     position: fixed;
     inset: 0;
@@ -128,6 +107,7 @@
 }
 
 .project-preview__panel {
+    position: relative;
     background: #fff;
     width: min(720px, 92vw);
     max-height: 90vh;
@@ -136,43 +116,95 @@
     padding: 16px;
 }
 
-/* A) Remove any unwanted margins on the header row */
 .project-preview__header.row {
     margin: 0 !important;
     padding: 0;
-    /* optional, if row adds internal padding */
 }
 
-/* B) Remove left padding on the title */
 .project-preview__title {
     padding-left: 0;
     margin: 0;
-    /* keeps title vertically aligned cleanly */
     line-height: 1.2;
 }
 
-/* C) Close button in top right of the modal panel */
 .project-preview__close {
     position: absolute;
     top: 8px;
     right: 10px;
-
     border: none;
     background: transparent;
     font-size: 1.5rem;
     line-height: 1;
     cursor: pointer;
     color: inherit;
-    /* uses current text color */
-}
-
-/* Make sure the header container allows absolute positioning */
-.project-preview__panel {
-    position: relative;
 }
 
 .project-preview__close:hover {
     color: var(--accent, #007bff);
     transform: scale(1.05);
     transition: color 0.2s, transform 0.2s;
+}
+
+/* PopupMenu Image image */
+.project-preview__image {
+    display: block;
+    padding: 5rem;
+    border-radius: 8rem;
+    margin: 2rem 0;
+}
+
+/* ===== Project card image ===== */
+/*
+.projects-card__img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    max-width: 95%;
+    max-height: 40%;
+    border-radius: 12px;
+    margin: 0 auto;
+}*/
+
+.projects-card__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border: 2px solid hsla(35, 87%, 49%, 0.2);
+    border-radius: 12px;
+}
+
+/* ===== PROJECT CARD CLICKABILITY ===== */
+.has-stretched-link {
+    position: relative;
+}
+
+.has-stretched-link>.stretched-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    text-decoration: none;
+}
+
+.projects-card__cat-links a {
+    position: relative;
+    z-index: 2;
+}
+
+/* ===== PROJECT CARD STYLING ===== */
+.projects-card {
+    position: relative;
+    padding: 1.5rem;
+    border-radius: 12px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.projects-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    outline: 2px solid var(--color-accent, #00bfa6);
+    outline-offset: 4px;
 }

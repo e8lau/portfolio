@@ -20,15 +20,16 @@ description: >-
   venture fund formation, due diligence workflows, and long-term portfolio construction strategies.
 status: shipped
 visibility: public
-started: Aug 2023
-ended: Feb 2024
+started: '2023-08-01'
+ended: '2024-02-01'
 featured: false
 draft: false
+thumb: /src/content/projects/vc-lab-cohort-15-certificate-of-completion/thumb.webp
 links:
   demo: https://vclab.com
 downloads:
   - label: Certificate (JPG)
-    path: /archive/Certifications/VC Lab Certificate of Completion.jpg
+    path: /portfolio/archive/Certifications/VC Lab Certificate of Completion.jpg
 role: VC Lab Principal, Los Altos Capital
 collaborators:
   - name: Anil Kaya

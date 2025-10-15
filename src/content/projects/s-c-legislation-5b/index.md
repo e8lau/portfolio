@@ -22,13 +22,13 @@ description: >-
   foundation for all future constitutional revisions.
 status: shipped
 visibility: public
-started: Feb 2022
-ended: Feb 2022
+started: '2022-02-01'
+ended: '2022-02-01'
 featured: false
 draft: false
 downloads:
   - label: Full Legislation (PDF)
-    path: /archive/7CSC/7CSC Legislation/S.C.Legislation.5B.pdf
+    path: /portfolio/archive/7CSC/7CSC Legislation/S.C.Legislation.5B.pdf
 role: Author & Speaker of the Council
 metrics:
   - key: Status

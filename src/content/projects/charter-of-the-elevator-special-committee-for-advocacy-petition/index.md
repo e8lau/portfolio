@@ -24,13 +24,13 @@ description: >-
   change within university systems.
 status: shipped
 visibility: public
-started: Nov 2022
-ended: Nov 2022
+started: '2022-11-01'
+ended: '2022-11-01'
 featured: false
 draft: false
 downloads:
   - label: Full Charter (PDF)
-    path: /archive/7CSC/Charter of the Elevator Special Committee for Advocacy & Petition.pdf
+    path: /portfolio/archive/7CSC/Charter of the Elevator Special Committee for Advocacy & Petition.pdf
 role: Committee Member (Data & Digital Infrastructure Lead)
 metrics:
   - key: Status

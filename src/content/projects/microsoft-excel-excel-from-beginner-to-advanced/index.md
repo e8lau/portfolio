@@ -18,15 +18,16 @@ description: >-
   for data analysis, modeling, and workflow optimization across professional and academic projects.
 status: shipped
 visibility: public
-started: Jan 2023
-ended: Jan 2023
+started: '2023-01-01'
+ended: '2023-01-01'
 featured: false
 draft: false
+thumb: /src/content/projects/microsoft-excel-excel-from-beginner-to-advanced/thumb.webp
 links:
   demo: https://www.udemy.com/certificate/UC-53f62925-3da7-4eaa-89e5-5bf9c050d5fd/
 downloads:
   - label: Certificate (PNG)
-    path: /archive/Certifications/Microsoft Excel – Excel from Beginner to Advanced.png
+    path: /portfolio/archive/Certifications/Microsoft Excel – Excel from Beginner to Advanced.png
 role: Student & Certificate Holder
 collaborators:
   - name: Kyle Pew

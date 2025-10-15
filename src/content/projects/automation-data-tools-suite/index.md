@@ -17,7 +17,7 @@ description: >-
   To streamline alumni engagement operations for UC San Diego’s Alumni Department—and to empower future student workers
   who aren’t code-heavy—I built a reusable toolkit of Google Sheets workflows powered by Google Apps Script custom
   functions. The suite replaces brittle manual processes with auditable, spreadsheet-native utilities that scale across
-  teams.
+  teams. 
 
 
   Key capabilities include:
@@ -38,11 +38,10 @@ description: >-
   non-technical staff to maintain automations without writing code.
 status: shipped
 visibility: public
-started: Jun 2023
-ended: Mar 2025
+started: '2023-06-01'
+ended: '2025-03-01'
 featured: false
 draft: false
-thumb: /images/thumbs/alumni-sheets.webp
 links:
   demo: https://docs.google.com/document/d/1p45FgE2DMICaZZH4Tg9ke-XjjPfVAAJSHYt1smdQm7Y/edit
 role: Author & Workflow Engineer

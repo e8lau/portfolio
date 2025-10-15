@@ -77,9 +77,11 @@ export default function ProjectPreviewModal({ project, onClose }: Props) {
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className="project-preview__header row" style={{ alignItems: "center" }}>
-                    <h3 id="project-preview-title" className="project-preview__title column">
-                        {project.title}
-                    </h3>
+                    <a href={project.href} target="_blank">
+                        <h3 id="project-preview-title" className="project-preview__title column">
+                            {project.title}
+                        </h3>
+                    </a>
                     <button
                         type="button"
                         className="project-preview__close btn"
@@ -97,7 +99,7 @@ export default function ProjectPreviewModal({ project, onClose }: Props) {
                 )}
 
                 {project.cover && (
-                    <a href={project.href} className="project-preview__imageLink" aria-label={project.title}>
+                    <a href={project.href} target="_blank" className="project-preview__imageLink" aria-label={project.title}>
                         <img
                             className="project-preview__image"
                             src={project.cover}
@@ -119,7 +121,7 @@ export default function ProjectPreviewModal({ project, onClose }: Props) {
                 )}
 
                 <div className="project-preview__actions">
-                    <a className="btn btn--primary" href={project.href}>
+                    <a className="btn btn--primary" href={project.href} target="_blank">
                         Open full project →
                     </a>
                     <button className="btn" onClick={onClose} type="button">

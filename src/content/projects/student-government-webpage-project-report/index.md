@@ -22,13 +22,13 @@ description: >-
   precedent for digital accessibility across district-hosted school sites.
 status: shipped
 visibility: public
-started: Aug 2020
-ended: Aug 2020
+started: '2020-08-01'
+ended: '2020-08-01'
 featured: false
 draft: false
 downloads:
   - label: Full Report (PDF)
-    path: /archive/BOSA/200803 Student Government Webpage Project Report.pdf
+    path: /portfolio/archive/BOSA/200803 Student Government Webpage Project Report.pdf
 role: Lead Developer & Report Author
 metrics:
   - key: Status

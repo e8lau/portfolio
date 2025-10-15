@@ -23,15 +23,16 @@ description: >-
   and professional pursuits.
 status: shipped
 visibility: public
-started: Jan 2012
-ended: Mar 2021
+started: '2012-01-01'
+ended: '2021-03-01'
 featured: false
 draft: false
+thumb: /src/content/projects/music-teachers-association-of-california-award-list/thumb.webp
 links:
   demo: https://www.mtac.org/programs/performance/certificate-of-merit/
 downloads:
   - label: Official Award List (PDF)
-    path: /archive/MTAC/Ethan Lau - Official MTAC Award List.pdf
+    path: /portfolio/archive/MTAC/Ethan Lau - Official MTAC Award List.pdf
 role: Classical Pianist
 collaborators:
   - name: Marta Schermerhorn

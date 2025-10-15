@@ -22,13 +22,13 @@ description: >-
   for how legislation is submitted, reviewed, and enacted in 7CSC.
 status: shipped
 visibility: public
-started: Mar 2023
-ended: Mar 2023
+started: '2023-03-01'
+ended: '2023-03-01'
 featured: false
 draft: false
 downloads:
   - label: Full Legislation (PDF)
-    path: /archive/7CSC/7CSC Legislation/S.C.Legislation.3.pdf
+    path: /portfolio/archive/7CSC/7CSC Legislation/S.C.Legislation.3.pdf
 role: Author & Speaker of the Council
 metrics:
   - key: Status

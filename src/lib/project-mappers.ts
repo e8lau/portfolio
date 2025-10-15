@@ -4,8 +4,11 @@ import type { ProjectCardProps } from "../types/projects";
 
 export function toCardProps(entry: CollectionEntry<"projects">): ProjectCardProps {
     const fm = entry.data;
-    // Adjust if your project URL structure differs:
-    const href = `/projects/${entry.slug}/`;
+
+    const href =
+        fm.downloads?.[0]?.path ??
+        fm.links?.demo ??
+        `/projects/${entry.slug}/`;
     return {
         href,
         title: fm.title,

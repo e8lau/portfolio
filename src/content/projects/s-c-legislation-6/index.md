@@ -20,13 +20,13 @@ description: >-
   rule. The reform was adopted unanimously and continues to facilitate open dialogue at 7CSC sessions.
 status: shipped
 visibility: public
-started: Feb 2023
-ended: Feb 2023
+started: '2023-02-01'
+ended: '2023-02-01'
 featured: false
 draft: false
 downloads:
   - label: Full Legislation (PDF)
-    path: /archive/7CSC/7CSC Legislation/S.C.Legislation.6.pdf
+    path: /portfolio/archive/7CSC/7CSC Legislation/S.C.Legislation.6.pdf
 role: Author & Speaker of the Council
 metrics:
   - key: Status

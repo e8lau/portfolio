@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /*
 # macOS/Linux
-node scripts/generate-md-from-csv.mjs --csv "./scripts/Portfolio MD FIle list.csv" --out "./src/content/projects" --overwrite --include-blanks
+node scripts/generate-md-from-csv.mjs --csv "./scripts/Portfolio MD File list.csv" --out "./src/content/projects" --overwrite --include-blanks
 
 # Try a dry run first:
-node scripts/generate-md-from-csv.mjs --csv "./scripts/Portfolio MD FIle list.csv" --out "./src/content/projects" --dry-run
+node scripts/generate-md-from-csv.mjs --csv "./scripts/Portfolio MD File list.csv" --out "./src/content/projects" --dry-run
 */
 
 import fs from "fs";
@@ -239,6 +239,9 @@ for (const row of rows) {
     const projectDir = path.join(outDir, folderName);
     const mdPath = path.join(projectDir, "index.md");
 
+    const thumbPath = path.join(projectDir, "thumb.webp");
+    const thumbExists = fs.existsSync(thumbPath);
+
     // Schema fields
     const frontmatter = {
         title,
@@ -261,7 +264,7 @@ for (const row of rows) {
         draft: toBool(row.draft),
 
         // Media
-        thumb: safeStr(row.thumb) || undefined,
+        thumb: thumbExists ? `/src/content/projects/${folderName}/thumb.webp` : undefined,
         gallery: parseCommaList(row.gallery),
         video: safeStr(row.video) || undefined,
         ogImage: safeStr(row.ogImage) || undefined,

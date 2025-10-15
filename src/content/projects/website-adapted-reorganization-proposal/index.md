@@ -21,13 +21,13 @@ description: >-
   the structural basis for all subsequent online governance materials at Woodside.
 status: shipped
 visibility: public
-started: Jun 2020
-ended: Jun 2020
+started: '2020-06-01'
+ended: '2020-06-01'
 featured: false
 draft: false
 downloads:
   - label: Full Proposal (PDF)
-    path: /archive/BOSA/200625 Website Adapted Reorganization Proposal.pdf
+    path: /portfolio/archive/BOSA/200625 Website Adapted Reorganization Proposal.pdf
 role: Author & Project Lead
 metrics:
   - key: Status

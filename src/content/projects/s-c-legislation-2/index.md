@@ -21,13 +21,13 @@ description: >-
   uniform governance practices that subsequent councils continue to rely on.
 status: shipped
 visibility: public
-started: Nov 2022
-ended: Nov 2022
+started: '2022-11-01'
+ended: '2022-11-01'
 featured: false
 draft: false
 downloads:
   - label: Full Legislation (PDF)
-    path: /archive/7CSC/7CSC Legislation/S.C.Legislation.2 (Partially Approved, see 2022 Fall Week 10 minutes).pdf
+    path: /portfolio/archive/7CSC/7CSC Legislation/S.C.Legislation.2 (Partially Approved, see 2022 Fall Week 10 minutes).pdf
 role: Author & Speaker of the Council
 metrics:
   - key: Status

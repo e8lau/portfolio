@@ -21,13 +21,14 @@ description: >-
   Results informed CRM integration, data-governance policy, and strategic outreach initiatives across 1M+ records.
 status: shipped
 visibility: public
-started: Mar 2023
-ended: Mar 2025
+started: '2023-03-01'
+ended: '2025-03-01'
 featured: true
 draft: false
+thumb: /src/content/projects/effects-of-constituent-characteristics-on-database-matching/thumb.webp
 downloads:
   - label: Full Paper (PDF)
-    path: /archive/The Effects of Constituent Characteristics on ESP Matching.pdf
+    path: /portfolio/archive/The Effects of Constituent Characteristics on ESP Matching.pdf
 role: Author & Data Analyst
 metrics:
   - key: Records analyzed

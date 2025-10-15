@@ -20,13 +20,13 @@ description: >-
   across all program sections.
 status: shipped
 visibility: public
-started: Sep 2020
-ended: Sep 2020
+started: '2020-09-01'
+ended: '2020-09-01'
 featured: false
 draft: false
 downloads:
   - label: Full Proposal (PDF)
-    path: /archive/BOSA/200915 Leadership Connections Committee Expansion & Guidelines Proposal.pdf
+    path: /portfolio/archive/BOSA/200915 Leadership Connections Committee Expansion & Guidelines Proposal.pdf
 role: Author & Policy Lead
 metrics:
   - key: Status

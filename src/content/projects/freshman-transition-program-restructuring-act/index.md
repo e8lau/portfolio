@@ -23,13 +23,13 @@ description: >-
   reforms in the program’s history.
 status: shipped
 visibility: public
-started: Apr 2020
-ended: Apr 2020
+started: '2020-04-01'
+ended: '2020-04-01'
 featured: false
 draft: false
 downloads:
   - label: Full Act (PDF)
-    path: /archive/Freshman Transition/2020 Freshman Transition Program Restructuring Act.pdf
+    path: /portfolio/archive/Freshman Transition/2020 Freshman Transition Program Restructuring Act.pdf
 role: Author & Program Chief Administrator
 collaborators:
   - name: Elaine Dessus
