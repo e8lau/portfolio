@@ -113,3 +113,66 @@
 .projects-card__title {
     margin-top: 0.4rem;
 }
+
+/* ===== PROJECT POPUP ===== 
+==============================
+*/
+/* Minimal shell; everything else comes from your existing theme classes */
+.project-preview__overlay {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(0, 0, 0, .5);
+    z-index: 1000;
+}
+
+.project-preview__panel {
+    background: #fff;
+    width: min(720px, 92vw);
+    max-height: 90vh;
+    overflow: auto;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+/* A) Remove any unwanted margins on the header row */
+.project-preview__header.row {
+    margin: 0 !important;
+    padding: 0;
+    /* optional, if row adds internal padding */
+}
+
+/* B) Remove left padding on the title */
+.project-preview__title {
+    padding-left: 0;
+    margin: 0;
+    /* keeps title vertically aligned cleanly */
+    line-height: 1.2;
+}
+
+/* C) Close button in top right of the modal panel */
+.project-preview__close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    color: inherit;
+    /* uses current text color */
+}
+
+/* Make sure the header container allows absolute positioning */
+.project-preview__panel {
+    position: relative;
+}
+
+.project-preview__close:hover {
+    color: var(--accent, #007bff);
+    transform: scale(1.05);
+    transition: color 0.2s, transform 0.2s;
+}

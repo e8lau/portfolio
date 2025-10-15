@@ -1,6 +1,7 @@
 import * as React from "react";
 import ProjectCard from "./ProjectCard.tsx";
 import DateFilterPopup from "./DateFilterPopup";
+import ProjectPreviewModal from "./ProjectPreviewModal";
 import type { ProjectCardProps } from "../../types/projects";
 import { normalizeToDay, rangesOverlap, isISODate } from "../../lib/date";
 
@@ -17,6 +18,7 @@ export default function ProjectsBrowser({ items }: Props) {
     });
     const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
     const popupRef = React.useRef<HTMLDivElement | null>(null);
+    const [preview, setPreview] = React.useState<ProjectCardProps | null>(null);
 
     // --- Close date popup on outside click / Esc
     React.useEffect(() => {
@@ -252,11 +254,20 @@ export default function ProjectsBrowser({ items }: Props) {
                     <ProjectCard
                         key={p.href}
                         {...p}
-                        mode="projects"               // ← no modal yet, title links to project href
+                        mode="projects"
                         projectsPath="/portfolio/portfolio"
+                        onOpenPreview={(proj) => setPreview(proj)}
                     />
                 ))}
             </div>
+
+            {/* Preview modal */}
+            {preview && (
+                <ProjectPreviewModal
+                    project={preview}
+                    onClose={() => setPreview(null)}
+                />
+            )}
         </div>
     );
 }

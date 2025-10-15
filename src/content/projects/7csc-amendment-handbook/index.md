@@ -21,10 +21,9 @@ description: >-
   7CSC’s amendment management system and is still referenced by Council officers today.
 status: shipped
 visibility: public
-started: Dec 5, 2022
-ended: Dec 5, 2022
+started: Dec 2022
+ended: Dec 2022
 featured: false
-order: 44900
 draft: false
 downloads:
   - label: Full Handbook (PDF)
