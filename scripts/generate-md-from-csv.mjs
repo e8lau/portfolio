@@ -264,7 +264,12 @@ for (const row of rows) {
         draft: toBool(row.draft),
 
         // Media
-        thumb: thumbExists ? `/src/content/projects/${folderName}/thumb.webp` : undefined,
+        thumb: thumbExists
+            ? {
+                src: "./thumb.webp",
+                alt: safeStr(row["thumbAlt"]) || title, // optional CSV column
+            }
+            : undefined,
         gallery: parseCommaList(row.gallery),
         video: safeStr(row.video) || undefined,
         ogImage: safeStr(row.ogImage) || undefined,

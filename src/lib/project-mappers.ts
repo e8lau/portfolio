@@ -13,7 +13,7 @@ export function toCardProps(entry: CollectionEntry<"projects">): ProjectCardProp
         href,
         title: fm.title,
         excerpt: fm.description,
-        cover: fm.thumb,
+        cover: fm.thumb?.src.src,
         categories: fm.categories ?? [],
         tags: fm.tags,
         started: fm.started,

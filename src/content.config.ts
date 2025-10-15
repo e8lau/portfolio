@@ -1,4 +1,4 @@
-// src/content/config.ts
+// src/content.config.ts
 import { defineCollection, z } from "astro:content";
 
 export const collections = {
@@ -18,7 +18,7 @@ export const collections = {
 
     projects: defineCollection({
         type: "content",
-        schema: z.object({
+        schema: ({ image }) => z.object({
             title: z.string(),
             // Example: "Astro React Portfolio"
 
@@ -61,9 +61,12 @@ export const collections = {
                Media
             ------------------------------------------------------------ */
 
-            thumb: z.string().optional(),
-            // Path to thumbnail image (content asset or /src/images/...).
-            // Example: "./thumb.webp"
+            thumb: z
+                .object({
+                    src: image(),            // ✅ co-located image becomes ImageMetadata
+                    alt: z.string().default(""),
+                })
+                .optional(),
 
             gallery: z.array(z.string()).optional(),
             // Optional extra images.

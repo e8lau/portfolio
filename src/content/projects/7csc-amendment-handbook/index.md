@@ -25,7 +25,9 @@ started: '2022-12-01'
 ended: '2022-12-01'
 featured: false
 draft: false
-thumb: /src/content/projects/7csc-amendment-handbook/thumb.webp
+thumb:
+  src: ./thumb.webp
+  alt: 7CSC Amendment Handbook
 downloads:
   - label: Full Handbook (PDF)
     path: /portfolio/archive/7CSC/7CSC Amendment Handbook.pdf

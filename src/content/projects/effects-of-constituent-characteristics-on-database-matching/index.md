@@ -25,7 +25,9 @@ started: '2023-03-01'
 ended: '2025-03-01'
 featured: true
 draft: false
-thumb: /src/content/projects/effects-of-constituent-characteristics-on-database-matching/thumb.webp
+thumb:
+  src: ./thumb.webp
+  alt: Effects of Constituent Characteristics on Database Matching
 downloads:
   - label: Full Paper (PDF)
     path: /portfolio/archive/The Effects of Constituent Characteristics on ESP Matching.pdf

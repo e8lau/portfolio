@@ -22,7 +22,9 @@ started: '2023-01-01'
 ended: '2023-01-01'
 featured: false
 draft: false
-thumb: /src/content/projects/microsoft-excel-excel-from-beginner-to-advanced/thumb.webp
+thumb:
+  src: ./thumb.webp
+  alt: Microsoft Excel – Excel from Beginner to Advanced
 links:
   demo: https://www.udemy.com/certificate/UC-53f62925-3da7-4eaa-89e5-5bf9c050d5fd/
 downloads:

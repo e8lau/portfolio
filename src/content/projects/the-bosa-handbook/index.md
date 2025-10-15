@@ -25,7 +25,9 @@ started: '2021-07-01'
 ended: '2021-07-01'
 featured: false
 draft: false
-thumb: /src/content/projects/the-bosa-handbook/thumb.webp
+thumb:
+  src: ./thumb.webp
+  alt: The BOSA Handbook
 downloads:
   - label: Full Handbook (PDF)
     path: /portfolio/archive/BOSA/The BOSA Handbook.pdf

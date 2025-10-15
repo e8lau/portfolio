@@ -24,7 +24,9 @@ started: '2023-08-01'
 ended: '2024-02-01'
 featured: false
 draft: false
-thumb: /src/content/projects/vc-lab-cohort-15-certificate-of-completion/thumb.webp
+thumb:
+  src: ./thumb.webp
+  alt: VC Lab Cohort 15 – Certificate of Completion
 links:
   demo: https://vclab.com
 downloads:

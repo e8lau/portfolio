@@ -27,7 +27,9 @@ started: '2012-01-01'
 ended: '2021-03-01'
 featured: false
 draft: false
-thumb: /src/content/projects/music-teachers-association-of-california-award-list/thumb.webp
+thumb:
+  src: ./thumb.webp
+  alt: Music Teachers' Association of California Award List
 links:
   demo: https://www.mtac.org/programs/performance/certificate-of-merit/
 downloads:
