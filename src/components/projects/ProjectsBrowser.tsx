@@ -147,13 +147,19 @@ export default function ProjectsBrowser({ items }: Props) {
             });
     }, [items, query, facet, dateRange.start, dateRange.end]);
 
+    const isFiltering =
+        query.trim() !== "" ||
+        facet !== null ||
+        dateRange.start !== null ||
+        dateRange.end !== null;
+
     // --- Render
     return (
         <div className="column xl-12 grid-block">
             {/* Toolbar */}
-            <div className="grid-full filter-bar">
+            <div className="grid-full">
                 <div className="row">
-                    <div className="column xl-5 lg-5 md-12">
+                    <div className="column xl-6 lg-5 md-12 filter-bar">
                         <input
                             type="search"
                             placeholder="Search projects…"
@@ -164,7 +170,7 @@ export default function ProjectsBrowser({ items }: Props) {
                         />
                     </div>
 
-                    <div className="column xl-2 lg-5 md-12">
+                    <div className="column xl-2 lg-2 md-6 filter-bar">
                         <select
                             value={facet ?? ""}
                             onChange={(e) => setFacet(e.target.value || null)}
@@ -180,7 +186,7 @@ export default function ProjectsBrowser({ items }: Props) {
                         </select>
                     </div>
 
-                    <div className="column xl-3 lg-5 md-12">
+                    <div className="column xl-2 lg-3 md-6 filter-bar">
                         <div className="projects-browser__date-popup-wrapper" ref={popupRef}>
                             <button
                                 type="button"
@@ -212,10 +218,10 @@ export default function ProjectsBrowser({ items }: Props) {
                         </div>
                     </div>
 
-                    <div className="column xl-2 lg-5 md-12">
+                    <div className="column xl-2 lg-2 md-12 filter-bar">
                         <button
                             type="button"
-                            className="u-fullwidth projects-browser__clear-btn"
+                            className={`u-fullwidth projects-browser__clear-btn${isFiltering ? " projects-browser__clear-btn--active" : ""}`}
                             onClick={() => {
                                 setQuery("");
                                 setPendingQuery("");

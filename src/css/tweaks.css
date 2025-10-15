@@ -1,13 +1,22 @@
 /* ===== Projects toolbar (filters row) ===== */
-.filters-bar .column {
-    /* tighten column gutters just for this bar */
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+.projects-browser__search,
+.projects-browser__select,
+.projects-browser__date-button,
+.projects-browser__clear-btn {
+    display: flex;
+    margin-bottom: 1rem;
+    padding-inline: 8px;
+    max-height: 50px;
+    align-items: center;
+    justify-content: center;
 }
 
-.filters-bar .column>* {
-    margin-bottom: 0.5em;
-    /* neutralize default margins on inputs/wrappers/buttons */
+.projects-browser__clear-btn--active {
+    background-color: lightcoral;
+}
+
+.column.filter-bar {
+    padding-inline: 0.5rem;
 }
 
 /* Prevent long date range text from overflowing its button */
@@ -65,4 +74,42 @@
         bottom: 16px;
         max-width: none;
     }
+}
+
+/* ===== Projects grid line clamping ===== */
+/* ----- Title (2 lines) ----- */
+.projects-card__title,
+.projects-card__title a {
+    /* line clamp */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+
+    /* long-token handling */
+    overflow-wrap: anywhere;
+    /* modern, best effort */
+    word-break: break-word;
+    /* fallback */
+    hyphens: auto;
+    /* nicer breaks for real words */
+}
+
+/* ----- Excerpt (3 lines, always) ----- */
+.projects-card__text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    /* fixed three lines */
+    overflow: hidden;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
+}
+
+/* (optional) prevent weird margins collapsing inside cards */
+.projects-card__text,
+.projects-card__title {
+    margin-top: 0.4rem;
 }

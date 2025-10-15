@@ -84,10 +84,16 @@ export default function ProjectCard(props: Props) {
                     )}
                 </div>
 
-                <h3 className="projects-card__title">{TitleLink}</h3>
+                <h3 className="projects-card__title">
+                    {React.cloneElement(TitleLink as React.ReactElement, { title })}
+                </h3>
             </div>
 
-            {excerpt && <p className="projects-card__text">{excerpt}</p>}
+            {excerpt && (
+                <p className="projects-card__text" title={excerpt}>
+                    {excerpt}
+                </p>
+            )}
 
             {cover && (
                 <a className="projects-card__img" href={href} aria-label={title}>
