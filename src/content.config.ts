@@ -1,6 +1,11 @@
 // src/content.config.ts
 import { defineCollection, z } from "astro:content";
 
+// Accept "YYYY" | "YYYY-MM" | "YYYY-MM-DD"
+const dateLike = z
+  .string()
+  .regex(/^\d{4}(-\d{2}(-\d{2})?)?$/);
+
 export const collections = {
     experience: defineCollection({
         type: "content",
@@ -44,8 +49,8 @@ export const collections = {
             visibility: z.enum(["public", "private"]).default("public"),
             // Whether it's safe to link externally (private = hide links, still show card).
 
-            started: z.string().optional(),
-            ended: z.string().optional(),
+            started: dateLike.optional(),
+            ended: dateLike.optional(),
             // Example: started: "2024-05", ended: "2024-08"
 
             featured: z.boolean().default(false),

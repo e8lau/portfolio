@@ -1,156 +1,134 @@
 // src/lib/date.ts
+// Hydration-safe date utilities (month+year display, full-day normalization for filtering).
 
-/** True if s is YYYY-MM-DD */
-export const isISODate = (s?: string | null): s is string =>
-    !!s && /^\d{4}-\d{2}-\d{2}$/.test(s);
+// -----------------------------------------------------------------------------
+// 1) Shape checks (booleans)
+// -----------------------------------------------------------------------------
+export const isYYYY = (s: string): boolean => /^\d{4}$/.test(s);
+export const isYYYYMM = (s: string): boolean => /^\d{4}-\d{2}$/.test(s);
+export const isISODate = (s: string): boolean => /^\d{4}-\d{2}-\d{2}$/.test(s);
 
-/** True if s is YYYY-MM */
-export const isYYYYMM = (s?: string | null): s is string =>
-    !!s && /^\d{4}-\d{2}$/.test(s);
+// -----------------------------------------------------------------------------
+// 2) Normalization: expand YYYY or YYYY-MM -> YYYY-MM-DD for logic/filtering
+// -----------------------------------------------------------------------------
+export function normalizeToDay(
+    s?: string | null,
+    mode: "start" | "end" = "start"
+): string | undefined {
+    if (!s) return undefined;
+    const val = s as string;
 
-/** True if s is YYYY */
-export const isYYYY = (s?: string | null): s is string =>
-    !!s && /^\d{4}$/.test(s);
+    if (isISODate(val)) return val;
 
-/** Pad to 2 digits */
-const p2 = (n: number) => (n < 10 ? `0${n}` : `${n}`);
-
-/** Last day of YYYY-MM as YYYY-MM-DD */
-export const lastDayOfMonth = (ym: string): string => {
-    const [y, m] = ym.split("-").map(Number);
-    const d = new Date(y, m, 0);
-    return `${d.getFullYear()}-${p2(d.getMonth() + 1)}-${p2(d.getDate())}`;
-};
-
-/**
- * Normalize YYYY | YYYY-MM | YYYY-MM-DD (or a parseable Date string)
- * to day precision (YYYY-MM-DD). position = 'start' | 'end'
- */
-export const normalizeToDay = (
-    s: string | null | undefined,
-    position: "start" | "end"
-): string | null => {
-    if (!s) return null;
-    if (isISODate(s)) return s;
-    if (isYYYYMM(s)) return position === "start" ? `${s}-01` : lastDayOfMonth(s);
-    if (isYYYY(s)) return position === "start" ? `${s}-01-01` : `${s}-12-31`;
-    const d = new Date(s);
-    if (!isNaN(d.getTime())) {
-        return `${d.getFullYear()}-${p2(d.getMonth() + 1)}-${p2(d.getDate())}`;
+    if (isYYYYMM(val)) {
+        const [y, m] = val.split("-").map(Number);
+        const last = new Date(Date.UTC(y, m, 0)).getUTCDate(); // last day of month
+        const day = mode === "start" ? "01" : String(last).padStart(2, "0");
+        return `${val}-${day}`;
     }
-    return null;
-};
 
-const gt = (a: string, b: string) => a > b;
-const lt = (a: string, b: string) => a < b;
+    if (isYYYY(val)) {
+        return mode === "start" ? `${val}-01-01` : `${val}-12-31`;
+    }
 
-/** Inclusive overlap between two ranges with nullable bounds (all YYYY-MM-DD or null) */
-export const rangesOverlap = (
-    aStart: string | null,
-    aEnd: string | null,
-    bStart: string | null,
-    bEnd: string | null
-): boolean => {
-    if (bEnd && aStart && gt(aStart, bEnd)) return false; // A starts after B ends
-    if (bStart && aEnd && lt(aEnd, bStart)) return false; // A ends before B starts
-    return true;
-};
+    return undefined;
+}
 
-/** Detect raw granularity for nicer labels */
-type Granularity = "year" | "month" | "day";
-const granOf = (s?: string | null): Granularity => {
-    if (!s) return "day";
-    if (isISODate(s)) return "day";
-    if (isYYYYMM(s)) return "month";
-    if (isYYYY(s)) return "year";
-    return "day";
-};
+// -----------------------------------------------------------------------------
+// 3) Internal: build Date in UTC deterministically
+// -----------------------------------------------------------------------------
+function toUTCDate(isoLike: string): Date {
+    if (isISODate(isoLike)) {
+        const [y, m, d] = isoLike.split("-").map(Number);
+        return new Date(Date.UTC(y, m - 1, d));
+    }
+    if (isYYYYMM(isoLike)) {
+        const [y, m] = isoLike.split("-").map(Number);
+        return new Date(Date.UTC(y, m - 1, 1));
+    }
+    if (isYYYY(isoLike)) {
+        const y = Number(isoLike);
+        return new Date(Date.UTC(y, 0, 1));
+    }
+    return new Date(isoLike); // fallback (shouldn't be hit in normal flow)
+}
 
-const fmtMonthYear = (iso: string, locale: string) =>
-    new Date(iso).toLocaleDateString(locale, { month: "short", year: "numeric" });
-
-const fmtDayMonthYear = (iso: string, locale: string) =>
-    new Date(iso).toLocaleDateString(locale, {
+// -----------------------------------------------------------------------------
+// 4) Display helpers (month+year only; UTC-pinned -> hydration-safe)
+// -----------------------------------------------------------------------------
+export function fmtMonthYearUTC(isoDay: string, locale = "en-US"): string {
+    const d = toUTCDate(isoDay);
+    return new Intl.DateTimeFormat(locale, {
         month: "short",
-        day: "numeric",
         year: "numeric",
-    });
+        timeZone: "UTC",
+    }).format(d);
+}
 
-/**
- * Human label for a date range.
- * Accepts the ORIGINAL raw start/end (YYYY, YYYY-MM, or YYYY-MM-DD), chooses a compact label,
- * and is SSR-safe (uses toLocaleDateString).
- *
- * Examples:
- *  - "2024" → "2024"
- *  - "2024-03" → "Mar 2024"
- *  - "2024-03-05" → "Mar 5, 2024"
- *  - ("2024-01", "2024-03") → "Jan 2024 – Mar 2024"
- *  - ("2023", "2024") → "2023 – 2024"
- *  - ("2024-01-10", null) → "Jan 2024 – Present" (uses month granularity for cleaner look)
- */
-export const formatRange = (
-    startRaw?: string | null,
-    endRaw?: string | null,
-    opts?: { locale?: string; presentLabel?: string }
-): string | undefined => {
-    const locale = opts?.locale ?? "en-US";
-    const present = opts?.presentLabel ?? "Present";
+/** Visual-only range label, e.g., "Mar 2023 – Jun 2024", "Mar 2023 – Present", "Until Jun 2024". */
+export function formatRange(
+    start?: string | null,
+    end?: string | null,
+    locale: string = "en-US"
+): string {
+    const sN = normalizeToDay(start, "start");
+    const eN = normalizeToDay(end, "end");
+    const fmt = (iso: string) => fmtMonthYearUTC(iso, locale);
 
-    const sN = normalizeToDay(startRaw ?? null, "start");
-    const eN = normalizeToDay(endRaw ?? null, "end");
-    if (!sN && !eN) return undefined;
+    if (sN && !eN) return `${fmt(sN)} – Present`;
+    if (!sN && eN) return `Until ${fmt(eN)}`;
+    if (!sN && !eN) return "";
 
-    const sg = granOf(startRaw);
-    const eg = granOf(endRaw);
+    const sDate = toUTCDate(sN!);
+    const eDate = toUTCDate(eN!);
+    const sameYear = sDate.getUTCFullYear() === eDate.getUTCFullYear();
 
-    // Single bound cases
-    if (sN && !eN) {
-        // Prefer month-year for ongoing to avoid “long” day labels
-        if (sg === "year") return `${startRaw} – ${present}`;
-        if (sg === "month") return `${fmtMonthYear(sN, locale)} – ${present}`;
-        return `${fmtMonthYear(sN, locale)} – ${present}`;
-    }
-    if (!sN && eN) {
-        // Rare, but if only end exists
-        if (eg === "year") return `Until ${endRaw}`;
-        if (eg === "month") return `Until ${fmtMonthYear(eN, locale)}`;
-        return `Until ${fmtMonthYear(eN, locale)}`;
-    }
-
-    // Both bounds exist
-    const s = sN!, e = eN!;
-    const sameDay = s === e;
-    if (sameDay) {
-        // Day granularity if explicitly day; otherwise show month-year
-        if (sg === "day" || eg === "day") return fmtDayMonthYear(s, locale);
-        if (sg === "month" || eg === "month") return fmtMonthYear(s, locale);
-        return new Date(s).getFullYear().toString();
-    }
-
-    const sYear = s.slice(0, 4);
-    const eYear = e.slice(0, 4);
-    const sameYear = sYear === eYear;
-
-    // If both were year-only, keep it tight
-    if (sg === "year" && eg === "year") return `${startRaw} – ${endRaw}`;
-
-    // If both were month-or-better and same year, tighten label
     if (sameYear) {
-        const sMonth = s.slice(5, 7);
-        const eMonth = e.slice(5, 7);
-
-        // Same month, different days → "Mar 5 – 12, 2024"
-        if ((sg === "day" || eg === "day") && sMonth === eMonth) {
-            const sD = new Date(s).toLocaleDateString(locale, { month: "short", day: "numeric" });
-            const eD = new Date(e).toLocaleDateString(locale, { day: "numeric" });
-            return `${sD} – ${eD}, ${sYear}`;
-        }
-
-        // Otherwise month-year on both ends
-        return `${fmtMonthYear(s, locale)} – ${fmtMonthYear(e, locale)}`;
+        const monthFmt = new Intl.DateTimeFormat(locale, { month: "short", timeZone: "UTC" });
+        const sM = monthFmt.format(sDate);
+        const eM = monthFmt.format(eDate);
+        // If same month, compress to "Mar 2024"; else "Mar – Jun 2024"
+        return sM === eM ? `${sM} ${sDate.getUTCFullYear()}` : `${sM} – ${eM} ${sDate.getUTCFullYear()}`;
     }
 
-    // Different years → month-year on both ends for clarity
-    return `${fmtMonthYear(s, locale)} – ${fmtMonthYear(e, locale)}`;
-};
+    // Different years → "Mar 2023 – Feb 2024"
+    return `${fmt(sN!)} – ${fmt(eN!)}`;
+}
+
+// -----------------------------------------------------------------------------
+// 5) Filtering helpers (inclusive) — avoid `&&` unions to keep types as number
+// -----------------------------------------------------------------------------
+function startMs(s?: string | null): number {
+    const n = normalizeToDay(s, "start");
+    return n ? toUTCDate(n).getTime() : Number.NEGATIVE_INFINITY;
+}
+function endMs(s?: string | null): number {
+    const n = normalizeToDay(s, "end");
+    return n ? toUTCDate(n).getTime() : Number.POSITIVE_INFINITY;
+}
+
+export function rangesOverlap(
+    aStart?: string | null,
+    aEnd?: string | null,
+    bStart?: string | null,
+    bEnd?: string | null
+): boolean {
+    const aS = startMs(aStart);
+    const aE = endMs(aEnd);
+    const bS = startMs(bStart);
+    const bE = endMs(bEnd);
+    return aS <= bE && bS <= aE;
+}
+
+export function isInRange(
+    dateLike?: string | null,
+    rangeStart?: string | null,
+    rangeEnd?: string | null
+): boolean {
+    if (!dateLike) return false;
+    const dN = normalizeToDay(dateLike, "start");
+    if (!dN) return false;
+
+    const d = toUTCDate(dN).getTime();
+    return startMs(rangeStart) <= d && d <= endMs(rangeEnd);
+}

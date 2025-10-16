@@ -22,7 +22,6 @@ description: >-
   precedent for digital accessibility across district-hosted school sites.
 status: shipped
 visibility: public
-started: '2020-08-01'
 ended: '2020-08-01'
 featured: false
 draft: false

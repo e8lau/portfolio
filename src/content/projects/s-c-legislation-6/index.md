@@ -20,8 +20,7 @@ description: >-
   rule. The reform was adopted unanimously and continues to facilitate open dialogue at 7CSC sessions.
 status: shipped
 visibility: public
-started: '2023-02-01'
-ended: '2023-02-01'
+ended: '2023-02-09'
 featured: false
 draft: false
 downloads:

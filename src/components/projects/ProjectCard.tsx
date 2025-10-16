@@ -1,7 +1,7 @@
 // src/components/projects/ProjectCard.tsx
 import * as React from "react";
 import type { ProjectCardProps } from "../../types/projects";
-import { formatRange, normalizeToDay } from "../../lib/date";
+import { normalizeToDay, fmtMonthYearUTC } from "../../lib/date";
 
 type Mode = "home" | "projects";
 
@@ -10,9 +10,6 @@ type Props = ProjectCardProps & {
     projectsPath?: string; // e.g., "/portfolio/portfolio"
     onOpenPreview?: (project: ProjectCardProps) => void;
 };
-
-const fmtSingle = (iso: string, locale = "en-US") =>
-    new Date(iso).toLocaleDateString(locale, { month: "short", year: "numeric" });
 
 export default function ProjectCard(props: Props) {
     const {
@@ -27,10 +24,12 @@ export default function ProjectCard(props: Props) {
         onOpenPreview,
     } = props;
 
-    const range = formatRange(started, ended);
     const sN = normalizeToDay(started ?? null, "start");
     const eN = normalizeToDay(ended ?? null, "end");
-    const sameDay = sN && eN && sN === eN;
+    const sameDay = !!(sN && eN && sN === eN);
+
+    const startHref = sN ? `${projectsPath}?start=${encodeURIComponent(sN)}` : undefined;
+    const endHref = eN ? `${projectsPath}?end=${encodeURIComponent(eN)}` : undefined;
 
     const searchUrl = `${projectsPath}?q=${encodeURIComponent(title)}`;
     const cardHref = mode === "projects" && onOpenPreview ? href : searchUrl;
@@ -43,26 +42,22 @@ export default function ProjectCard(props: Props) {
         }
     };
 
-    // date links (keep these as real anchors)
-    const startHref = sN ? `${projectsPath}?start=${encodeURIComponent(sN)}` : null;
-    const endHref = eN ? `${projectsPath}?end=${encodeURIComponent(eN)}` : null;
-
     return (
         <article className="grid-list-items__item projects-card has-stretched-link">
             <div className="projects-card__header">
                 <div className="projects-card__cat-links">
                     {sN && !sameDay && (
                         <>
-                            <a href={startHref!}>{fmtSingle(sN)}</a>
+                            <a href={startHref!}>{fmtMonthYearUTC(sN)}</a>
                             <span> – </span>
-                            {eN ? <a href={endHref!}>{fmtSingle(eN)}</a> : <span>Present</span>}
+                            {eN ? <a href={endHref!}>{fmtMonthYearUTC(eN)}</a> : <span>Present</span>}
                         </>
                     )}
-                    {sameDay && sN && <a href={startHref!}>{fmtSingle(sN)}</a>}
+                    {sameDay && sN && <a href={startHref!}>{fmtMonthYearUTC(sN)}</a>}
                     {!sN && eN && (
                         <>
                             <span>Until </span>
-                            <a href={endHref!}>{fmtSingle(eN)}</a>
+                            <a href={endHref!}>{fmtMonthYearUTC(eN)}</a>
                         </>
                     )}
                 </div>

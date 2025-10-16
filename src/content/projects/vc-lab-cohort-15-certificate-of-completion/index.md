@@ -20,22 +20,22 @@ description: >-
   venture fund formation, due diligence workflows, and long-term portfolio construction strategies.
 status: shipped
 visibility: public
-started: '2023-08-01'
-ended: '2024-02-01'
+started: '2024-07-18'
+ended: '2024-11-07'
 featured: false
+order: 2
 draft: false
 thumb:
   src: ./thumb.webp
   alt: VC Lab Cohort 15 – Certificate of Completion
 links:
-  demo: https://vclab.com
+  external: https://vclab.com
 downloads:
   - label: Certificate (JPG)
     path: /portfolio/archive/Certifications/VC Lab Certificate of Completion.jpg
 role: VC Lab Principal, Los Altos Capital
 collaborators:
   - name: Anil Kaya
-  - name: Myrto Lalacos
 metrics:
   - key: Fund Thesis
     value: $10MM Seed-stage AI, XR, & Blockchain

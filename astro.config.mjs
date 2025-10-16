@@ -10,7 +10,7 @@ export default defineConfig({
     base: `/${REPO_NAME}/`,
 
     // 🔹 used by sitemap, canonical URLs, and social meta
-    site: `https://e8lau.github.io/${REPO_NAME}/`,
+    site: `https://ethanlau8.github.io/${REPO_NAME}/`,
 
     integrations: [react(), sitemap()],
     output: "static", // ✅ ensures a fully static build (works with GitHub Pages)

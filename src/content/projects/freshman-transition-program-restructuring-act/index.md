@@ -23,7 +23,6 @@ description: >-
   reforms in the program’s history.
 status: shipped
 visibility: public
-started: '2020-04-01'
 ended: '2020-04-01'
 featured: false
 draft: false

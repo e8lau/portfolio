@@ -19,8 +19,7 @@ description: >-
   enabling consistent representation and operational readiness across annual leadership changes.
 status: shipped
 visibility: public
-started: '2023-03-01'
-ended: '2023-03-01'
+ended: '2023-03-16'
 featured: false
 draft: false
 downloads:

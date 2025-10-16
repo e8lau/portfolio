@@ -21,7 +21,6 @@ description: >-
   the structural basis for all subsequent online governance materials at Woodside.
 status: shipped
 visibility: public
-started: '2020-06-01'
 ended: '2020-06-01'
 featured: false
 draft: false

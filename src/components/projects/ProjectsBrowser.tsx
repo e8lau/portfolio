@@ -3,7 +3,7 @@ import ProjectCard from "./ProjectCard.tsx";
 import DateFilterPopup from "./DateFilterPopup";
 import ProjectPreviewModal from "./ProjectPreviewModal";
 import type { ProjectCardProps } from "../../types/projects";
-import { normalizeToDay, rangesOverlap, isISODate } from "../../lib/date";
+import { normalizeToDay, rangesOverlap } from "../../lib/date";
 
 type Props = { items: ProjectCardProps[] };
 
@@ -56,7 +56,7 @@ export default function ProjectsBrowser({ items }: Props) {
 
             const startNorm = s ? normalizeToDay(s, "start") : null;
             const endNorm = e ? normalizeToDay(e, "end") : null;
-            setDateRange({ start: startNorm, end: endNorm });
+            setDateRange({ start: startNorm ?? null, end: endNorm ?? null });
         } catch {
             /* ignore SSR */
         }

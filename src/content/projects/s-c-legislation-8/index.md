@@ -19,8 +19,7 @@ description: >-
   the Council’s representational framework, reinforcing inclusivity and democratic participation within 7CSC governance.
 status: shipped
 visibility: public
-started: '2023-05-01'
-ended: '2023-05-01'
+ended: '2023-05-18'
 featured: false
 draft: false
 downloads:

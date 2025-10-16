@@ -18,22 +18,19 @@ description: >-
   for data analysis, modeling, and workflow optimization across professional and academic projects.
 status: shipped
 visibility: public
-started: '2023-01-01'
 ended: '2023-01-01'
 featured: false
+order: 4
 draft: false
 thumb:
   src: ./thumb.webp
   alt: Microsoft Excel – Excel from Beginner to Advanced
 links:
-  demo: https://www.udemy.com/certificate/UC-53f62925-3da7-4eaa-89e5-5bf9c050d5fd/
+  repo: https://www.udemy.com/certificate/UC-53f62925-3da7-4eaa-89e5-5bf9c050d5fd/
 downloads:
   - label: Certificate (PNG)
     path: /portfolio/archive/Certifications/Microsoft Excel – Excel from Beginner to Advanced.png
 role: Student & Certificate Holder
-collaborators:
-  - name: Kyle Pew
-  - name: Office Newb
 metrics:
   - key: Course Length
     value: 21 hours

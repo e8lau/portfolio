@@ -21,7 +21,6 @@ description: >-
   incoming BOSA officers and preserving institutional memory within Woodside High School’s student leadership ecosystem.
 status: shipped
 visibility: public
-started: '2021-07-01'
 ended: '2021-07-01'
 featured: false
 draft: false

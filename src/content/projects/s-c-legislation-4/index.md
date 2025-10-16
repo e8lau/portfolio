@@ -22,7 +22,7 @@ description: >-
 status: shipped
 visibility: public
 started: '2022-11-01'
-ended: '2022-11-01'
+ended: '2022-12-01'
 featured: false
 draft: false
 downloads:

@@ -23,7 +23,7 @@ description: >-
 status: shipped
 visibility: public
 started: '2024-01-01'
-ended: '2024-01-01'
+ended: '2024-02-01'
 featured: false
 draft: false
 downloads:

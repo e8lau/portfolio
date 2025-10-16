@@ -24,14 +24,15 @@ description: >-
   change within university systems.
 status: shipped
 visibility: public
-started: '2022-11-01'
-ended: '2022-11-01'
+ended: '2022-11-03'
 featured: false
 draft: false
 downloads:
   - label: Full Charter (PDF)
     path: /portfolio/archive/7CSC/Charter of the Elevator Special Committee for Advocacy & Petition.pdf
 role: Committee Member (Data & Digital Infrastructure Lead)
+collaborators:
+  - name: Adam Cross
 metrics:
   - key: Status
     value: Adopted & in effect

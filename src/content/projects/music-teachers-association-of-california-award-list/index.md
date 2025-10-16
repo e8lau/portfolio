@@ -31,7 +31,7 @@ thumb:
   src: ./thumb.webp
   alt: Music Teachers' Association of California Award List
 links:
-  demo: https://www.mtac.org/programs/performance/certificate-of-merit/
+  external: https://www.mtac.org/programs/performance/certificate-of-merit/
 downloads:
   - label: Official Award List (PDF)
     path: /portfolio/archive/MTAC/Ethan Lau - Official MTAC Award List.pdf

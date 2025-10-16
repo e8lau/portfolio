@@ -20,7 +20,6 @@ description: >-
   across all program sections.
 status: shipped
 visibility: public
-started: '2020-09-01'
 ended: '2020-09-01'
 featured: false
 draft: false

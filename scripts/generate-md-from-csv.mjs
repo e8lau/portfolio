@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /*
 # macOS/Linux
-node scripts/generate-md-from-csv.mjs --csv "./scripts/Portfolio MD File list.csv" --out "./src/content/projects" --overwrite --include-blanks
+node scripts/generate-md-from-csv.mjs --csv "./scripts/Portfolio MD File List.csv" --out "./src/content/projects" --overwrite --include-blanks
 
 # Try a dry run first:
-node scripts/generate-md-from-csv.mjs --csv "./scripts/Portfolio MD File list.csv" --out "./src/content/projects" --dry-run
+node scripts/generate-md-from-csv.mjs --csv "./scripts/Portfolio MD File List.csv" --out "./src/content/projects" --dry-run
 */
 
 import fs from "fs";

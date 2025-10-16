@@ -22,8 +22,7 @@ description: >-
   for how legislation is submitted, reviewed, and enacted in 7CSC.
 status: shipped
 visibility: public
-started: '2023-03-01'
-ended: '2023-03-01'
+ended: '2023-03-02'
 featured: false
 draft: false
 downloads:

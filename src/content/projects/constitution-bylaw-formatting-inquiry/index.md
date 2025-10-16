@@ -20,8 +20,7 @@ description: >-
   judicial and rules framework.
 status: shipped
 visibility: public
-started: '2022-10-01'
-ended: '2022-10-01'
+ended: '2022-10-27'
 featured: false
 draft: false
 downloads:

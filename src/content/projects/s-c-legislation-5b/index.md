@@ -22,8 +22,7 @@ description: >-
   foundation for all future constitutional revisions.
 status: shipped
 visibility: public
-started: '2022-02-01'
-ended: '2022-02-01'
+ended: '2023-02-09'
 featured: false
 draft: false
 downloads:
